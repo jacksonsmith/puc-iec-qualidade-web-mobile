@@ -90,22 +90,15 @@ async function main() {
     publicNote: usesVisualRegression ? 'toHaveScreenshot detectado' : 'Não encontrei visual regression',
   });
 
-  // Critério 6: CI workflow
-  const ciCandidates = [
-    '.github/workflows',
-    '.github/workflows/playwright.yml',
-    '.github/workflows/test.yml',
-    '.github/workflows/ci.yml',
-  ];
-  const hasCI = ciCandidates.some((c) => existsSync(join(args.entrega, c)));
+  // Critério 6: CI workflow com Playwright (não basta existir pasta .github)
   const ciFiles = findFiles(join(args.entrega, '.github'), ['.yml', '.yaml']);
-  const ciHasPlaywright = fileMatchesAny(ciFiles, [/playwright/i]);
+  const ciHasPlaywright = fileMatchesAny(ciFiles, [/playwright|@playwright/i]);
   criteria.push({
     id: 'ci-workflow',
-    description: 'CI workflow GitHub Actions com Playwright',
+    description: 'CI workflow GitHub Actions executando Playwright',
     weight: 2,
-    earned: ciHasPlaywright ? 2 : hasCI ? 1 : 0,
-    publicNote: ciHasPlaywright ? 'Workflow Playwright detectado' : hasCI ? '.github/workflows existe mas sem Playwright' : 'CI não configurado',
+    earned: ciHasPlaywright ? 2 : 0,
+    publicNote: ciHasPlaywright ? 'Workflow Playwright detectado' : 'Workflow GitHub Actions com Playwright não encontrado',
   });
 
   const { total, score } = computeScore(criteria);

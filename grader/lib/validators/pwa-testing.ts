@@ -72,8 +72,11 @@ async function main() {
     'lighthouserc.json',
     'lighthouserc.cjs',
     'lighthouserc.yml',
+    'lighthouserc.yaml',
     '.lighthouserc.js',
     '.lighthouserc.json',
+    '.lighthouserc.yml',
+    '.lighthouserc.yaml',
   ];
   const lhciPath = lhciCandidates.map((c) => join(args.entrega, c)).find(existsSync);
   criteria.push({
