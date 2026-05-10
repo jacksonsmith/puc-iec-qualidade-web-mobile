@@ -38,20 +38,18 @@ async function main() {
     publicNote: hasAnthropic ? 'SDK detectado' : 'Esperado @anthropic-ai/sdk em deps',
   });
 
-  // Critério 2: Claude API call
-  const codeFiles = findFiles(args.entrega, ['.ts', '.js', '.mts', '.mjs']);
-  const usesClaude = fileMatchesAny(codeFiles, [
-    /messages\.create\s*\(/,
-    /new\s+Anthropic\s*\(/,
-    /from\s+['"]@anthropic-ai\/sdk['"]/,
-    /['"]claude-[^'"]+['"]/,
-  ]);
+  // Critério 2: Claude API call (requer combinação de evidências)
+  const codeFiles = findFiles(args.entrega, ['.ts', '.js', '.mts', '.mjs', '.tsx']);
+  const hasImport = fileMatchesAny(codeFiles, [/from\s+['"]@anthropic-ai\/sdk['"]/]);
+  const hasInstance = fileMatchesAny(codeFiles, [/new\s+Anthropic\s*\(/]);
+  const hasMessagesCreate = fileMatchesAny(codeFiles, [/\.messages\.create\s*\(/]);
+  const claudeEvidenceCount = [hasImport, hasInstance, hasMessagesCreate].filter(Boolean).length;
   criteria.push({
     id: 'claude-call',
-    description: 'Script chama Claude API (messages.create)',
+    description: 'Script chama Claude API (import + new Anthropic + messages.create)',
     weight: 4,
-    earned: usesClaude ? 4 : 0,
-    publicNote: usesClaude ? 'Chamada Claude detectada' : 'Não encontrei messages.create ou import @anthropic-ai/sdk',
+    earned: claudeEvidenceCount === 3 ? 4 : claudeEvidenceCount === 2 ? 2 : claudeEvidenceCount === 1 ? 1 : 0,
+    publicNote: `${claudeEvidenceCount}/3 evidências (import, instância, messages.create)`,
   });
 
   // Critério 3: healing loop
