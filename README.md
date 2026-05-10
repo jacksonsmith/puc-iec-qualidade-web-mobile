@@ -90,9 +90,27 @@ Bibliografia completa em [`BIBLIOGRAFIA.md`](./BIBLIOGRAFIA.md).
 
 1h/semana via Google Meet (link no Canvas, agendado por enquete).
 
+## Auto-grading via CI 🤖
+
+Labs M2, M3, M4 e M5 são avaliados automaticamente em PR. Workflow:
+
+1. **Fork** este repositório
+2. Crie pasta: `exercicios/<NN>-<atividade>/aluno-<seu-github-username>/`
+3. Implemente seguindo o `README.md` de cada lab
+4. Push + abra PR para `main`
+5. CI dispara: **J.A.R.V.I.S.** (autograder) posta status no PR + sobe artifact privado pro prof
+
+Labs disponíveis:
+- [M2 — Lab Playwright SPA](./exercicios/02-lab-playwright-spa/)
+- [M3 — Lab PWA Testing](./exercicios/03-lab-pwa-testing/)
+- [M4 — Lab Maestro Mobile](./exercicios/04-lab-maestro-mobile/)
+- [M5 — Lab IA Test Generation (flagship)](./exercicios/05-lab-ia-test-gen/)
+
+Quiz Fundamentos (M1) e Projeto Final (M6) são via Canvas/manual.
+
 ## Contato
 
-Dúvidas: via fórum Canvas ou e-mail (informado na disciplina).
+Dúvidas: **Fórum da disciplina (Canvas)** ou jackson.96@gmail.com.
 
 ---
 
