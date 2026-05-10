@@ -1,5 +1,5 @@
-appId: com.android.settings
+appId: com.apptestesmobile
+name: 01-launch-app
 ---
 - launchApp
-- assertVisible: "Settings"
-- takeScreenshot: "launch"
+- assertVisible: "Testes QA"

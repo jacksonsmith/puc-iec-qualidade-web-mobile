@@ -1,0 +1,18 @@
+appId: com.apptestesmobile
+name: 02-cadastro-usuario
+---
+- launchApp
+- tapOn:
+    text: "Funcional"
+    optional: true
+- tapOn:
+    text: "Cadastro de Usuário"
+    optional: true
+- inputText: "Maria Teste"
+- tapOn:
+    text: "Email"
+    optional: true
+- inputText: "maria@teste.com"
+- tapOn:
+    text: "Cadastrar"
+    optional: true

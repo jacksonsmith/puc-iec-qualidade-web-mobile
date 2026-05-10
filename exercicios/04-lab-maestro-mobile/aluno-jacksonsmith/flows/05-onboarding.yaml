@@ -1,0 +1,19 @@
+appId: com.apptestesmobile
+name: 05-onboarding
+---
+- launchApp
+- tapOn:
+    text: "Usabilidade"
+    optional: true
+- tapOn:
+    text: "Onboarding"
+    optional: true
+- tapOn:
+    text: "Próximo"
+    optional: true
+- tapOn:
+    text: "Próximo"
+    optional: true
+- tapOn:
+    text: "Começar"
+    optional: true

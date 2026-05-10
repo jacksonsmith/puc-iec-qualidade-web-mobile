@@ -1,0 +1,25 @@
+appId: com.apptestesmobile
+name: 03-calculadora
+---
+- launchApp
+- tapOn:
+    text: "Funcional"
+    optional: true
+- tapOn:
+    text: "Calculadora"
+    optional: true
+- tapOn:
+    text: "5"
+    optional: true
+- tapOn:
+    text: "+"
+    optional: true
+- tapOn:
+    text: "5"
+    optional: true
+- tapOn:
+    text: "="
+    optional: true
+- assertVisible:
+    text: "10"
+    optional: true

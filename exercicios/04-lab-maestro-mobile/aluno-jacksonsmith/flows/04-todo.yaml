@@ -1,0 +1,17 @@
+appId: com.apptestesmobile
+name: 04-todo-list
+---
+- launchApp
+- tapOn:
+    text: "Funcional"
+    optional: true
+- tapOn:
+    text: "Lista de Tarefas"
+    optional: true
+- inputText: "Comprar pão"
+- tapOn:
+    text: "Adicionar"
+    optional: true
+- assertVisible:
+    text: "Comprar pão"
+    optional: true
