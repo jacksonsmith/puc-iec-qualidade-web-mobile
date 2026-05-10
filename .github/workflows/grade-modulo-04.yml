@@ -51,10 +51,11 @@ jobs:
         with:
           name: grade-${{ steps.discover.outputs.matricula }}
           path: /tmp/grade.json
-          retention-days: 90
+          retention-days: 30
           if-no-files-found: warn
 
       - if: always()
+        continue-on-error: true
         uses: actions/github-script@v7
         with:
           script: |
@@ -88,7 +89,7 @@ jobs:
               ``,
               `### 🎥 Anexe um vídeo (≤ 2min)`,
               ``,
-              `Mostre `maestro test flows/` rodando em emulator/device Android.`,
+              `Mostre \`maestro test flows/\` rodando em emulator/device Android.`,
               `Cole o vídeo (\`.mp4\`/\`.mov\`/\`.webm\`) ou link (Loom/YouTube unlisted) na descrição deste PR.`,
               ``,
               `_Pontuação final no Canvas._`,
