@@ -82,7 +82,7 @@ jobs:
               ``,
               `### 🎥 Anexe um vídeo (≤ 2min)`,
               ``,
-              `Mostre suíte Playwright rodando localmente (`npx playwright test`) + relatório HTML.`,
+              `Mostre suíte Playwright rodando localmente (npx playwright test) + relatório HTML.`,
               `Cole o vídeo (\`.mp4\`/\`.mov\`/\`.webm\`) ou link (Loom/YouTube unlisted) na descrição deste PR.`,
               ``,
               `_Pontuação final no Canvas._`,
