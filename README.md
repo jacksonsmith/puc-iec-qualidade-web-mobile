@@ -3,115 +3,48 @@
 > **Curso:** Pós-Graduação em Engenharia de Qualidade e Testes de Software — PUC Minas IEC
 > **Disciplina:** 09 — Qualidade em Aplicações Web e Mobile
 > **Modalidade:** Online EAD (assíncrono) · 24h · 1º/2026
-> **Publicação Canvas:** 03/08/2026
 > **Professor:** Jackson Smith Moisés Matias
 
-Repositório público com **labs, exercícios, repos starter de módulos e materiais de referência**. Para alunos da disciplina 09 da pós em Engenharia de Qualidade e Testes de Software.
+Repositório público com **labs, apps de prática e slides** da disciplina.
+Um produto atravessa o curso inteiro: o **CineFav** — app de filmes com login,
+busca e favoritos — nas versões **mobile** (React Native) e **web** (React + PWA).
+Você não escreve UI em nenhum lab: **os apps vêm prontos, você escreve os testes.**
 
-## Estrutura curricular
+## Estrutura do curso
 
-6 módulos × 4h cada = 24h. Auto-paced, prazos rolantes a cada 2 semanas.
-
-| # | Módulo | Tema |
-|---|--------|------|
-| 1 | M1 | Fundamentos de Qualidade Web e Mobile |
-| 2 | M2 | Automação Web Avançada com Playwright |
-| 3 | M3 | Testes de SPA & PWA |
-| 4 | M4 | Automação Mobile Cross-Platform com Maestro |
-| 5 | M5 | IA Avançada em Testes (módulo flagship) |
-| 6 | M6 | Cross-Browser, Multi-Device, CI/CD & Projeto Final |
-
-## Ementa
-
-Fundamentos da qualidade em aplicações web e mobile. Estratégias de teste multi-plataforma. Automação de testes web. Automação de testes mobile. Testes de Single Page Applications (SPA). Testes de Progressive Web Apps (PWA). Aplicação de IA para: teste visual, sugestão automática de melhorias, geração de testes cross-browser e interfaces em múltiplos dispositivos. Projeto prático.
-
-## Stack didática
-
-- **Web/SPA/PWA:** Playwright (1.50+)
-- **Mobile cross-platform:** Maestro (mobile.dev)
-- **CI/CD:** GitHub Actions (sharding, traces, blob reports)
-- **IA:** Claude API (test gen + healing), Applitools (visual AI), Browser Use (exploratory agent)
-
-## Estrutura do repo
-
-```
-.
-├── exercicios/      # Exercícios de fixação (sem gabarito)
-├── starters/        # Repos starter pra cada módulo
-├── labs/            # Labs hands-on guiados
-├── README.md        # Você está aqui
-└── BIBLIOGRAFIA.md  # Referências completas
-```
+| Unidade | Tema | Aulas |
+|---------|------|-------|
+| U1 | Fundamentos de qualidade web e mobile | 1.1–1.6 |
+| U2 | Automação mobile (Jest, RNTL, Maestro) | 2.1–2.7 |
+| U3 | Web moderna (Playwright, SPA, PWA, Lighthouse) + IA em testes | 3.1–3.6 |
 
 ## Avaliação (100 pts)
 
-| Item | Módulo | Pontos |
-|------|--------|--------|
-| Quiz Fundamentos | M1 | 10 |
-| Lab Playwright SPA | M2 | 15 |
-| Lab PWA Testing | M3 | 10 |
-| Lab Maestro Mobile | M4 | 15 |
-| Lab IA Test Generation | M5 | 15 |
-| **Projeto Final Individual** | M6 | **35** |
+| Item | Unidade | Pontos |
+|------|---------|--------|
+| [Lab Mobile — Maestro + Jest](./exercicios/01-lab-mobile-maestro-jest/) | U2 | 20 |
+| [Lab Web + PWA — Playwright + Lighthouse](./exercicios/02-lab-web-pwa-playwright/) | U3 | 20 |
+| [Lab IA — Pipeline Test Generation](./exercicios/03-lab-ia-test-gen/) | U3 | 20 |
+| [Projeto Final](./exercicios/projeto-final/) (eliminatório) | — | 30 |
+| Prova objetiva final (Canvas) | — | 10 |
 
-## Como usar
+## Como entregar
 
-```bash
-git clone https://github.com/jacksonsmith/puc-iec-qualidade-web-mobile.git
-cd puc-iec-qualidade-web-mobile
+1. **Fork** deste repositório.
+2. Trabalhe na pasta `pratica/` do lab (edite os scaffolds in-place).
+3. Abra um **Pull Request** — o bot corretor (J.A.R.V.I.S.) comenta a nota
+   parcial automática a cada push.
+4. Critérios manuais (vídeos, relatórios, CI verde) entram na nota final no Canvas.
 
-# Cada módulo tem seu starter em starters/modulo-XX/
-cd starters/modulo-02
-npm install
-npx playwright install
-npx playwright test
-```
+Comece por: [`exercicios/README.md`](./exercicios/README.md)
 
-## Pré-requisitos
+## Stack didática
 
-- **Node.js** ≥ 22 LTS
-- **Docker** (para Maestro local + farms)
-- **Xcode + Android Studio** (para flows mobile)
-- **Maestro CLI:** `curl -Ls "https://get.maestro.mobile.dev" | bash`
-- Conta GitHub para entregas
-- (Opcional) Conta Applitools free tier — para Visual AI no M5
+- **Mobile:** Jest + React Native Testing Library + Maestro (mobile.dev)
+- **Web/SPA/PWA:** Playwright + Lighthouse CI
+- **IA:** Claude API (test gen + healing loop) + pixelmatch (visual diff)
+- **CI/CD:** GitHub Actions (sharding, blob reports)
 
-## Bibliografia principal
+## Slides
 
-- CRISPIN, L.; GREGORY, J. *Holistic Testing*. Pearson, 2024.
-- WINTERINGHAM, M. *Testing Web APIs*. Manning, 2022.
-- AXELROD, A. *Complete Guide to Test Automation*. Apress, 2018.
-- HUMBLE, J.; FARLEY, D. *Continuous Delivery*. Addison-Wesley, 2010.
-- FORSGREN, N.; HUMBLE, J.; KIM, G. *Accelerate*. IT Revolution, 2018.
-
-Bibliografia completa em [`BIBLIOGRAFIA.md`](./BIBLIOGRAFIA.md).
-
-## Office hours
-
-1h/semana via Google Meet (link no Canvas, agendado por enquete).
-
-## Auto-grading via CI 🤖
-
-Labs M2, M3, M4 e M5 são avaliados automaticamente em PR. Workflow:
-
-1. **Fork** este repositório
-2. Crie pasta: `exercicios/<NN>-<atividade>/aluno-<seu-github-username>/`
-3. Implemente seguindo o `README.md` de cada lab
-4. Push + abra PR para `main`
-5. CI dispara: **J.A.R.V.I.S.** (autograder) posta status no PR + sobe artifact privado pro prof
-
-Labs disponíveis:
-- [M2 — Lab Playwright SPA](./exercicios/02-lab-playwright-spa/)
-- [M3 — Lab PWA Testing](./exercicios/03-lab-pwa-testing/)
-- [M4 — Lab Maestro Mobile](./exercicios/04-lab-maestro-mobile/)
-- [M5 — Lab IA Test Generation (flagship)](./exercicios/05-lab-ia-test-gen/)
-
-Quiz Fundamentos (M1) e Projeto Final (M6) são via Canvas/manual.
-
-## Contato
-
-Dúvidas: **Fórum da disciplina (Canvas)** ou jackson.96@gmail.com.
-
----
-
-Material didático autoral. Licenciado MIT — ver [LICENSE](./LICENSE).
+PDFs das videoaulas em [`slides/`](./slides/).

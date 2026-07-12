@@ -1,0 +1,71 @@
+# Lab IA — Pipeline Test Generation (20 pts)
+
+**Disciplina:** Qualidade em Aplicações Web e Mobile (EAD)
+**Unidade:** U3 (aulas 3.5 e 3.6)
+**Entrega:** fork + Pull Request no repositório da disciplina
+**Valor:** 20 pontos
+
+---
+
+## Contexto
+
+Você recebe um pipeline **parcialmente implementado**: user story → Claude API gera
+teste Playwright → executa contra o CineFav Web → healing loop em caso de falha.
+O gerador (`src/01-gen-test.ts`) vem resolvido; você completa o **healing loop** e o
+**visual diff**, cria uma story própria e escreve o **relatório crítico** — o
+componente mais importante deste lab.
+
+## Antes de começar
+
+```bash
+cd exercicios/03-lab-ia-test-gen/pratica
+
+# Confirme que está no lugar certo
+ls src
+# → 01-gen-test.ts  02-healing-loop.ts  03-visual-diff.ts  lib
+```
+
+> **Windows:** `cd exercicios\03-lab-ia-test-gen\pratica` e `dir src`
+
+```bash
+npm install
+cp .env.example .env    # coloque sua ANTHROPIC_API_KEY (console.anthropic.com)
+```
+
+Pré-requisito: lab 02 buildado (é o app alvo) — instruções no `pratica/README.md`.
+
+## O que você entrega
+
+1. **`src/02-healing-loop.ts` completo** — re-prompt em falha, máx 3 tentativas,
+   diff impresso pra auditoria.
+2. **`src/03-visual-diff.ts` completo** — pixelmatch, drift %, gate de 1%.
+3. **Uma user story SUA** em `stories/` (fluxo diferente de favoritar) + o spec
+   gerado commitado em `generated/` + evidência do healing (log no PR).
+4. **Relatório crítico** (`RELATORIO.md`, ~3 páginas).
+
+## Critérios de avaliação (20 pts)
+
+| # | Critério | Pontos |
+|---|----------|--------|
+| 1 | Pipeline funcional (story → teste → execução, sem intervenção manual) | 8 |
+| 2 | Healing loop (re-prompt em falha, máx 3 tentativas, auditável) | 6 |
+| 3 | Relatório crítico (3 pgs) identificando limites reais | 6 |
+
+**Pontos do relatório crítico:**
+- Tipos de teste em que a IA acertou vs falhou
+- Oracle problem: como você detectou (ou detectaria) asserção errada
+- Custo em tokens e latência observada (o pipeline imprime — colete!)
+- Comparação com os testes que você escreveu à mão no lab 02
+
+## Como entregar
+
+1. Fork do repositório da disciplina → trabalhe em `exercicios/03-lab-ia-test-gen/pratica/`.
+2. **NUNCA commite sua chave** — o `.gitignore` já protege o `.env`; confira antes do push.
+3. Abra o PR. O bot corretor comenta a nota parcial automática; o relatório é
+   avaliado manualmente no Canvas.
+
+## Dica
+
+O healing que "cura" enfraquecendo a asserção é o anti-pattern central da aula 3.6.
+Se o seu log mostrar isso acontecendo — **documente no relatório**: é exatamente o
+tipo de limite real que vale ponto.

@@ -1,0 +1,10 @@
+node_modules/
+dist/
+dev-dist/
+playwright-report/
+test-results/
+playwright-results.json
+playwright/.auth/
+.lighthouseci/
+*.local
+.DS_Store

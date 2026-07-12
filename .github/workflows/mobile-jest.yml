@@ -1,0 +1,32 @@
+# CI do Lab Mobile — roda a suíte Jest no SEU fork a cada push.
+# Habilite o Actions na aba do fork. Verde aqui = critério de CI do lab.
+
+name: mobile-jest
+
+on:
+  push:
+    paths:
+      - 'exercicios/01-lab-mobile-maestro-jest/**'
+  workflow_dispatch:
+
+env:
+  APP_DIR: exercicios/01-lab-mobile-maestro-jest/pratica
+
+jobs:
+  jest:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Instala dependências
+        working-directory: ${{ env.APP_DIR }}
+        run: npm ci
+
+      - name: Roda a suíte Jest
+        working-directory: ${{ env.APP_DIR }}
+        run: npx jest --ci

@@ -1,32 +1,37 @@
 # Exercícios — Qualidade em Aplicações Web e Mobile
 
-Atividades dos 6 módulos. **Sem gabaritos** — entregas e quizzes avaliados no Canvas.
+Três labs avaliativos + projeto final. **Os apps vêm prontos; você escreve os testes.**
 
-## Atividades
+| # | Lab | Aulas | App | Pontos |
+|---|-----|-------|-----|--------|
+| 1 | [Lab Mobile — Maestro + Jest](./01-lab-mobile-maestro-jest/) | U2 (2.1–2.7) | CineFav mobile (RN/Expo) | 20 |
+| 2 | [Lab Web + PWA — Playwright + Lighthouse](./02-lab-web-pwa-playwright/) | U3 (3.1–3.4) | CineFav Web (React+PWA) | 20 |
+| 3 | [Lab IA — Pipeline Test Generation](./03-lab-ia-test-gen/) | U3 (3.5–3.6) | pipeline sobre o CineFav Web | 20 |
+| PF | [**Projeto Final**](./projeto-final/) | — | app próprio ou fornecido | **30** |
 
-| # | Módulo | Atividade | Pontos |
-|---|--------|-----------|--------|
-| 1 | M1 | Quiz Fundamentos (Canvas) | 10 |
-| 2 | M2 | [Lab Playwright SPA](./02-lab-playwright-spa/) | 15 |
-| 3 | M3 | [Lab PWA Testing](./03-lab-pwa-testing/) | 10 |
-| 4 | M4 | [Lab Maestro Mobile](./04-lab-maestro-mobile/) | 15 |
-| 5 | M5 | [Lab IA Test Generation](./05-lab-ia-test-gen/) | 15 |
-| **PF** | M6 | **[Projeto Final Individual](./06-projeto-final/)** | **35** |
+Total com a prova objetiva (10): **100 pontos.**
 
-Total: **100 pontos**.
+## Como funciona cada lab
+
+```
+NN-lab-<tema>/
+  COMECE-AQUI.md   ← perdido? comece por aqui
+  enunciado.md     ← rubrica oficial + como entregar
+  pratica/         ← app pronto + scaffolds de teste com TODOs (edite in-place)
+  grader/          ← validator que o bot roda no seu PR (transparência total)
+```
+
+- O **primeiro arquivo de cada tipo vem resolvido** (📘 MODELO) — os screencasts
+  da unidade mostram o professor fazendo.
+- Arquivos ✅ AVALIATIVOS têm TODOs marcando o que você completa.
+- O bot comenta a **nota parcial automática** (piso) a cada push no PR;
+  critérios 📝 são manuais (Canvas).
 
 ## Política de prazos (EAD)
 
-- Prazos rolantes: 2 semanas após publicação de cada módulo no Canvas.
+- Prazos rolantes: 2 semanas após publicação de cada unidade no Canvas.
 - Atrasos: -10%/dia, máx 5 dias. Após isso, zero.
-- 1 (uma) prorrogação por aluno, mediante e-mail antes do prazo.
-
-## Formato de entrega
-
-- Repositório GitHub (público ou privado convidando o prof) com README de execução completo.
-- Workflow GitHub Actions verde (badge no README) quando o lab pedir.
-- Vídeo demo quando solicitado (Loom ou YouTube unlisted).
-- Relatórios em PDF ou markdown (formato ABNT ou IEEE).
+- 1 (uma) prorrogação por aluno, sem penalidade, mediante e-mail antes do prazo.
 
 ## Critério eliminatório
 
@@ -34,4 +39,4 @@ Projeto Final é **obrigatório**. Aluno que não entregar não passa.
 
 ## Office hours
 
-1h/semana via Google Meet (link no Canvas). Útil principalmente nos módulos M4 (Maestro mobile) e M5 (IA).
+1h/semana via Google Meet (link no Canvas).
