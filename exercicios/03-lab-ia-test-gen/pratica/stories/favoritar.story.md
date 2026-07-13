@@ -6,10 +6,10 @@
 
 ## Critérios de aceite
 
-1. Na lista de filmes, cada card tem um botão de coração (`movie-card-heart-<id>`).
-2. Ao clicar no coração do filme "Matrix" (id 603), o botão muda pro estado favoritado.
-3. Ao abrir a tela de Favoritos (`movielist-favorites-button`), o filme "Matrix" aparece na lista (`favorites-item-603`).
-4. O contador (`favorites-count`) mostra "1 filme favorito".
+1. Após login, a lista de filmes aparece (`movielist-grid`) com o card do Matrix (`movie-card-603`).
+2. Clicar no coração do Matrix (`movie-card-heart-603`) favorita o filme.
+3. Clicar no botão de favoritos (`movielist-favorites-button`) abre a tela `favorites-screen` e o item `favorites-item-603` está visível.
+4. O contador `favorites-count` mostra o texto "1 filme favorito".
 
 ## Contexto técnico (pro gerador)
 

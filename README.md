@@ -42,7 +42,7 @@ Comece por: [`exercicios/README.md`](./exercicios/README.md)
 
 - **Mobile:** Jest + React Native Testing Library + Maestro (mobile.dev)
 - **Web/SPA/PWA:** Playwright + Lighthouse CI
-- **IA:** Claude API (test gen + healing loop) + pixelmatch (visual diff)
+- **IA:** LLM API via GitHub Models — grátis com o token do aluno (Claude demonstrado em aula) + pixelmatch
 - **CI/CD:** GitHub Actions (sharding, blob reports)
 
 ## Slides

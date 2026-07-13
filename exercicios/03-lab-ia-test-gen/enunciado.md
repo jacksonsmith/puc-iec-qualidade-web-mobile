@@ -9,7 +9,7 @@
 
 ## Contexto
 
-Você recebe um pipeline **parcialmente implementado**: user story → Claude API gera
+Você recebe um pipeline **parcialmente implementado**: user story → LLM gera
 teste Playwright → executa contra o CineFav Web → healing loop em caso de falha.
 O gerador (`src/01-gen-test.ts`) vem resolvido; você completa o **healing loop** e o
 **visual diff**, cria uma story própria e escreve o **relatório crítico** — o
@@ -29,7 +29,7 @@ ls src
 
 ```bash
 npm install
-cp .env.example .env    # coloque sua ANTHROPIC_API_KEY (console.anthropic.com)
+cp .env.example .env    # cole seu token GitHub (grátis — instruções no arquivo)
 ```
 
 Pré-requisito: lab 02 buildado (é o app alvo) — instruções no `pratica/README.md`.
@@ -60,9 +60,19 @@ Pré-requisito: lab 02 buildado (é o app alvo) — instruções no `pratica/REA
 ## Como entregar
 
 1. Fork do repositório da disciplina → trabalhe em `exercicios/03-lab-ia-test-gen/pratica/`.
-2. **NUNCA commite sua chave** — o `.gitignore` já protege o `.env`; confira antes do push.
+2. **NUNCA commite seu token** — o `.gitignore` já protege o `.env`; confira antes do push.
 3. Abra o PR. O bot corretor comenta a nota parcial automática; o relatório é
    avaliado manualmente no Canvas.
+
+## Custo e modelos
+
+- **Você não paga nada**: o default é o GitHub Models (token grátis da sua conta
+  GitHub). O free tier tem limite diário de requisições — planeje as rodadas e
+  anote o impacto no relatório (é dado real de operação de IA).
+- **Story curta gera teste melhor** no modelo grátis: 3–4 critérios, cada um com
+  o `data-testid` exato.
+- A comparação com **Claude** que aparece na aula é **demonstração do professor**
+  (modelo pago, qualidade superior) — **não é critério de avaliação**.
 
 ## Dica
 

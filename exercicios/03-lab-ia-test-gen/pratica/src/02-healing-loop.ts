@@ -12,7 +12,7 @@
 
 import { readFileSync, writeFileSync } from 'node:fs';
 import { execSync } from 'node:child_process';
-import { ask, extractCode } from './lib/claude.js';
+import { ask, extractCode } from './lib/llm.js';
 
 const specPath = process.argv[2] ?? 'generated/favoritar.spec.ts';
 const storyPath = process.argv[3] ?? 'stories/favoritar.story.md';
@@ -36,7 +36,7 @@ function runSpec(): string | null {
 //         "✅ nada a curar" e encerre (process.exit(0)).
 
 // TODO 2: loop de healing — for (let attempt = 1; attempt <= MAX_ATTEMPTS; attempt++)
-//   a. monte a mensagem pro Claude com:
+//   a. monte a mensagem pro modelo com:
 //      - o código atual do spec: readFileSync(specPath, 'utf8')
 //      - o erro da última execução
 //      - a story original (os seletores válidos)

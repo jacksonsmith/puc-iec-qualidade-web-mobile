@@ -13,6 +13,8 @@ falta de espera pelo estado certo? — e devolva o arquivo COMPLETO corrigido.
 Regras:
 - Mantenha a estrutura (mesmos testes numerados).
 - Só use testids listados na story.
+- Lembre: cada `test()` roda num browser LIMPO — se o teste depende de estado
+  (login, favorito), produza esse estado dentro do próprio teste.
 - NUNCA "conserte" o teste enfraquecendo a asserção (ex.: trocar toBeVisible
   por toBeAttached só pra passar) — corrija a causa raiz.
 - Responda SOMENTE com o código dentro de um bloco ```typescript.

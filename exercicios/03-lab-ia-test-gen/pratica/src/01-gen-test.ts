@@ -1,17 +1,17 @@
 // src/01-gen-test.ts
 // ─────────────────────────────────────────────────────────────────────────────
-// 📘 MODELO (resolvido) — user story → Claude gera teste Playwright → executa
+// 📘 MODELO (resolvido) — user story → LLM gera teste Playwright → executa
 //
 //   npm run gen -- stories/favoritar.story.md
 //
-// Fluxo: lê a story → monta prompt → Claude gera o spec → grava em generated/
+// Fluxo: lê a story → monta prompt → o LLM gera o spec → grava em generated/
 // → roda o Playwright. É o passo 1 do pipeline (o healing loop é o passo 2).
 // ─────────────────────────────────────────────────────────────────────────────
 
 import { readFileSync, writeFileSync, mkdirSync } from 'node:fs';
 import { basename } from 'node:path';
 import { execSync } from 'node:child_process';
-import { ask, extractCode } from './lib/claude.js';
+import { ask, extractCode } from './lib/llm.js';
 
 const storyPath = process.argv[2] ?? 'stories/favoritar.story.md';
 const story = readFileSync(storyPath, 'utf8');
