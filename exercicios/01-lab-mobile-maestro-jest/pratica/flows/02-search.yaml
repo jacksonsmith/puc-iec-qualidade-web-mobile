@@ -6,7 +6,14 @@ env:
   SEARCH_TERM: "Matrix"
 ---
 - launchApp
-# TODO: faça login (copie os passos do flow 01)
-# TODO: abra a busca tocando no botão do header — id "movielist-search-button"
-# TODO: toque no campo "search-input" e use inputText com ${SEARCH_TERM}
-# TODO: assertVisible do ${SEARCH_TERM} (o filme buscado aparece no resultado)
+- runFlow:
+    when:
+      visible:
+        id: "login-screen"
+    file: _fragments/login.yaml
+- tapOn:
+    id: "movielist-search-button"
+- tapOn:
+    id: "search-input"
+- inputText: ${SEARCH_TERM}
+- assertVisible: ${SEARCH_TERM}
