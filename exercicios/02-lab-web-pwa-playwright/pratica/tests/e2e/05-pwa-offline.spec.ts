@@ -29,8 +29,7 @@ test.describe('PWA', () => {
           return reg?.active?.state;
         }),
       )
-      // TODO: complete a asserção — o estado terminal do SW é 'activated'
-      .toBeDefined(); // troque por .toBe('...')
+      .toBe('activated');
   });
 
   // 🧑‍💻 2. FÁCIL — manifest válido e linkado
