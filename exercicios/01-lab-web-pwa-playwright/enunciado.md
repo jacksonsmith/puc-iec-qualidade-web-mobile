@@ -21,14 +21,14 @@ professor resolvendo o primeiro spec de cada tema.
 ## Antes de começar
 
 ```bash
-cd exercicios/02-lab-web-pwa-playwright/pratica
+cd exercicios/01-lab-web-pwa-playwright/pratica
 
 # Confirme que está no lugar certo
 ls tests/e2e
 # → auth.setup.ts  01-login.spec.ts  02-busca-mock.spec.ts ...
 ```
 
-> **Windows:** `cd exercicios\02-lab-web-pwa-playwright\pratica` e `dir tests\e2e`
+> **Windows:** `cd exercicios\01-lab-web-pwa-playwright\pratica` e `dir tests\e2e`
 
 ```bash
 npm install
@@ -61,7 +61,7 @@ npm run test:e2e     # a suíte roda — specs com TODO ainda passam "vazios"
 ## Como entregar
 
 1. Faça **fork** do repositório da disciplina.
-2. Trabalhe em `exercicios/02-lab-web-pwa-playwright/pratica/` (edite os specs in-place).
+2. Trabalhe em `exercicios/01-lab-web-pwa-playwright/pratica/` (edite os specs in-place).
 3. Abra um **Pull Request** pro repositório da disciplina.
 4. O bot corretor comenta a **nota parcial automática** a cada push; critérios manuais
    (CI verde no fork, Lighthouse) entram na nota final no Canvas.

@@ -9,14 +9,14 @@ escreve os **testes**: os specs em `tests/e2e/` têm TODOs marcando o que falta.
 ## Setup
 
 ```bash
-cd exercicios/02-lab-web-pwa-playwright/pratica
+cd exercicios/01-lab-web-pwa-playwright/pratica
 
 # confirme que está no lugar certo:
 ls tests/e2e
 # → deve mostrar: auth.setup.ts  01-login.spec.ts  02-busca-mock.spec.ts ...
 ```
 
-> **Windows:** `cd exercicios\02-lab-web-pwa-playwright\pratica` e `dir tests\e2e`
+> **Windows:** `cd exercicios\01-lab-web-pwa-playwright\pratica` e `dir tests\e2e`
 
 ```bash
 npm install

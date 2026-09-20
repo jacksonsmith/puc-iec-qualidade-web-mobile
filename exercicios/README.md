@@ -4,8 +4,8 @@ Três labs avaliativos + projeto final. **Os apps vêm prontos; você escreve os
 
 | # | Lab | Aulas | App | Pontos |
 |---|-----|-------|-----|--------|
-| 1 | [Lab Mobile — Maestro + Jest](./01-lab-mobile-maestro-jest/) | U2 (2.1–2.7) | CineFav mobile (RN/Expo) | 20 |
-| 2 | [Lab Web + PWA — Playwright + Lighthouse](./02-lab-web-pwa-playwright/) | U3 (3.1–3.4) | CineFav Web (React+PWA) | 20 |
+| 1 | [Lab Mobile — Maestro + Jest](./02-lab-mobile-maestro-jest/) | U2 (2.1–2.7) | CineFav mobile (RN/Expo) | 20 |
+| 2 | [Lab Web + PWA — Playwright + Lighthouse](./01-lab-web-pwa-playwright/) | U3 (3.1–3.4) | CineFav Web (React+PWA) | 20 |
 | 3 | [Lab IA — Pipeline Test Generation](./03-lab-ia-test-gen/) | U3 (3.5–3.6) | pipeline sobre o CineFav Web | 20 |
 | PF | [**Projeto Final**](./projeto-final/) | — | app próprio ou fornecido | **30** |
 

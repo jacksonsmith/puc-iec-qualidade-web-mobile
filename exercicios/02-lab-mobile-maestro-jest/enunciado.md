@@ -23,14 +23,14 @@ Seu trabalho são os **testes**, em duas frentes:
 ## Antes de começar
 
 ```bash
-cd exercicios/01-lab-mobile-maestro-jest/pratica
+cd exercicios/02-lab-mobile-maestro-jest/pratica
 
 # Confirme que está no lugar certo
 ls flows __tests__
 # → 01-launch.yaml ... · unit/ integration/
 ```
 
-> **Windows:** `cd exercicios\01-lab-mobile-maestro-jest\pratica` e `dir flows`
+> **Windows:** `cd exercicios\02-lab-mobile-maestro-jest\pratica` e `dir flows`
 
 ```bash
 npm install
@@ -68,7 +68,7 @@ maestro test flows/01-launch.yaml
 
 ## Como entregar
 
-1. Fork do repositório da disciplina → trabalhe em `exercicios/01-lab-mobile-maestro-jest/pratica/`.
+1. Fork do repositório da disciplina → trabalhe em `exercicios/02-lab-mobile-maestro-jest/pratica/`.
 2. Abra o PR — o bot corretor comenta a **nota parcial automática** a cada push.
 3. Vídeos e execução real entram na nota final no Canvas.
 

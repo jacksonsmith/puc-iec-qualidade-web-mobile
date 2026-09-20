@@ -6,7 +6,7 @@ Sequência mínima:
 
 ```bash
 git clone https://github.com/<SEU-USUARIO>/puc-iec-qualidade-web-mobile.git
-cd puc-iec-qualidade-web-mobile/exercicios/01-lab-mobile-maestro-jest/pratica
+cd puc-iec-qualidade-web-mobile/exercicios/02-lab-mobile-maestro-jest/pratica
 
 ls flows __tests__    # prova de que está no lugar certo
 ```

@@ -6,7 +6,7 @@ Perdido? Sequência mínima:
 
 ```bash
 git clone https://github.com/<SEU-USUARIO>/puc-iec-qualidade-web-mobile.git
-cd puc-iec-qualidade-web-mobile/exercicios/02-lab-web-pwa-playwright/pratica
+cd puc-iec-qualidade-web-mobile/exercicios/01-lab-web-pwa-playwright/pratica
 
 # prova de que está no lugar certo:
 ls tests/e2e

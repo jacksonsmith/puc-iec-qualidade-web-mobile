@@ -27,7 +27,7 @@ cp .env.example .env    # cole seu token do GitHub (instruções no arquivo)
 > → Generate new → em *Account permissions* marque só **Models: Read** → Generate.
 
 > **Pré-requisito:** o lab 02 instalado e buildado (o app alvo dos testes gerados):
-> `cd ../../02-lab-web-pwa-playwright/pratica && npm install && npm run build`
+> `cd ../../01-lab-web-pwa-playwright/pratica && npm install && npm run build`
 
 ## Os 3 passos
 

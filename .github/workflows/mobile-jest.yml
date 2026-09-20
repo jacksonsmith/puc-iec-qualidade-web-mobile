@@ -6,11 +6,11 @@ name: mobile-jest
 on:
   push:
     paths:
-      - 'exercicios/01-lab-mobile-maestro-jest/**'
+      - 'exercicios/02-lab-mobile-maestro-jest/**'
   workflow_dispatch:
 
 env:
-  APP_DIR: exercicios/01-lab-mobile-maestro-jest/pratica
+  APP_DIR: exercicios/02-lab-mobile-maestro-jest/pratica
 
 jobs:
   jest:

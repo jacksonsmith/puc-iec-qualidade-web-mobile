@@ -22,8 +22,8 @@ Você não escreve UI em nenhum lab: **os apps vêm prontos, você escreve os te
 
 | Item | Unidade | Pontos |
 |------|---------|--------|
-| [Lab Mobile — Maestro + Jest](./exercicios/01-lab-mobile-maestro-jest/) | U2 | 20 |
-| [Lab Web + PWA — Playwright + Lighthouse](./exercicios/02-lab-web-pwa-playwright/) | U3 | 20 |
+| [Lab Mobile — Maestro + Jest](./exercicios/02-lab-mobile-maestro-jest/) | U2 | 20 |
+| [Lab Web + PWA — Playwright + Lighthouse](./exercicios/01-lab-web-pwa-playwright/) | U3 | 20 |
 | [Lab IA — Pipeline Test Generation](./exercicios/03-lab-ia-test-gen/) | U3 | 20 |
 | [Projeto Final](./exercicios/projeto-final/) (eliminatório) | — | 30 |
 | Prova objetiva final (Canvas) | — | 10 |

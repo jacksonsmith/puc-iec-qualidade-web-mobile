@@ -11,11 +11,11 @@ name: playwright-e2e
 on:
   push:
     paths:
-      - 'exercicios/02-lab-web-pwa-playwright/**'
+      - 'exercicios/01-lab-web-pwa-playwright/**'
   workflow_dispatch:
 
 env:
-  APP_DIR: exercicios/02-lab-web-pwa-playwright/pratica
+  APP_DIR: exercicios/01-lab-web-pwa-playwright/pratica
 
 jobs:
   test:
