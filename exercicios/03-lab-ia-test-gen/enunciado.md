@@ -1,7 +1,7 @@
 # Lab IA — Pipeline Test Generation (20 pts)
 
-**Disciplina:** Qualidade em Aplicações Web e Mobile (EAD)
-**Unidade:** U3 (aulas 3.5 e 3.6)
+**Disciplina:** Qualidade em Aplicações Web e Mobile
+**Aula:** Aula 5 — IA Avançada
 **Entrega:** fork + Pull Request no repositório da disciplina
 **Valor:** 20 pontos
 
@@ -76,6 +76,6 @@ Pré-requisito: lab 02 buildado (é o app alvo) — instruções no `pratica/REA
 
 ## Dica
 
-O healing que "cura" enfraquecendo a asserção é o anti-pattern central da aula 3.6.
+O healing que "cura" enfraquecendo a asserção é o anti-pattern central da Aula 5.
 Se o seu log mostrar isso acontecendo — **documente no relatório**: é exatamente o
 tipo de limite real que vale ponto.

@@ -1,7 +1,7 @@
 # Lab Mobile — Maestro + Jest (20 pts)
 
-**Disciplina:** Qualidade em Aplicações Web e Mobile (EAD)
-**Unidade:** U2 (aula 2.7 + screencast)
+**Disciplina:** Qualidade em Aplicações Web e Mobile
+**Aula:** Aula 4 — Maestro Mobile
 **Entrega:** fork + Pull Request no repositório da disciplina
 **Valor:** 20 pontos
 

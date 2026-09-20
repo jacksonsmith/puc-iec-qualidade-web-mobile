@@ -1,7 +1,7 @@
 # Lab Web + PWA — Playwright + Lighthouse (20 pts)
 
-**Disciplina:** Qualidade em Aplicações Web e Mobile (EAD)
-**Unidade:** U3 (aulas 3.1 a 3.4)
+**Disciplina:** Qualidade em Aplicações Web e Mobile
+**Aulas:** Aula 2 — Playwright Avançado + Aula 3 — SPA & PWA Testing
 **Entrega:** fork + Pull Request no repositório da disciplina
 **Valor:** 20 pontos
 
@@ -15,7 +15,7 @@ completar os specs Playwright de `pratica/tests/e2e/` e configurar o Lighthouse 
 
 Regra de ouro da disciplina: **o app vem pronto; você escreve só os testes.**
 
-As videoaulas 3.1–3.4 demonstram cada técnica, e o screencast da unidade mostra o
+As Aulas 2 e 3 demonstram cada técnica ao vivo, e o screencast mostra o
 professor resolvendo o primeiro spec de cada tema.
 
 ## Antes de começar
