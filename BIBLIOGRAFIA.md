@@ -29,12 +29,12 @@
 
 ## Artigos seminais (industry / blogs)
 
-- DODDS, K. C. — *Write Tests. Not Too Many. Mostly Integration.* (kentcdodds.com).
-- DODDS, K. C. — *The Testing Trophy and Testing Classifications*.
-- COHN, M. — *The Forgotten Layer of the Test Automation Pyramid* (2009).
-- Google Testing Blog — *Just Say No to More End-to-End Tests*.
-- Spotify Engineering — *Testing of Microservices* (Honeycomb model).
-- FOWLER, M. — *Test Pyramid* (martinfowler.com).
+- DODDS, K. C. (2017). *Write Tests. Not Too Many. Mostly Integration.* https://kentcdodds.com/blog/write-tests
+- DODDS, K. C. (2018). *The Testing Trophy and Testing Classifications*. https://kentcdodds.com/blog/the-testing-trophy-and-testing-classifications
+- COHN, M. (2009). *The Forgotten Layer of the Test Automation Pyramid*. https://www.mountaingoatsoftware.com/blog/the-forgotten-layer-of-the-test-automation-pyramid
+- Google Testing Blog (2015). *Just Say No to More End-to-End Tests*. https://testing.googleblog.com/2015/04/just-say-no-to-more-end-to-end-tests.html
+- Spotify Engineering (2018). *Testing of Microservices* (Honeycomb model). https://engineering.atspotify.com/2018/01/testing-of-microservices
+- FOWLER, M. (2012). *Test Pyramid*. https://martinfowler.com/bliki/TestPyramid.html
 - FOWLER, M. — *Eradicating Non-Determinism in Tests*.
 
 ## Specs / Standards
