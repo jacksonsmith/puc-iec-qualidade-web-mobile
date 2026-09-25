@@ -3,7 +3,7 @@ import { defineConfig } from '@playwright/test';
 export default defineConfig({
   testDir: './tests',
   fullyParallel: true,
-  reporter: 'list',
+  reporter: [['list'], ['html', { open: 'never' }]],
   use: {
     // Snapshot estável do arngren.net via Wayback Machine — o site real
     // cai com frequência (aconteceu ao vivo na Aula 1, 24/09). Mesmo
