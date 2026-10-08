@@ -33,7 +33,7 @@ test.describe('Busca + network mocking', () => {
 
     // TODO: espere a tela ficar visível.
     // Dica: o testID da tela é search-screen.
-    // await expect(page.getByTestId('search-screen'))....
+    await expect(page.getByTestId('search-screen')).toBeVisible();
   });
 
   // 🧑‍🏫 2. FÁCIL — assert de texto (sem testID ainda)
@@ -42,7 +42,7 @@ test.describe('Busca + network mocking', () => {
 
     // TODO: espere o texto "Buscar" ficar visível.
     // Dica: page.getByText('Buscar') — é o <h1> da tela.
-    // await expect(page.getByText('Buscar'))....
+    await expect(page.getByText('Buscar')).toBeVisible();
   });
 
   // 🧑‍🏫 3. FÁCIL — busca real (sem mock): dado do catálogo aparece
@@ -52,7 +52,7 @@ test.describe('Busca + network mocking', () => {
 
     // TODO: espere o resultado da busca ficar visível.
     // Dica: o testID de resultado é search-result-<id> e o id do Matrix é 603.
-    // await expect(page.getByTestId('search-result-603'))....
+    await expect(page.getByTestId('search-result-603')).toBeVisible();
   });
 
   // 🧑‍💻 4. FÁCIL — mock: o "backend" devolve um filme que NÃO existe no catálogo
@@ -79,6 +79,9 @@ test.describe('Busca + network mocking', () => {
 
     // TODO: verifique que o resultado search-result-999 está visível
     // TODO: verifique que o título "O Filme Que Só Existe No Mock" aparece
+    const resultado = page.getByTestId('search-result-999');
+    await expect(resultado).toBeVisible();
+    await expect(resultado).toContainText('O Filme Que Só Existe No Mock');
   });
 
   // 🧑‍💻 5. FÁCIL — busca vazia (ainda sem mock)
