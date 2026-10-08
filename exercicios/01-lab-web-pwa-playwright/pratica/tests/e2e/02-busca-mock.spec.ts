@@ -30,19 +30,13 @@ test.describe('Busca + network mocking', () => {
   // 🧑‍🏫 1. FÁCIL — só navegar: a tela abriu?
   test('1. abrir a tela de busca', async ({ page }) => {
     await page.goto('/search');
-
-    // TODO: espere a tela ficar visível.
-    // Dica: o testID da tela é search-screen.
-    // await expect(page.getByTestId('search-screen'))....
+    await expect(page.getByTestId('search-screen')).toBeVisible();
   });
 
   // 🧑‍🏫 2. FÁCIL — assert de texto (sem testID ainda)
   test('2. título da tela de busca aparece', async ({ page }) => {
     await page.goto('/search');
-
-    // TODO: espere o texto "Buscar" ficar visível.
-    // Dica: page.getByText('Buscar') — é o <h1> da tela.
-    // await expect(page.getByText('Buscar'))....
+    await expect(page.getByText('Buscar')).toBeVisible();
   });
 
   // 🧑‍🏫 3. FÁCIL — busca real (sem mock): dado do catálogo aparece
@@ -50,10 +44,7 @@ test.describe('Busca + network mocking', () => {
   test('3. buscar "Matrix" mostra o resultado', async ({ page }) => {
     await page.goto('/search');
     await page.getByTestId('search-input').fill('Matrix');
-
-    // TODO: espere o resultado da busca ficar visível.
-    // Dica: o testID de resultado é search-result-<id> e o id do Matrix é 603.
-    // await expect(page.getByTestId('search-result-603'))....
+    await expect(page.getByTestId('search-result-603')).toBeVisible();
   });
 
   // 🧑‍💻 4. FÁCIL — mock: o "backend" devolve um filme que NÃO existe no catálogo
@@ -78,9 +69,8 @@ test.describe('Busca + network mocking', () => {
 
     await page.goto('/search');
     await page.getByTestId('search-input').fill('mock');
-
-    // TODO: verifique que o resultado search-result-999 está visível
-    // TODO: verifique que o título "O Filme Que Só Existe No Mock" aparece
+    await expect(page.getByTestId('search-result-999')).toBeVisible();
+    await expect(page.getByText('O Filme Que Só Existe No Mock')).toBeVisible();
   });
 
   // 🧑‍💻 5. FÁCIL — busca vazia (ainda sem mock)
