@@ -14,21 +14,20 @@ export class DiscoverDetailPage {
 
   constructor(page: Page) {
     this.page = page;
-    // TODO: aponte pro testID discover-detail-loading
-    this.loading = page.getByTestId('TODO');
-    // TODO: aponte pro testID discover-detail-title
-    this.title = page.getByTestId('TODO');
+    this.loading = page.getByTestId('discover-detail-loading');
+    this.title = page.getByTestId('discover-detail-title');
   }
 
   async goto(movieId: number) {
-    // TODO: navegue pra `/discover/${movieId}`
+    await this.page.goto(`/discover/${movieId}`);
   }
 
   // Prova as DUAS pontas do loader: apareceu (não foi rápido demais pra
   // existir) E sumiu (não ficou girando pra sempre quando o dado chegou).
   async expectLoadingThenLoaded() {
-    // TODO: espere this.loading ficar visível (toBeVisible)
-    // TODO: espere this.loading SUMIR (toBeHidden) — só depois do delay que o teste injetou
-    // TODO: espere this.title ficar visível
+    await expect(this.loading).toBeVisible();
+    // O delay injetado pelo spec é de 2s; 10s dá folga pra rede real do TMDB.
+    await expect(this.loading).toBeHidden({ timeout: 10_000 });
+    await expect(this.title).toBeVisible();
   }
 }
