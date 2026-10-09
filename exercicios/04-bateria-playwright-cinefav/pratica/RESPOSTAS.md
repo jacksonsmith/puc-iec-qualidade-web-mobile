@@ -4,7 +4,7 @@
 > Não precisa de texto bonito — precisa mostrar que você **entendeu o porquê**, não só o como.
 > Vale 1 ponto (correção manual, no Canvas).
 
-**Nome:** <seu nome>
+**Nome:** smoke-test negativo
 **Login do GitHub:** <seu login>
 **Usei IA?** ( ) não · ( ) sim — qual ferramenta e pra quê: <…>  *(usar é permitido; esconder não)*
 
