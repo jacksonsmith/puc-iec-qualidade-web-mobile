@@ -47,3 +47,4 @@ Os testes 5, 6 e 7 do arquivo são treino opcional.
 | Avisar `await`/`expect` faltando | `npm run lint` |
 
 > ⚠️ `expect` sobre locator/página **precisa de `await`**. Sem ele o teste passa "de mentira".
+
