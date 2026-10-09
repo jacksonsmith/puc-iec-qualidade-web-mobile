@@ -28,8 +28,7 @@ test.describe('Busca + network mocking', () => {
   test('1. abrir a tela de busca', async ({ page }) => {
     await page.goto('/search');
 
-    // ✍️ sua vez: escreva o expect (e apague a linha abaixo)
-    falta('Teste 1');
+    await expect(page.getByTestId('search-screen')).toBeVisible();
   });
 
   // ── Teste 2 · 🟢 fácil ──────────────────────────────────────────────────────
