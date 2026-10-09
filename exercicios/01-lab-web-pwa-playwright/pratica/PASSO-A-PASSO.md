@@ -1,5 +1,8 @@
 # Passo a passo — Lab Web + PWA 🎬
 
+> ⚠️ **Este guia é dos EXTRAS (specs 03–05), não do Exercício 1.**
+> O **Exercício 1** (testes 1–4 do spec 02) está explicado em [`../COMECE-AQUI.md`](../COMECE-AQUI.md) e [`README.md`](README.md). Faça aquele primeiro; volte aqui só para treinar os outros specs ([`../EXTRAS.md`](../EXTRAS.md)).
+
 Siga **na ordem**. Cada passo diz **o que abrir**, **o que escrever**, **como rodar** e **o que deve acontecer**. A lista só dos exercícios está no [`README.md`](README.md).
 
 > Você **não escreve o app** — escreve os **testes**. E não precisa programar bem: quase tudo é **completar uma linha** que já está comentada no arquivo.

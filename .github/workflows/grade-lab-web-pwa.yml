@@ -1,4 +1,4 @@
-name: Grade — Lab Web + PWA
+name: Grade — Exercício 1 (spec 02)
 
 on:
   pull_request_target:
@@ -68,7 +68,7 @@ jobs:
                 owner: context.repo.owner,
                 repo: context.repo.repo,
                 issue_number: context.issue.number,
-                body: '❌ **J.A.R.V.I.S.** — Erro ao ler resultado da avaliação. Verifique os logs do workflow.'
+                body: '❌ **J.A.R.V.I.S.** — Não consegui avaliar sua entrega. **Isso pode ser falha do avaliador, não sua** — sua entrega não foi julgada. Avise o professor (ou faça um novo push em alguns minutos para tentar de novo).'
               })
               return
             }
@@ -76,11 +76,11 @@ jobs:
             const { autoScore, maxAutoScore, breakdown } = grade
 
             const body = [
-              '## 🤖 J.A.R.V.I.S. — Avaliação Lab Web + PWA',
+              '## 🤖 J.A.R.V.I.S. — Exercício 1 (spec 02: busca + network mocking)',
               '',
-              `**Nota automática (piso): ${autoScore}/${maxAutoScore} pts**`,
+              `**Testes completos (1 a 4): ${autoScore}/${maxAutoScore}**`,
               '',
-              '> ⚠️ Esta é a nota **mínima garantida** — critérios com 📝 (relatórios, CI, evidências) são avaliados manualmente pelo professor no Canvas.',
+              '> ℹ️ A atividade no Canvas é **sem nota**: o bot só mostra quais dos 4 testes estão completos (com `await expect(...)`). Teste que passa "vazio" não conta.',
               '',
               '### Detalhamento',
               breakdown,
@@ -97,7 +97,7 @@ jobs:
 
             const existing = comments.find(c =>
               c.user.login === 'github-actions[bot]' &&
-              c.body.includes('Lab Web + PWA')
+              (c.body.includes('Lab Web + PWA') || c.body.includes('Exercício 1'))
             )
 
             if (existing) {
