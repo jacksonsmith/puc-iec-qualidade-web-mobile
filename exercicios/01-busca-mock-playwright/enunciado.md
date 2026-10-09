@@ -28,3 +28,4 @@ O CineFav Web já está pronto — você escreve só **testes**. Em `pratica/tes
 > ⚠️ `expect` sobre locator/página **precisa de `await`**. Sem ele o teste termina antes de conferir e fica verde "de mentira".
 >
 > **Exercício 2 (Bateria Playwright):** é outro exercício, da aula seguinte, em `exercicios/04-bateria-playwright-cinefav/`. Recomendo fazer este antes.
+
