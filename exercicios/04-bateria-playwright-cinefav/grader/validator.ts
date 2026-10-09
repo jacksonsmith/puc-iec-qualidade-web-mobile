@@ -169,7 +169,7 @@ for (const c of CRITERIA) {
   let note = 'arquivo não encontrado'
   if (src !== null) {
     const code = stripComments(src)
-    const titles = [...code.matchAll(/\btest\(\s*['"`]([^'"`]+)['"`]/g)].map(m => m[1])
+    const titles = [...code.matchAll(/\btest\(\s*['"`]([^'"`]+)['"`]/g)].map(m => m[1]).filter(t => !/[<>]/.test(t)) // título ainda com <descreva> = scaffold, não conta
     const has = (p: string) => titles.some(t => t.toLowerCase().startsWith(p))
     const falta = FALTA.test(code)
     note = `encontrei: feliz ${has('feliz') ? '✔' : '✘'} · negativo ${has('negativo') ? '✔' : '✘'} · borda ${has('borda') ? '✔' : '✘'}${falta ? ' · ainda tem falta()' : ''} — avaliação manual (Canvas)`
