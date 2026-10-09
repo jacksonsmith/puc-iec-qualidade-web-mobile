@@ -12,11 +12,11 @@
 > | | **Exercício 1** | **Exercício 2 — Bateria (este)** |
 > |---|---|---|
 > | Pasta | `exercicios/01-lab-web-pwa-playwright/` | `exercicios/04-bateria-playwright-cinefav/` |
-> | O que é | aquecimento: **4 testes** do spec 02 (busca + mock) | bateria de ~3h: **20 desafios** + missão livre |
+> | O que é | exercício da **aula passada**: **4 testes** do spec 02 (busca + mock) | exercício da **aula dessa quinta**: bateria de ~3h, **20 desafios** + missão livre |
 > | Valor | sem nota (Canvas: "Atividade 2 — Playwright…") | **15 pts** (Canvas: "Bateria Playwright — CineFav") |
 > | Porta do app | `4173` | `4174` |
 >
-> **Faça o Exercício 1 antes.** Esta Bateria assume que você já sabe `await expect(...)` e mock com `page.route`.
+> São **dois exercícios independentes**. Recomendo fazer o Exercício 1 antes: a Bateria usa `await expect(...)` e mock com `page.route`.
 
 ---
 

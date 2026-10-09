@@ -1,6 +1,6 @@
 # Comece aqui — Bateria Playwright (CineFav)
 
-> **Este é o Exercício 2 (a Bateria, 15 pts).** O Exercício 1 (4 testes do spec 02, aquecimento) fica em `exercicios/01-lab-web-pwa-playwright/COMECE-AQUI.md` — faça ele antes.
+> **Este é o Exercício 2 (a Bateria, 15 pts).** O Exercício 1 (exercício da aula passada: 4 testes do spec 02) é outra atividade, em `exercicios/01-lab-web-pwa-playwright/COMECE-AQUI.md` — recomendo fazê-lo antes.
 > Leia este arquivo **inteiro uma vez** (5 min). Ele evita 90% dos problemas de instalação.
 > Depois vá para os desafios em `pratica/tests/bateria/` (ordem 01 → 06).
 

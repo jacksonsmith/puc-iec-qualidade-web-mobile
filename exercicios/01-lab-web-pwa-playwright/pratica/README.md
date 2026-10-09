@@ -7,7 +7,7 @@ App de filmes **já pronto** (React + Vite + PWA). Você **não escreve o app** 
 | | **Exercício 1** (esta pasta) | **Exercício 2 — Bateria Playwright** |
 |---|---|---|
 | Onde | `exercicios/01-lab-web-pwa-playwright/` | `exercicios/04-bateria-playwright-cinefav/` |
-| O que é | aquecimento da Aula 2: **4 testes** de `02-busca-mock.spec.ts` | bateria de ~3h: 20 desafios + missão livre |
+| O que é | exercício da aula passada (Aula 2): **4 testes** de `02-busca-mock.spec.ts` | exercício da aula dessa quinta: bateria de ~3h, 20 desafios + missão livre |
 | Porta do app | `4173` | `4174` |
 
 👉 **Comece pelo [`../COMECE-AQUI.md`](../COMECE-AQUI.md).** O enunciado está em [`../enunciado.md`](../enunciado.md).

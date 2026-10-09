@@ -12,12 +12,12 @@
 > | | **Exercício 1** (este) | **Exercício 2 — Bateria Playwright** |
 > |---|---|---|
 > | Pasta | `exercicios/01-lab-web-pwa-playwright/` | `exercicios/04-bateria-playwright-cinefav/` |
-> | O que é | **aquecimento da Aula 2**: 4 testes de **um** arquivo (`02-busca-mock.spec.ts`) | **bateria de ~3h**: 20 desafios em 6 blocos + missão livre |
+> | O que é | **exercício da aula passada (Aula 2)**: 4 testes de **um** arquivo (`02-busca-mock.spec.ts`) | **exercício da aula dessa quinta**: bateria de ~3h, 20 desafios em 6 blocos + missão livre |
 > | O que você entrega | os **testes 1, 2, 3 e 4** do spec 02, verdes, **com `expect`** | os 20 desafios + missão livre + `RESPOSTAS.md` |
 > | Porta do app | `4173` | `4174` |
 > | Canvas | "Atividade 2 — Playwright: busca + network mocking" | "Bateria Playwright — CineFav" |
 >
-> **Comece pelo Exercício 1.** Ele ensina a base (`await expect`, mock com `page.route`) que a Bateria assume que você já sabe.
+> São **dois exercícios independentes**. Recomendo fazer o Exercício 1 primeiro: ele ensina a base (`await expect`, mock com `page.route`) que a Bateria usa.
 > Os outros specs desta pasta (03, 04, 05, bônus) são **extras de estudo** — ficam em [`EXTRAS.md`](EXTRAS.md) e **não fazem parte** deste exercício.
 
 ---
