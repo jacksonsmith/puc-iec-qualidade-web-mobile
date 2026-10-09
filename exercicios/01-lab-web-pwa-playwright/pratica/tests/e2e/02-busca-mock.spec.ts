@@ -33,7 +33,7 @@ test.describe('Busca + network mocking', () => {
 
     // TODO: espere a tela ficar visível.
     // Dica: o testID da tela é search-screen.
-    // await expect(page.getByTestId('search-screen'))....
+    await expect(page.getByTestId('search-screen')).toBeVisible();
   });
 
   // 🧑‍🏫 2. FÁCIL — assert de texto (sem testID ainda)
