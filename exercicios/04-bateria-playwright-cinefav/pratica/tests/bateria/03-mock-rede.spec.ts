@@ -45,7 +45,8 @@ test.describe('Bloco C — mock de rede', () => {
     await page.goto('/qa');
 
     // ✍️ sua vez
-    falta('C1 — confira 1 card e o título');
+    await expect(page.getByRole('article')).toHaveCount(1);
+    await expect(page.getByTestId('movie-card-title-777')).toHaveText('Filme do Mock');
   });
 
   // ── C2 🟡 · ≈ 7 min ────────────────────────────────────────────────────────
