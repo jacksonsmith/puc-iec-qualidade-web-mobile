@@ -15,16 +15,34 @@ import { test, expect } from '@playwright/test';
 import { DiscoverDetailPage } from './pages/DiscoverDetailPage';
 
 const MOVIE_ID = 969681; // Homem-Aranha: Um Novo Dia — id real, existe no TMDB
+const ATRASO_MS = 2000;
+
+// Mesmo pitfall do spec 02: o Service Worker responde fetch por conta própria e
+// essa requisição nunca chegaria no page.route(). Bloqueado, o atraso vale sempre.
+test.use({ serviceWorkers: 'block' });
 
 test.describe('Discover detail — loader com rede real throttled', () => {
   test('1. loader aparece durante o atraso e some quando o filme real chega', async ({ page }) => {
-    // TODO: page.route(`**/movie/${MOVIE_ID}*`, async (route) => { ... })
-    //   dentro do handler:
-    //   TODO: await new Promise((r) => setTimeout(r, 2000))  — atraso artificial
-    //   TODO: await route.continue()  — deixa ir pra rede DE VERDADE, só depois do delay
+    let atrasoTerminou = false;
+
+    // Só ATRASA: depois do delay a chamada segue pra rede DE VERDADE (continue),
+    // sem mockar conteúdo nenhum.
+    await page.route(`**/movie/${MOVIE_ID}*`, async (route) => {
+      await new Promise((r) => setTimeout(r, ATRASO_MS));
+      atrasoTerminou = true;
+      await route.continue();
+    });
 
     const detail = new DiscoverDetailPage(page);
-    // TODO: await detail.goto(MOVIE_ID)
-    // TODO: await detail.expectLoadingThenLoaded()
+    await detail.goto(MOVIE_ID);
+
+    // Durante o atraso: o loader já está na tela e a resposta ainda não foi liberada.
+    await expect(detail.loading).toBeVisible();
+    expect(atrasoTerminou).toBe(false);
+
+    // Depois: o loader some, o filme real aparece, e isso só acontece após o delay.
+    await detail.expectLoadingThenLoaded();
+    expect(atrasoTerminou).toBe(true);
+    await expect(detail.title).toHaveText(/\S/);
   });
 });
