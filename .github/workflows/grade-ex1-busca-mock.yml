@@ -1,10 +1,10 @@
-name: Grade — Exercício 1 (spec 02)
+name: Grade — Exercício 1 (busca + mock)
 
 on:
   pull_request_target:
     types: [opened, synchronize, reopened]
     paths:
-      - 'exercicios/01-lab-web-pwa-playwright/**'
+      - 'exercicios/01-busca-mock-playwright/**'
 
 permissions:
   pull-requests: write
@@ -36,20 +36,20 @@ jobs:
 
       - name: Install grader deps
         run: npm install
-        working-directory: exercicios/01-lab-web-pwa-playwright/grader
+        working-directory: exercicios/01-busca-mock-playwright/grader
 
       - name: Run validator
         id: grade
         run: |
-          npx ts-node validator.ts --entrega ../../../_pr/exercicios/01-lab-web-pwa-playwright
-        working-directory: exercicios/01-lab-web-pwa-playwright/grader
+          npx ts-node validator.ts --entrega ../../../_pr/exercicios/01-busca-mock-playwright
+        working-directory: exercicios/01-busca-mock-playwright/grader
 
       - name: Upload grade artifact
         uses: actions/upload-artifact@v4
         if: always()
         with:
           name: grade-pr${{ github.event.pull_request.number }}
-          path: exercicios/01-lab-web-pwa-playwright/grader/grade.json
+          path: exercicios/01-busca-mock-playwright/grader/grade.json
           retention-days: 90
 
       - name: Comment on PR
@@ -58,7 +58,7 @@ jobs:
         with:
           script: |
             const fs = require('fs')
-            const gradePath = 'exercicios/01-lab-web-pwa-playwright/grader/grade.json'
+            const gradePath = 'exercicios/01-busca-mock-playwright/grader/grade.json'
 
             let grade
             try {
@@ -76,7 +76,7 @@ jobs:
             const { autoScore, maxAutoScore, breakdown } = grade
 
             const body = [
-              '## 🤖 J.A.R.V.I.S. — Exercício 1 (spec 02: busca + network mocking)',
+              '## 🤖 J.A.R.V.I.S. — Exercício 1 (busca + network mocking)',
               '',
               `**Testes completos (1 a 4): ${autoScore}/${maxAutoScore}**`,
               '',
@@ -97,7 +97,7 @@ jobs:
 
             const existing = comments.find(c =>
               c.user.login === 'github-actions[bot]' &&
-              (c.body.includes('Lab Web + PWA') || c.body.includes('Exercício 1'))
+              c.body.includes('Exercício 1 (busca')
             )
 
             if (existing) {

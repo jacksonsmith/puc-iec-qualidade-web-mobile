@@ -25,7 +25,7 @@
 
 <sua resposta>
 
-### 4. Bloco F: quais eram os defeitos dos 4 testes e como você **provou** que ficaram estáveis?
+### 4. Bloco F: quais eram os defeitos dos testes instáveis (F1a, F1b e F1d) e como você **provou** que ficaram estáveis?
 *(Cite os comandos que rodou e o resultado.)*
 
 <sua resposta>

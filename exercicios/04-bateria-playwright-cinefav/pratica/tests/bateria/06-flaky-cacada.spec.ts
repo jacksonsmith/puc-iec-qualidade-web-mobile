@@ -8,12 +8,12 @@
 // 📚 Novo: por que `expect(await x.count())` e `waitForTimeout` são armadilhas, e
 //    por que cada teste precisa nascer sozinho (cada teste recebe um navegador
 //    ZERADO — nada do teste anterior sobrevive).
-//    Material: MATERIAIS.md → "Teste instável (flaky)".
+//    Estudar: https://playwright.dev/docs/test-retries  ·  https://playwright.dev/docs/trace-viewer-intro
 //
 // 🧩 Regras do conserto (o grader confere):
 //    • nenhum  waitForTimeout  no arquivo
 //    • nenhum  .count()  dentro de expect(...) — use  toHaveCount
-//    • F1d precisa passar RODANDO SOZINHO
+//    • F1d precisa passar RODANDO SOZINHO  (dica: rode só ele,  -g "F1d",  e veja o que ele SUPÕE que já existe)
 //    • não apague testes e não mude os títulos
 //
 // ✅ Prove que consertou — as DUAS execuções precisam ficar 100% verdes:

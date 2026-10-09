@@ -8,7 +8,7 @@
 // 📚 Conectado com a Aula 3 (SPA: o app "monta" depois do HTML chegar → esperar
 //    por sinal, não por tempo) e com o data-app-ready.
 //    Novo: toHaveCount · pressSequentially · locator CSS por prefixo [data-testid^=…]
-//          expect.poll · expect.soft.    Material: MATERIAIS.md → "Expect e espera".
+//          expect.poll · expect.soft.    Estudar: https://playwright.dev/docs/test-assertions  ·  https://playwright.dev/docs/actionability  ·  page.evaluate: https://playwright.dev/docs/evaluating
 //
 // ✅ Validar:  npx playwright test 02-expect   (e a linha falta('B?') precisa sumir)
 // ─────────────────────────────────────────────────────────────────────────────

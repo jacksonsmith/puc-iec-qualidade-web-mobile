@@ -1,11 +1,10 @@
-// Validator — Exercício 1 · Playwright: busca + network mocking (spec 02, testes 1–4)
+// Validator — Exercício 1 · Playwright: busca + network mocking (busca-mock.spec.ts, testes 1–4)
 // A atividade no Canvas é SEM NOTA (0 pts): o bot só informa quantos dos 4 testes estão completos.
 // Estrutural (parse-only) — nunca executa código do aluno.
 //
 // Um teste está "completo" quando o corpo (sem comentários):
 //   · tem `await expect(` com matcher
 //   · contém os padrões do que o teste pede (ex.: search-result-999 no teste 4)
-// O que o aluno fez nos outros specs (03, 04, 05, bônus) é só informado como extra — não conta.
 
 import * as fs from 'fs'
 import * as path from 'path'
@@ -14,7 +13,7 @@ import { Criterion, GradeResult, computeAuto, computeScore, buildBreakdowns } fr
 const args = process.argv.slice(2)
 const entregaIdx = args.indexOf('--entrega')
 const entregaPath = path.resolve(entregaIdx >= 0 ? args[entregaIdx + 1] : '.')
-const e2eDir = path.join(entregaPath, 'pratica', 'tests', 'e2e')
+const e2eDir = path.join(entregaPath, 'pratica', 'tests')
 
 function read(file: string): string | null {
   const p = path.join(e2eDir, file)
@@ -51,16 +50,17 @@ const SPEC02: Spec[] = [
   { n: 4, label: 'Teste 4 — mock com route.fulfill', need: [[/route\(/, 'page.route'], [/fulfill\(/, 'route.fulfill'], [/search-result-999/, 'testid search-result-999'], [/toBeVisible\(|toHaveText\(|toContainText\(/, 'matcher']] },
 ]
 
-const raw = read('02-busca-mock.spec.ts')
+const raw = read('busca-mock.spec.ts')
 const criteria: Criterion[] = []
 
 for (const s of SPEC02) {
   let earned = 0
   let note: string | undefined
-  if (raw === null) note = 'arquivo 02-busca-mock.spec.ts não encontrado'
+  if (raw === null) note = 'arquivo tests/busca-mock.spec.ts não encontrado'
   else {
     const body = testBody(raw, s.n)
     if (body === null) note = 'teste não encontrado (título alterado/apagado?)'
+    else if (/\bfalta\s*\(/.test(body)) note = 'ainda tem a linha falta(...)'
     else if (!/\bawait\s+expect\s*\(/.test(body)) note = 'falta `await expect(...)` — o teste ainda passa "vazio"'
     else {
       const missing = s.need.filter(([re]) => !re.test(body)).map(([, w]) => w)
@@ -69,20 +69,6 @@ for (const s of SPEC02) {
     }
   }
   criteria.push({ key: `t${s.n}`, label: s.label, weight: 1, earned, note })
-}
-
-// Informativo: o que mais o aluno mexeu (não conta).
-{
-  const extras = ['03-visual.spec.ts', '04-spa.spec.ts', '05-pwa-offline.spec.ts']
-    .filter(f => { const r = read(f); return r !== null && !/^\s*\/\/\s*TODO/m.test(r) })
-  criteria.push({
-    key: 'extras',
-    label: 'Extras (specs 03–05) — não contam para o Exercício 1',
-    weight: 0,
-    earned: 0,
-    manual: true,
-    note: extras.length ? `specs sem TODO pendente: ${extras.join(', ')}` : 'nenhum (normal — são opcionais)',
-  })
 }
 
 const { pub, priv } = buildBreakdowns(criteria)
@@ -94,7 +80,7 @@ const maxTotalScore = criteria.reduce((s, c) => s + c.weight, 0)
 const result: GradeResult = { autoScore, maxAutoScore, totalScore, maxTotalScore, criteria, breakdown: pub, privateBreakdown: priv }
 fs.writeFileSync(path.join(__dirname, 'grade.json'), JSON.stringify(result, null, 2))
 
-console.log('\n=== GRADE RESULT — Exercício 1 (spec 02, testes 1–4) ===')
+console.log('\n=== GRADE RESULT — Exercício 1 (busca + network mocking) ===')
 console.log(`testes completos: ${autoScore}/${maxAutoScore}`)
 console.log('\nBreakdown:')
 console.log(priv)

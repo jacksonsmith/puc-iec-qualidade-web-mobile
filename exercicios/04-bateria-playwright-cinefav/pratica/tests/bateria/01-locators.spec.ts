@@ -7,7 +7,7 @@
 //
 // 📚 Você viu na Aula 2 (recorder: getByTestId / getByRole) e vai aprofundar:
 //    getByRole · getByLabel · locator.filter({ hasText }) · escopo (card.getByRole)
-//    Material: MATERIAIS.md → seção "Locators".
+//    Estudar: https://playwright.dev/docs/locators  ·  https://playwright.dev/docs/other-locators
 //
 // 🧭 Como ler os desafios:   🟢 fácil (só falta o expect)
 //                            🟡 médio (você monta a sequência, com dica)
@@ -45,7 +45,8 @@ test.describe('Bloco A — Locators', () => {
     //    1. goto('/login')
     //    2. preencha o campo "E-mail" com aluno@puc.br e o campo "Senha" com 1234
     //    3. clique no botão "Entrar" (por role + name)
-    //    4. espere sair do /login (waitForURL) e vá pra '/qa'
+    //    4. espere SAIR do /login:  await page.waitForURL((url) => !url.pathname.startsWith('/login'));
+    //       (o app não vai sozinho pra /qa — depois disso faça  await page.goto('/qa'))
     //    5. prove que logou: o botão "Sair" (testid logout-button) fica visível
     // 🆘 Dica: page.getByLabel('E-mail').fill('...')
     test('A2. login só com label e role (zero testid)', async ({ page }) => {

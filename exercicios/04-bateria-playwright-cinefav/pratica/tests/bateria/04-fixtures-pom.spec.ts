@@ -7,7 +7,8 @@
 // 📚 Conectado com a aula: na Aula 3 você GRAVOU um cadastro com o recorder e viu
 //    que o código gerado tem cliques repetidos, Tab sobrando e nenhuma asserção.
 //    O D1 é exatamente isso: refazer aquele fluxo, LIMPO e COM expect.
-//    Novo: Page Object (D2) e test.extend (D3). Material: MATERIAIS.md.
+//    Novo: Page Object (D2) e test.extend (D3).
+//    Estudar: https://playwright.dev/docs/pom  ·  https://playwright.dev/docs/test-fixtures  ·  https://playwright.dev/docs/auth
 //
 // ✅ Validar:  npx playwright test 04-fixtures   (e as linhas falta('D?') precisam sumir)
 //    D2 e D3 também dependem dos arquivos  tests/support/catalog-page.ts  e  fixtures.ts
@@ -28,7 +29,7 @@ base.describe('Bloco D — conta nova (sem sessão)', () => {
   // 🧩 Use um e-mail único a cada execução:  `aluna.${Date.now()}@teste.com`
   //    1. /login → clique em criar conta (testid auth-mode-toggle)
   //    2. preencha nome, e-mail e senha "abcd" (testids register-*) e envie
-  //    3. espere sair do /login e vá pra '/qa'
+  //    3. espere SAIR do /login (page.waitForURL((url) => !url.pathname.startsWith('/login'))) e depois  page.goto('/qa')
   //    4. clique em Sair (logout-button) → a URL volta a ser /login
   //    5. NEGATIVO: entre com a senha "errada" → login-error-message mostra
   //       "E-mail ou senha inválidos"
@@ -57,8 +58,10 @@ base('D2. Page Object: o teste lê como uma frase', async ({ page }) => {
 //    • semeie os favoritos [603, 680] ANTES de abrir a página (ordem importa!)
 //    • abra o catálogo → favoritos → confira "2 filmes favoritos"
 //    • confira que os itens favorites-item-603 e favorites-item-680 estão visíveis
+//    (peça também  page  no parâmetro do teste: os itens favorites-item-… são conferidos com ele)
 // 🆘 Por que semear em vez de clicar? Responda na pergunta 3 do RESPOSTAS.md.
-test('D3. fixtures: semeia favoritos sem clicar e confere na tela', async ({ catalog, seedFavorites }) => {
+test('D3. fixtures: semeia favoritos sem clicar e confere na tela', async ({ catalog, seedFavorites, page }) => {
+  void page;
   void catalog;
   void seedFavorites;
   void expectFx;

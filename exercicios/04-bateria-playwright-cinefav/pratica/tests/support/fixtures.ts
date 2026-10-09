@@ -9,7 +9,7 @@
 //      seedFavorites   → função que PRÉ-CARREGA favoritos no localStorage, sem clicar
 //                        na tela (mais rápido e menos frágil que favoritar pela UI)
 //
-// 📚 Material: MATERIAIS.md → "Page Object e fixtures".
+// 📚 Estudar: https://playwright.dev/docs/pom  ·  https://playwright.dev/docs/test-fixtures
 // 🆘 Dica da seedFavorites: context.addInitScript roda ANTES de qualquer script da
 //    página. Ela aceita um argumento serializável:
 //       await context.addInitScript(([k, v]) => localStorage.setItem(k, v), ['chave', 'valor'])

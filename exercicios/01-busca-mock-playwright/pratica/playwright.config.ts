@@ -1,16 +1,19 @@
 import { defineConfig, devices } from '@playwright/test';
 
 // Os testes rodam contra o BUILD (vite preview), não contra o dev server —
-// Service Worker só existe no build, e a prática de PWA/offline depende dele.
+// Service Worker só existe no build, e o app é uma PWA.
+//
+// Porta 4173 (e não 4173): este exercício tem a própria porta. Assim ele nunca
+// "reaproveita" um servidor de outro lab que ficou aberto no seu computador.
 export default defineConfig({
-  testDir: './tests/e2e',
+  testDir: './tests',
   timeout: 30_000,
   retries: process.env.CI ? 1 : 0,
   reporter: process.env.CI ? [['json', { outputFile: 'playwright-results.json' }], ['list']] : 'list',
   use: {
     baseURL: 'http://localhost:4173',
     trace: 'on-first-retry',
-    // Demo ao vivo / ver o teste rodando devagar: SLOWMO=800 npx playwright test --headed
+    // Ver o teste rodando devagar: SLOWMO=800 npx playwright test --headed
     launchOptions: { slowMo: Number(process.env.SLOWMO ?? 0) },
   },
   webServer: {
@@ -23,14 +26,11 @@ export default defineConfig({
     // 1º: o setup loga UMA vez pela UI e salva o storageState.
     { name: 'setup', testMatch: /auth\.setup\.ts/ },
 
-    // 2º: os specs rodam já autenticados, reaproveitando o estado salvo.
-    // (O spec de login zera o storageState localmente com test.use.)
+    // 2º: o teste roda já autenticado, reaproveitando o estado salvo.
     {
       name: 'chromium',
-      use: {
-        ...devices['Desktop Chrome'],
-        storageState: 'playwright/.auth/user.json',
-      },
+      testIgnore: /auth\.setup\.ts/,
+      use: { ...devices['Desktop Chrome'], storageState: 'playwright/.auth/user.json' },
       dependencies: ['setup'],
     },
   ],

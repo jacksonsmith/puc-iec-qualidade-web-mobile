@@ -1,19 +1,14 @@
 {
-  "name": "cinefav-web",
+  "name": "cinefav-busca-mock",
   "private": true,
   "version": "0.1.0",
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "tsc -b && vite build",
+    "build": "vite build",
     "preview": "vite preview",
-    "test:e2e": "playwright test",
-    "test:e2e:ui": "playwright test --ui",
-    "test:visual": "playwright test 03-visual",
-    "test:visual:update": "playwright test 03-visual --update-snapshots",
-    "test:bonus": "playwright test --config=playwright.bonus.config.ts",
-    "lighthouse": "lhci autorun",
-    "check": "node scripts/check.mjs",
+    "test": "playwright test",
+    "test:ui": "playwright test --ui",
     "lint": "eslint tests"
   },
   "dependencies": {
@@ -23,7 +18,6 @@
     "react-router-dom": "^6.28.0"
   },
   "devDependencies": {
-    "@lhci/cli": "^0.14.0",
     "@playwright/test": "^1.49.0",
     "@types/react": "^18.3.12",
     "@types/react-dom": "^18.3.1",

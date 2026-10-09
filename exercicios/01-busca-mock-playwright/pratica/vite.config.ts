@@ -4,6 +4,10 @@ import react from '@vitejs/plugin-react';
 import { VitePWA } from 'vite-plugin-pwa';
 
 export default defineConfig({
+  // Portas próprias deste exercício: outro origin = Service Worker, cache e
+  // IndexedDB separados de qualquer outro lab que ainda esteja aberto.
+  server: { port: 5173, strictPort: true },
+  preview: { port: 4173, strictPort: true },
   resolve: {
     // espelha o paths do tsconfig — @/ = src/
     alias: { '@': fileURLToPath(new URL('./src', import.meta.url)) },

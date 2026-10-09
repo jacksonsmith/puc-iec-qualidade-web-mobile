@@ -5,7 +5,7 @@
 // 🎯 Page Object = uma classe que "sabe" como mexer numa tela. Os testes passam a
 //    ler como frases (catalog.favorite('Pulp Fiction')) e, se a tela mudar, você
 //    corrige em UM lugar só.
-// 📚 Material: MATERIAIS.md → "Page Object e fixtures".
+// 📚 Estudar: https://playwright.dev/docs/pom  ·  https://playwright.dev/docs/test-fixtures
 //
 // Complete os métodos marcados com ✍️. O  goto()  já está pronto (modelo).
 // Regra: nenhum método daqui pode usar id fixo de filme — receba o TÍTULO.

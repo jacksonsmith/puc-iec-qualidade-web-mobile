@@ -102,6 +102,9 @@ const contados = rows.filter((r) => !r.controle);
 const total = contados.length;
 const verdes = contados.filter((r) => r.ok).length;
 console.log(`\nDesafios dos blocos A–F verdes: ${verdes}/${total}`);
-if (semExpect) console.log(`⚠ ${semExpect} teste(s) sem nenhum expect (passam "vazios" e NÃO contam) — rode npm run lint`);
-if (lintErros) console.log(`⚠ ${lintErros} erro(s) de lint (await faltando, sleep fixo…) — rode npm run lint`);
+if (verdes < total) console.log('Avisos de lint ficam para o fim: enquanto houver ⬜ é normal ter teste sem expect. Quando tudo estiver ✓, rode npm run lint.');
+else {
+  if (semExpect) console.log(`⚠ ${semExpect} teste(s) sem nenhum expect (passam "vazios" e NÃO contam) — rode npm run lint`);
+  if (lintErros) console.log(`⚠ ${lintErros} erro(s) de lint (await faltando, sleep fixo…) — rode npm run lint`);
+}
 console.log('Próximo passo quando tudo ✓: preencha o RESPOSTAS.md, rode 3x seguidas (npm run test:e2e) e abra o PR.');

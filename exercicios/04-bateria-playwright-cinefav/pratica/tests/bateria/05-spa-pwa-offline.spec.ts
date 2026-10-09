@@ -11,7 +11,7 @@
 //    • Gaveta 1 = Cache Storage (arquivos) · Gaveta 2 = IndexedDB (dados do app)
 //    • Fila offline: escrever sem rede → fica "pending" → rede volta → "synced"
 //    Novo: context.setOffline · page.waitForFunction · request fixture (HTTP sem página).
-//    Material: MATERIAIS.md → "PWA e offline".
+//    Estudar: https://web.dev/learn/pwa  ·  setOffline: https://playwright.dev/docs/api/class-browsercontext#browser-context-set-offline
 //
 // ⚠️ Aqui o Service Worker fica LIGADO (não use serviceWorkers:'block' neste arquivo —
 //    o teste precisa dele). É o oposto do Bloco C.
@@ -81,10 +81,11 @@ test.describe('Bloco E — SPA e PWA', () => {
   //    • espere o título (detail-title) e o SW controlar
   //    • fique offline e publique o comentário "Clássico absoluto" (comment-input +
   //      comment-submit-button)
-  //    • o 1º comentário da lista (use o prefixo comment-item-) contém o texto e seu
-  //      status (atributo data-status) é "pending"
+  //    • o 1º comentário da lista (use o prefixo comment-item-) contém o texto, e DENTRO dele
+  //      o elemento que tem o atributo data-status (o selo de status) vale "pending"
   //    • recarregue a página AINDA offline: o comentário continua lá (está no IndexedDB)
-  //    • volte online: o status (prefixo comment-status-) vira "synced"
+  //    • volte online: esse selo (prefixo comment-status-) passa a ter data-status="synced"
+  //      (na tela aparece escrito "✓ enviado"; o valor técnico "synced" só existe no atributo)
   // 🆘 Dica: o expect do "synced" já espera sozinho (o app leva ~400ms pra sincronizar).
   test('E4. comentário offline entra na fila (IndexedDB) e sincroniza', async ({ page, context }) => {
     void page;

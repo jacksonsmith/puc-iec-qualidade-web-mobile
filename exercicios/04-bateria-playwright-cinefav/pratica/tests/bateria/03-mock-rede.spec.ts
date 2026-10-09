@@ -9,7 +9,7 @@
 // 📚 Você viu na Aula 2 (page.route / fulfill / abort). Novo aqui:
 //    route.fetch() (pegar a resposta real e alterar) · page.on('request') (contar
 //    requisições) · page.unroute (soltar a rota no meio do teste).
-//    Material: MATERIAIS.md → "Mock de rede".
+//    Estudar: https://playwright.dev/docs/mock  ·  https://playwright.dev/docs/network
 //
 // ⚠️ PITFALL REAL (Aula 3): o Service Worker responde do cache e o fetch NUNCA chega
 //    no page.route. Por isso este arquivo desliga o SW com a linha abaixo.
