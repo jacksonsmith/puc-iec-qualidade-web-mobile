@@ -79,3 +79,4 @@ Pré-requisito: lab 02 buildado (é o app alvo) — instruções no `pratica/REA
 O healing que "cura" enfraquecendo a asserção é o anti-pattern central da Aula 5.
 Se o seu log mostrar isso acontecendo — **documente no relatório**: é exatamente o
 tipo de limite real que vale ponto.
+
