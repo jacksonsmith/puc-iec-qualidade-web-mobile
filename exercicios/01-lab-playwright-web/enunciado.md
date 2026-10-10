@@ -27,4 +27,4 @@ O CineFav Web já está pronto — você escreve só **testes**. Em `pratica/tes
 
 > ⚠️ `expect` sobre locator/página **precisa de `await`**. Sem ele o teste termina antes de conferir e fica verde "de mentira".
 >
-> **Lab Playwright PWA:** é outro lab (10 pts), da aula seguinte, em `exercicios/04-lab-playwright-pwa/`. Recomendo fazer este antes.
+> **Lab Playwright PWA:** é outro lab (10 pts), da Aula 3, em `exercicios/04-lab-playwright-pwa/`. Recomendo fazer este antes.
