@@ -45,3 +45,4 @@ O piso automático soma **8,5 pts**; a missão livre e as respostas (1,5 pt) sã
 IA é permitida, **esconder não é**: declare no `RESPOSTAS.md`. Não use `waitForTimeout`. Tudo roda local, sem token nem serviço pago.
 
 ➡️ **[`COMECE-AQUI.md`](COMECE-AQUI.md)** — instalar, rodar, entregar.
+
