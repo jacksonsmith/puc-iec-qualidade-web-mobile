@@ -32,7 +32,7 @@ npm install
 cp .env.example .env    # cole seu token GitHub (grátis — instruções no arquivo)
 ```
 
-Pré-requisito: lab 02 buildado (é o app alvo) — instruções no `pratica/README.md`.
+Pré-requisito: Lab Playwright PWA instalado (é o app alvo) — instruções no `pratica/README.md`.
 
 ## O que você entrega
 
@@ -55,7 +55,7 @@ Pré-requisito: lab 02 buildado (é o app alvo) — instruções no `pratica/REA
 - Tipos de teste em que a IA acertou vs falhou
 - Oracle problem: como você detectou (ou detectaria) asserção errada
 - Custo em tokens e latência observada (o pipeline imprime — colete!)
-- Comparação com os testes que você escreveu à mão no lab 02
+- Comparação com os testes que você escreveu à mão nos labs Playwright
 
 ## Como entregar
 
