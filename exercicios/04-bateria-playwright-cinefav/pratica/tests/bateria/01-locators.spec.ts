@@ -46,7 +46,7 @@ test.describe('Bloco A — Locators', () => {
     //    2. preencha o campo "E-mail" com aluno@puc.br e o campo "Senha" com 1234
     //    3. clique no botão "Entrar" (por role + name)
     //    4. espere SAIR do /login:  await page.waitForURL((url) => !url.pathname.startsWith('/login'));
-    //       (o app não vai sozinho pra /qa — depois disso faça  await page.goto('/qa'))
+    //       (o app vai para '/', que usa o TMDB e pode mostrar erro de token — é normal; depois faça  await page.goto('/qa'))
     //    5. prove que logou: o botão "Sair" (testid logout-button) fica visível
     // 🆘 Dica: page.getByLabel('E-mail').fill('...')
     test('A2. login só com label e role (zero testid)', async ({ page }) => {

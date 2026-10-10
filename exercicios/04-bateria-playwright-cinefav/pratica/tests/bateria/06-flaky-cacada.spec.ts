@@ -12,7 +12,7 @@
 //
 // 🧩 Regras do conserto (o grader confere):
 //    • nenhum  waitForTimeout  no arquivo
-//    • nenhum  .count()  dentro de expect(...) — use  toHaveCount
+//    • nenhum  .count()  no arquivo: troque  expect(await x.count()).toBe(n)  por  await expect(x).toHaveCount(n)
 //    • F1d precisa passar RODANDO SOZINHO  (dica: rode só ele,  -g "F1d",  e veja o que ele SUPÕE que já existe)
 //    • não apague testes e não mude os títulos
 //
@@ -40,6 +40,7 @@ test.describe('Bloco F — suíte instável (conserte)', () => {
     expect(await page.getByRole('article').count()).toBe(24); // 🐛
   });
 
+  // ✔ F1c é o CONTROLE: já está certo — compare com os outros.
   test('F1c. favoritar Matrix marca o coração', async ({ page }) => {
     await page.goto('/qa');
     await page.getByTestId('movie-card-heart-603').click();

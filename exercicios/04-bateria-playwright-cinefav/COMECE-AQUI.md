@@ -21,7 +21,7 @@ O `npm ci` pode mostrar "vulnerabilities" — normal, ignore.
 ```bash
 npm run check
 ```
-Tudo **⬜ "ainda não fiz"** é o esperado agora (o app sobe sozinho na porta 4174; a 1ª vez demora um pouco). Seu trabalho: transformar cada ⬜ em ✓.
+O esperado agora: **⬜ "ainda não feito"** nos blocos A–E e na missão livre; e **✗ / 🐛 no Bloco F** — esses testes já vêm escritos, com defeitos de propósito (consertá-los é o desafio). O app sobe sozinho na porta 4174 (a 1ª vez demora um pouco). Seu trabalho: transformar tudo em ✓.
 
 | Quero… | Comando |
 |---|---|
@@ -29,14 +29,13 @@ Tudo **⬜ "ainda não fiz"** é o esperado agora (o app sobe sozinho na porta 4
 | um desafio | `npx playwright test -g "A1"` |
 | ver o navegador | `npx playwright test 01-locators --headed` |
 | passo a passo na tela (melhor debugger) | `npx playwright test -g "B2" --ui` |
-| placar | `npm run check` |
 
 ## 3. Gravar com o recorder
 ```bash
 npm run build && npm run preview          # terminal 1 (deixe rodando)
 npx playwright codegen http://localhost:4174/login      # terminal 2
 ```
-O código aparece na janela **Playwright Inspector** (pode abrir *atrás* do VS Code — `Cmd+Tab`/`Alt+Tab`). Copie, **limpe** (cliques repetidos, `Tab` sobrando) e **acrescente o `expect`**: o recorder não confere nada. Para salvar direto: `codegen -o tests/livre/gravado.spec.ts …`.
+O código aparece na janela **Playwright Inspector** (pode abrir *atrás* do VS Code — `Cmd+Tab`/`Alt+Tab`). Copie, **limpe** (cliques repetidos, `Tab` sobrando) e **acrescente o `expect`**: o recorder não confere nada. Para salvar direto: `codegen -o rascunho.spec.ts …` (fora de `tests/`: copie o que prestar para o seu teste e apague o rascunho).
 
 ## 4. Quando falha
 Leia a mensagem inteira (ela diz o que esperava × recebeu) → rode só o teste com `--ui` → ou `--trace on` e `npx playwright show-report`.
@@ -46,12 +45,13 @@ Leia a mensagem inteira (ela diz o que esperava × recebeu) → rode só o teste
 | `webServer was not able to start` | rode `npm run build` sozinho — o erro real aparece lá |
 | navegador não encontrado | `npx playwright install chromium` |
 | `Port 4174 is already in use` | feche o preview antigo ou `npx kill-port 4174` |
-| passa sozinho mas falha na suíte | um teste depende de outro: cada teste nasce com navegador zerado (Bloco F) |
+| falha rodando sozinho (`-g`) | o teste supõe algo que outro teste fez; cada teste nasce com navegador zerado (Bloco F) |
 | comando "falha do nada" | você não está em `…/pratica` (`ls tests/bateria`) |
 
 ## 5. Entregar
-`npm run check` tudo ✓ · `npm run lint` sem erros · `npm run test:e2e` **3 vezes seguidas** verde · `RESPOSTAS.md` preenchido. Na raiz do clone:
+`npm run check` tudo ✓ · `npm run lint` sem erros · `npm run test:e2e` **3 vezes seguidas** verde · `RESPOSTAS.md` preenchido. (Opcional: habilite o *Actions* no seu fork — o CI roda a suíte 3× a cada `push`.) Volte à raiz do clone e entregue:
 ```bash
+cd ../../..       # raiz do clone (ls deve mostrar a pasta exercicios)
 git add exercicios/04-bateria-playwright-cinefav/pratica/tests exercicios/04-bateria-playwright-cinefav/pratica/RESPOSTAS.md
 git commit -m "bateria: <seu nome>"
 git push -u meu bateria

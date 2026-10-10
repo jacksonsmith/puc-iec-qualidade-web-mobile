@@ -39,7 +39,8 @@ test.describe('Bloco B — expect e espera', () => {
   // 📚 Aprende: pressSequentially (digitar tecla a tecla, como gente), seletor CSS
   //    por PREFIXO  page.locator('[data-testid^="search-result-"]')  e toHaveValue.
   // 🧩 Na tela /search:
-  //    1. digite "matrix" tecla a tecla (delay ~80ms) — a busca tem debounce
+  //    1. digite "matrix" tecla a tecla (pressSequentially, delay ~80ms), como um usuário. A busca tem *debounce*:
+  //       só dispara 250ms depois da última tecla — e o expect espera isso sozinho
   //    2. exatamente 1 resultado aparece (use o seletor por prefixo) e ele contém "Matrix"
   //    3. clique em "Limpar": o input volta vazio e os resultados somem (0)
   //    4. digite "xyzw": aparece o estado vazio (search-empty) mencionando "xyzw"

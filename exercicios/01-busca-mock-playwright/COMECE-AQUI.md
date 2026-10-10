@@ -36,7 +36,7 @@ Na 1ª vez o Playwright monta o app (leva alguns segundos). Resultado esperado a
 |---|---|
 | ver passo a passo na tela (melhor debugger) | `npx playwright test --ui` |
 | rodar um teste só | `npx playwright test -g "abrir"` |
-| descobrir o seletor clicando | `npx playwright codegen http://localhost:4173/search` (com o app aberto: `npm run build && npm run preview`) |
+| descobrir o seletor clicando | em um terminal `npm run build && npm run preview` (deixe aberto); em outro `npx playwright codegen http://localhost:4173/login` — entre com aluno@puc.br / 1234 e vá até Buscar |
 
 > O recorder (`codegen`) escreve o código enquanto você clica — mas **não confere nada**; você sempre acrescenta o `expect`.
 

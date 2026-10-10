@@ -46,8 +46,9 @@ test.describe('Bloco E — SPA e PWA', () => {
   // 📚 Aprende: o ciclo de vida do SW com expect.poll + a fixture `request` (faz GET
   //    HTTP sem abrir página — ótima pra conferir o manifest).
   // 🧩 1. goto('/qa') e espere a grade (movielist-grid)
-  //    2. expect.poll: o estado de navigator.serviceWorker.getRegistration().active.state
-  //       tem que chegar em 'activated' (você fez igual na aula)
+  //    2. expect.poll: o estado do SW tem que chegar em 'activated'. Leia-o no navegador com
+  //       page.evaluate(async () => (await navigator.serviceWorker.getRegistration())?.active?.state)
+  //       (page.evaluate roda JavaScript DENTRO da página: https://playwright.dev/docs/evaluating)
   //    3. waitForSwControl(page) (helper acima)
   //    4. leia o href de  link[rel="manifest"]  e faça  request.get(href)  →  .json()
   //    5. confira  manifest.name === 'CineFav — filmes favoritos'  e  display === 'standalone'

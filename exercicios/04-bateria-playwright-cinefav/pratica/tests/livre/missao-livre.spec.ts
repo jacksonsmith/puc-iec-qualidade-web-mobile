@@ -19,7 +19,7 @@
 //        "negativo:"  algo dá errado e o app reage direito
 //        "borda:"     o caso limite (vazio, repetido, máximo, recarregar…)
 //   3. Em pelo menos UM deles use algo que você NÃO usou nos blocos A–F — por exemplo
-//      test.step · page.route · setOffline · expect.poll · getByRole com filtro.
+//      test.step · page.goBack() · .not (ex.: not.toBeVisible) · test.fail() · toHaveScreenshot.
 //   4. Cada teste precisa de expect de verdade (asserção que falharia se o app quebrasse).
 //   5. Responda a pergunta 6 do  RESPOSTAS.md  (por que ESSE fluxo, que risco ele cobre).
 //

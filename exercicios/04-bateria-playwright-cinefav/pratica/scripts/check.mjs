@@ -41,7 +41,7 @@ const flakyFile = 'tests/bateria/06-flaky-cacada.spec.ts';
 const flakySrc = existsSync(flakyFile) ? readFileSync(flakyFile, 'utf8').split('\n').filter((l) => !/^\s*\/\//.test(l)).join('\n') : '';
 const flakyDefeitos = [];
 if (/waitForTimeout\(/.test(flakySrc)) flakyDefeitos.push('ainda tem waitForTimeout (sleep fixo)');
-if (/\.count\(\)/.test(flakySrc)) flakyDefeitos.push('ainda lê .count() fora do expect');
+if (/\.count\(\)/.test(flakySrc)) flakyDefeitos.push('ainda usa .count() (troque por toHaveCount)');
 
 const rows = [];
 let livre = { ok: 0, total: 0 };

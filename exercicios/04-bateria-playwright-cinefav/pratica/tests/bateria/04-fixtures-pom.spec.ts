@@ -16,7 +16,7 @@
 
 import { test as base, expect } from '@playwright/test';
 import { CatalogPage } from '../support/catalog-page';
-import { test, expect as expectFx } from '../support/fixtures';
+import { test, expect as expectFx } from '../support/fixtures'; // expectFx = o mesmo expect, reexportado por fixtures.ts
 import { falta } from '../support/todo';
 
 base.describe('Bloco D — conta nova (sem sessão)', () => {
@@ -29,7 +29,7 @@ base.describe('Bloco D — conta nova (sem sessão)', () => {
   // 🧩 Use um e-mail único a cada execução:  `aluna.${Date.now()}@teste.com`
   //    1. /login → clique em criar conta (testid auth-mode-toggle)
   //    2. preencha nome, e-mail e senha "abcd" (testids register-*) e envie
-  //    3. espere SAIR do /login (page.waitForURL((url) => !url.pathname.startsWith('/login'))) e depois  page.goto('/qa')
+  //    3. espere SAIR do /login (page.waitForURL((url) => !url.pathname.startsWith('/login'))) e depois  page.goto('/qa')  (o app vai para '/', que usa o TMDB e pode mostrar erro de token — é normal; por isso vamos para '/qa')
   //    4. clique em Sair (logout-button) → a URL volta a ser /login
   //    5. NEGATIVO: entre com a senha "errada" → login-error-message mostra
   //       "E-mail ou senha inválidos"

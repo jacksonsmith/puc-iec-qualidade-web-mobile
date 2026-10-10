@@ -2,7 +2,7 @@
 // ─────────────────────────────────────────────────────────────────────────────
 // Complete os 4 testes abaixo. Em cada um você troca a linha  falta('…')  por um
 // `await expect(…)` de verdade. Enquanto a linha falta() existir o teste fica
-// VERMELHO ("ainda não fiz"); quando você escrever o teste, ele fica VERDE.
+// VERMELHO ("ainda não feito"); quando você escrever o teste, ele fica VERDE.
 //
 // A forma de um expect é sempre:   await expect( LOCATOR ).MATCHER( )
 //   LOCATOR = onde olhar   (ex.: page.getByTestId('…'), page.getByText('…'))
@@ -19,7 +19,7 @@ import { falta } from './support/todo';
 
 // O CineFav é uma PWA: o Service Worker responde do cache e o fetch do catálogo
 // NUNCA chega no page.route(). Para o mock do teste 4 funcionar, este arquivo
-// desliga o Service Worker com a linha abaixo. (Pegadinha da Aula 3.)
+// desliga o Service Worker com a linha abaixo. (Você verá isso em detalhe na aula de PWA.)
 test.use({ serviceWorkers: 'block' });
 
 test.describe('Busca + network mocking', () => {

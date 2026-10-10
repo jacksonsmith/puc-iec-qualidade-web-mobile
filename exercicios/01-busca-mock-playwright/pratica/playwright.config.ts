@@ -3,8 +3,8 @@ import { defineConfig, devices } from '@playwright/test';
 // Os testes rodam contra o BUILD (vite preview), não contra o dev server —
 // Service Worker só existe no build, e o app é uma PWA.
 //
-// Porta 4173 (e não 4173): este exercício tem a própria porta. Assim ele nunca
-// "reaproveita" um servidor de outro lab que ficou aberto no seu computador.
+// Porta 4173 (a Bateria usa a 4174): cada exercício tem a sua. Se esta porta já estiver
+// ocupada por outro servidor seu, o Playwright reaproveita o servidor errado — feche-o antes.
 export default defineConfig({
   testDir: './tests',
   timeout: 30_000,

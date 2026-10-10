@@ -6,7 +6,7 @@
 ## O que fazer
 O CineFav Web já está pronto — você escreve só **testes**. Em `pratica/tests/busca-mock.spec.ts`, complete **4 testes**, trocando a linha `falta('…')` por um `await expect(…)`:
 
-| # | Teste | Você aprende | |
+| # | Teste | Você aprende | Nível |
 |---|---|---|---|
 | 1 | abrir a tela de busca | `expect` + "está visível" | 🟢 |
 | 2 | o título "Buscar" aparece | achar elemento por **texto** | 🟢 |
