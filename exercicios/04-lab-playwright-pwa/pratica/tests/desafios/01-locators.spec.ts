@@ -31,8 +31,7 @@ test.describe('Bloco A — Locators', () => {
     await page.goto('/qa');
     await page.getByRole('button', { name: /Buscar/ }).click();
 
-    // ✍️ sua vez: confirme que a página está em /search
-    falta('A1 — escreva o expect da URL');
+    await expect(page).toHaveURL(/\/search$/);
   });
 
   test.describe('sem sessão', () => {
