@@ -5,16 +5,16 @@
 
 Repositório público com os **exercícios, apps de prática e slides** da disciplina. Um produto atravessa o curso: o **CineFav** — app de filmes com login, busca e favoritos — em **mobile** (React Native) e **web** (React + PWA). Em nenhum exercício você escreve UI: **o app vem pronto, você escreve os testes.**
 
-## Exercícios
+## Labs e avaliação (100 pts)
 
-| Exercício | Tema | Pontos |
+| Item | Tema | Pontos |
 |---|---|---|
-| [Exercício 1 — busca + network mocking](./exercicios/01-busca-mock-playwright/) | Playwright: 4 testes (aula passada) | sem nota |
-| [Exercício 2 — Bateria Playwright](./exercicios/04-bateria-playwright-cinefav/) | Playwright: 20 desafios + missão livre | 15 |
-| [Lab Mobile — Maestro + Jest](./exercicios/02-lab-mobile-maestro-jest/) | Jest, RNTL, Maestro | 15 |
-| [Lab IA — Pipeline Test Generation](./exercicios/03-lab-ia-test-gen/) | testes gerados por IA | 15 |
+| [Lab Playwright Web](./exercicios/01-lab-playwright-web/) | busca + network mocking (4 testes) | 10 |
+| [Lab Playwright PWA](./exercicios/04-lab-playwright-pwa/) | 20 desafios + missão livre | 10 |
+| [Lab Mobile — Maestro + Jest](./exercicios/02-lab-mobile-maestro-jest/) | Jest, RNTL, Maestro | 10 |
+| [Lab IA — Pipeline Test Generation](./exercicios/03-lab-ia-test-gen/) | testes gerados por IA | 10 |
 | Atividade 1 — Registro de bugs | formulário no Canvas | 10 |
-| [Projeto Final](./exercicios/projeto-final/) | suíte completa | 45 |
+| [Projeto Final](./exercicios/projeto-final/) | suíte completa | 50 |
 
 Prazos e valores oficiais: **Canvas**.
 
