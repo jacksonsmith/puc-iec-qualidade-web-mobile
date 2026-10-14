@@ -1,47 +1,59 @@
-// tests/livre/missao-livre.spec.ts
-// ─────────────────────────────────────────────────────────────────────────────
-// ✅ AVALIATIVO (correção MANUAL) — MISSÃO LIVRE (≈ 20 min)
-//
-// 🎯 Aqui NÃO tem roteiro. Você é o(a) QA: escolhe o fluxo, decide o que testar e
-//    justifica. É a parte que mais mostra como você pensa.
-//
-// 🧩 O que fazer
-//   1. ESCOLHA UM fluxo do CineFav que os blocos A–F não testaram. Sugestões:
-//        • remover um favorito pela tela /favorites
-//        • a tela /pwa (painel "Raio-X da PWA") e seus botões
-//        • logout protege as rotas (deslogado, abrir /favorites manda pro /login)
-//        • comentário: vazio, muito longo (limite 280), vários comentários
-//        • busca com espaços/maiúsculas ("  MATRIX ")
-//        • botão Voltar do detalhe (histórico do navegador)
-//      …ou um fluxo que VOCÊ achar importante. Dica: use o app de verdade 3 minutos antes!
-//   2. ESCREVA 3 testes do MESMO fluxo, com nome começando por:
-//        "feliz:"     o caminho normal funciona
-//        "negativo:"  algo dá errado e o app reage direito
-//        "borda:"     o caso limite (vazio, repetido, máximo, recarregar…)
-//   3. Em pelo menos UM deles use algo que você NÃO usou nos blocos A–F — por exemplo
-//      test.step · page.goBack() · .not (ex.: not.toBeVisible) · test.fail() · toHaveScreenshot.
-//   4. Cada teste precisa de expect de verdade (asserção que falharia se o app quebrasse).
-//   5. Responda a pergunta 6 do  RESPOSTAS.md  (por que ESSE fluxo, que risco ele cobre).
-//
-// 🔎 BÔNUS exploratório (vale reconhecimento): achou algo ESTRANHO no app? Escreva um
-//    teste que documenta o comportamento e marque com  test.fixme()  ou  test.fail()
-//    + um comentário explicando por que é suspeito. Isso é bug report em forma de código.
-//
-// ✅ Validar:  npx playwright test livre   → verde nos 3 testes
-//
-// APAGUE o teste de exemplo abaixo e escreva os seus.
-// ─────────────────────────────────────────────────────────────────────────────
-
 import { test, expect } from '@playwright/test';
-import { falta } from '../support/todo';
 
-test.describe('Missão livre — <nome do seu fluxo>', () => {
-  test('feliz: <descreva>', async ({ page }) => {
-    await page.goto('/qa');
-    void expect;
-    falta('Missão livre — teste feliz');
+async function login(page: any) {
+  await page.goto('http://localhost:4174/login');
+
+  await page.getByTestId('login-email-input').fill('aluno@puc.br');
+  await page.getByTestId('login-password-input').fill('1234');
+
+  // Ajuste o nome do botão se necessário
+  await page.getByRole('button', { name: /entrar/i }).click();
+
+  // Aguarda a navegação após o login
+  await expect(page).not.toHaveURL(/login/);
+}
+
+async function abrirAmbienteQA(page: any) {
+  await page.getByText(
+    '🧪 Ambiente QA (busca, favoritos, testes)'
+  ).click();
+  
+  await expect(
+    page.getByTestId('movielist-search-button')
+  ).toBeVisible();
+}
+
+
+test.describe('Missão livre — Busca de filmes', () => {
+  test('feliz: navegar para busca pelo botão Buscar', async ({ page }) => {
+    await login(page);
+
+    await abrirAmbienteQA(page);
+
+    await page.getByTestId('movielist-search-button').click();
+
+    await expect(page).toHaveURL(/search/);
   });
 
-  // test('negativo: <descreva>', async ({ page }) => { ... });
-  // test('borda: <descreva>', async ({ page }) => { ... });
+ test('negativo: botão Buscar não está visível antes de abrir o ambiente QA', async ({ page }) => {
+  await login(page);
+
+  await expect(
+    page.getByTestId('movielist-search-button')
+  ).toBeHidden();
+});
+
+  test('borda: voltar pelo histórico retorna para a tela QA', async ({ page }) => {
+    await login(page);
+
+    await abrirAmbienteQA(page);
+
+    await page.getByTestId('movielist-search-button').click();
+
+    await expect(page).toHaveURL(/search/);
+
+    await page.goBack();
+
+    await expect(page).toHaveURL(/qa/);
+  });
 });
