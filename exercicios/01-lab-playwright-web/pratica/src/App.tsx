@@ -1,4 +1,4 @@
-import { Suspense, lazy, useEffect } from 'react';
+import { Suspense, lazy, useEffect, type ReactNode } from 'react';
 import { Navigate, Route, Routes, useLocation } from 'react-router-dom';
 import { currentUser } from '@/store/auth';
 import { testIDs } from '@/utils/testIDs';
@@ -20,7 +20,7 @@ const MovieDetail = lazy(() => import('@/screens/MovieDetail'));
 const DiscoverDetail = lazy(() => import('@/screens/DiscoverDetail'));
 const PwaPanel = lazy(() => import('@/screens/PwaPanel'));
 
-function RequireAuth({ children }: { children: JSX.Element }) {
+function RequireAuth({ children }: { children: ReactNode }) {
   if (!currentUser()) return <Navigate to="/login" replace />;
   return children;
 }
