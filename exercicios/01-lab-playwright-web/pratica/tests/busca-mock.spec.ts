@@ -29,7 +29,7 @@ test.describe('Busca + network mocking', () => {
     await page.goto('/search');
 
     // ✍️ sua vez: escreva o expect (e apague a linha abaixo)
-    falta('Teste 1');
+    await expect(page.getByTestId('search-screen')).toBeVisible();
   });
 
   // ── Teste 2 · 🟢 fácil ──────────────────────────────────────────────────────
@@ -39,7 +39,7 @@ test.describe('Busca + network mocking', () => {
     await page.goto('/search');
 
     // ✍️ sua vez
-    falta('Teste 2');
+    await expect(page.getByText('Buscar')).toBeVisible();
   });
 
   // ── Teste 3 · 🟢 fácil ──────────────────────────────────────────────────────
@@ -50,7 +50,7 @@ test.describe('Busca + network mocking', () => {
     await page.getByTestId('search-input').fill('Matrix');
 
     // ✍️ sua vez
-    falta('Teste 3');
+    await expect(page.getByTestId('search-result-603')).toBeVisible();
   });
 
   // ── Teste 4 · 🟡 médio ──────────────────────────────────────────────────────
@@ -81,6 +81,7 @@ test.describe('Busca + network mocking', () => {
     await page.getByTestId('search-input').fill('mock');
 
     // ✍️ sua vez: os dois expects
-    falta('Teste 4');
+    await expect(page.getByTestId('search-result-999')).toBeVisible();
+    await expect(page.getByText('O Filme Que Só Existe No Mock')).toBeVisible();
   });
 });
