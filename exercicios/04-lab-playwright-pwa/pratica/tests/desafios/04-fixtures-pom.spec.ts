@@ -35,8 +35,45 @@ base.describe('Bloco D — conta nova (sem sessão)', () => {
   //       "E-mail ou senha inválidos"
   //    6. POSITIVO: entre com "abcd" → sai do /login e, em '/qa', o logout-button aparece
   base('D1. cadastro → sair → senha errada → entrar com a conta nova', async ({ page }) => {
-    void page;
-    falta('D1 — escreva o fluxo');
+    const email = `aluna.${Date.now()}@teste.com`;
+    const senhaCorreta = 'abcd';
+
+    // 1. Abre o login e seleciona o modo de cadastro
+    await page.goto('/login');
+    await page.getByTestId('auth-mode-toggle').click();
+
+    // 2. Preenche os dados e envia o cadastro
+    await page.getByRole('textbox', { name: 'Nome' }).fill('Aluna Teste');
+    await page.getByRole('textbox', { name: 'E-mail' }).fill(email);
+    await page.getByRole('textbox', { name: 'Senha' }).fill(senhaCorreta);
+    await page.getByRole('button', { name: 'Criar conta e entrar' }).click();
+
+
+    // 3. Aguarda sair do login e abre o catálogo de testes
+    await page.waitForURL((url) => !url.pathname.startsWith('/login'));
+    await page.goto('/qa');
+
+    // 4. Sai da conta e verifica o retorno à tela de login
+    await page.getByTestId('logout-button').click();
+    await expect(page).toHaveURL(/\/login\/?$/);
+
+    // 5. Tenta entrar com uma senha incorreta
+    await page.getByLabel('E-mail').fill(email);
+    await page.getByLabel('Senha').fill('errada');
+    await page.getByRole('button', { name: /entrar/i }).click();
+
+    const loginError = page.getByTestId('login-error-message');
+    await expect(loginError).toBeVisible();
+    await expect(loginError).toContainText('E-mail ou senha inválidos');
+
+    // 6. Tenta novamente com a senha correta
+    await page.getByLabel('Senha').fill(senhaCorreta);
+    await page.getByRole('button', { name: /entrar/i }).click();
+
+    await page.waitForURL((url) => !url.pathname.startsWith('/login'));
+    await page.goto('/qa');
+
+    await expect(page.getByTestId('logout-button')).toBeVisible();
   });
 });
 
@@ -47,9 +84,12 @@ base.describe('Bloco D — conta nova (sem sessão)', () => {
 //    O teste não pode ter NENHUM getBy… dentro dele: tudo passa pelo CatalogPage.
 base('D2. Page Object: o teste lê como uma frase', async ({ page }) => {
   const catalog = new CatalogPage(page);
-  void catalog;
-  void expect;
-  falta('D2 — use o CatalogPage');
+
+  await catalog.goto();
+  await catalog.favorite('Pulp Fiction');
+  await catalog.openFavorites();
+
+  await expect(catalog.favoritesCount).toContainText('1 filme favorito');
 });
 
 // ── D3 🔴 · ≈ 12 min ─────────────────────────────────────────────────────────
@@ -61,9 +101,15 @@ base('D2. Page Object: o teste lê como uma frase', async ({ page }) => {
 //    (peça também  page  no parâmetro do teste: os itens favorites-item-… são conferidos com ele)
 // 🆘 Por que semear em vez de clicar? Responda na pergunta 3 do RESPOSTAS.md.
 test('D3. fixtures: semeia favoritos sem clicar e confere na tela', async ({ catalog, seedFavorites, page }) => {
-  void page;
-  void catalog;
-  void seedFavorites;
-  void expectFx;
-  falta('D3 — escreva o teste com as fixtures');
+  // Prepara os favoritos antes da navegação.
+  await seedFavorites([603, 680]);
+
+  await catalog.goto();
+  await catalog.openFavorites();
+
+  await expectFx(page.getByTestId('favorites-count'))
+    .toContainText('2 filmes favoritos');
+
+  await expectFx(page.getByTestId('favorites-item-603')).toBeVisible();
+  await expectFx(page.getByTestId('favorites-item-680')).toBeVisible();
 });

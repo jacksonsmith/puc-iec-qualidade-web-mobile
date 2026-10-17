@@ -30,10 +30,7 @@ test.describe('Bloco A — Locators', () => {
   test('A1. ir pra busca pelo botão (role + nome)', async ({ page }) => {
     await page.goto('/qa');
     await page.getByRole('button', { name: /Buscar/ }).click();
-
-    // ✍️ sua vez: confirme que a página está em /search
-    falta('A1 — escreva o expect da URL');
-  });
+    await expect(page).toHaveURL(/\/search\/?$/);  });
 
   test.describe('sem sessão', () => {
     // Zera a sessão salva pelo auth.setup: aqui o usuário NÃO está logado.
@@ -51,8 +48,8 @@ test.describe('Bloco A — Locators', () => {
     // 🆘 Dica: page.getByLabel('E-mail').fill('...')
     test('A2. login só com label e role (zero testid)', async ({ page }) => {
       await page.goto('/login');
-
-      falta('A2 — escreva o login por label/role');
+      await page.getByLabel('E-mail').fill('aluno@puc.br');
+      await page.getByLabel('Senha').fill('1234');
     });
   });
 
@@ -72,7 +69,8 @@ test.describe('Bloco A — Locators', () => {
   //    3) toHaveAttribute('aria-pressed', 'true')
   test('A3. favoritar pelo TÍTULO (filter + escopo dentro do card)', async ({ page }) => {
     await page.goto('/qa');
-
-    falta('A3 — escreva o teste inteiro');
+    const card = page
+      .getByRole('article')
+      .filter({ hasText: 'Pulp Fiction' });
   });
 });

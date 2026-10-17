@@ -28,11 +28,19 @@ test.describe('Bloco B — expect e espera', () => {
     const cards = page.getByRole('article');
     const loadMore = page.getByTestId('movielist-load-more-button');
 
+    // O catálogo começa mostrando 12 filmes.
     await expect(cards).toHaveCount(12);
 
-    // ✍️ sua vez: 24, depois 36, depois o botão some
-    void loadMore;
-    falta('B1 — complete a paginação');
+    // Carrega mais 12: total de 24.
+    await loadMore.click();
+    await expect(cards).toHaveCount(24);
+
+    // Carrega os últimos 12: total de 36.
+    await loadMore.click();
+    await expect(cards).toHaveCount(36);
+
+    // Não deve haver mais botão para carregar filmes.
+    await expect(loadMore).toHaveCount(0);
   });
 
   // ── B2 🟡 · ≈ 7 min ────────────────────────────────────────────────────────
@@ -47,8 +55,29 @@ test.describe('Bloco B — expect e espera', () => {
   // 🆘 Dica: não precisa de nenhum sleep — cada expect já espera sozinho.
   test('B2. busca com debounce: digita devagar, limpa, e o vazio', async ({ page }) => {
     await page.goto('/search');
+    const input = page.getByRole('textbox');
+    const results = page.locator('[data-testid^="search-result-"]');
 
-    falta('B2 — escreva os 4 passos');
+    // 1. Digita como um usuário, tecla a tecla.
+    await input.pressSequentially('matrix', { delay: 80 });
+
+    // 2. Espera aparecer exatamente um resultado contendo Matrix.
+    await expect(results).toHaveCount(1);
+    await expect(results).toContainText(/Matrix/i);
+
+    // 3. Limpa a busca e verifica que o campo e os resultados foram limpos.
+    await page.getByRole('button', { name: /Limpar/ }).click();
+
+    await expect(input).toHaveValue('');
+    await expect(results).toHaveCount(0);
+
+    // 4. Pesquisa um termo inexistente.
+    await input.pressSequentially('xyzw', { delay: 80 });
+
+    const emptyState = page.getByTestId('search-empty');
+
+    await expect(emptyState).toBeVisible();
+    await expect(emptyState).toContainText('xyzw');
   });
 
   // ── B3 🔴 · ≈ 12 min ───────────────────────────────────────────────────────
@@ -69,6 +98,62 @@ test.describe('Bloco B — expect e espera', () => {
   test('B3. favoritos persistem: expect.poll no localStorage + soft após reload', async ({ page }) => {
     await page.goto('/qa');
 
-    falta('B3 — escreva o teste inteiro');
+        // Localiza cada filme pelo título, sem depender da posição do card.
+    const matrix = page
+      .getByRole('article')
+      .filter({ hasText: 'Matrix' });
+
+    const pulpFiction = page
+      .getByRole('article')
+      .filter({ hasText: 'Pulp Fiction' });
+
+    const fightClub = page
+      .getByRole('article')
+      .filter({ hasText: 'Clube da Luta' });
+
+    // Favorita na ordem solicitada.
+    await matrix.getByRole('button', { name: /Favoritar/ }).click();
+
+    await pulpFiction
+      .getByRole('button', { name: /Favoritar/ })
+      .click();
+
+    await fightClub
+      .getByRole('button', { name: /Favoritar/ })
+      .click();
+
+    // Aguarda o localStorage conter os IDs na ordem esperada.
+    await expect.poll(async () => {
+      return await page.evaluate(() => {
+        return JSON.parse(
+          localStorage.getItem('cinefav-favorites') ?? '[]'
+        );
+      });
+    }).toEqual([603, 680, 550]);
+
+    // Recarrega para verificar se os favoritos persistem.
+    await page.reload();
+
+    // Verifica os três favoritos sem interromper no primeiro erro.
+    await expect.soft(
+      matrix.getByRole('button', { name: /Remover/ })
+    ).toHaveAttribute('aria-pressed', 'true');
+
+    await expect.soft(
+      pulpFiction.getByRole('button', { name: /Remover/ })
+    ).toHaveAttribute('aria-pressed', 'true');
+
+    await expect.soft(
+      fightClub.getByRole('button', { name: /Remover/ })
+    ).toHaveAttribute('aria-pressed', 'true');
+
+    // Forrest Gump não foi favoritado.
+    const forrestGump = page
+      .getByRole('article')
+      .filter({ hasText: 'Forrest Gump' });
+
+    await expect.soft(
+      forrestGump.getByRole('button', { name: /Favoritar/ })
+    ).toHaveAttribute('aria-pressed', 'false');
   });
 });
