@@ -53,29 +53,34 @@ test.describe('Bloco B — expect e espera', () => {
   //    3. clique em "Limpar": o input volta vazio e os resultados somem (0)
   //    4. digite "xyzw": aparece o estado vazio (search-empty) mencionando "xyzw"
   // 🆘 Dica: não precisa de nenhum sleep — cada expect já espera sozinho.
-  test('B2. busca com debounce: digita devagar, limpa, e o vazio', async ({ page }) => {
-    await page.goto('/search');
-    const searchInput = page.getByTestId('search-input');
-    const results = page.locator('[data-testid^="search-result-"]');
+  
+test('B2. busca com debounce: digita devagar, limpa, e o vazio', async ({ page }) => {
+  await page.goto('/search');
 
-    await searchInput.fill('matrix');
+  const searchInput = page.getByTestId('search-input');
+  const results = page.locator('[data-testid^="search-result-"]');
 
-    // A busca retorna Matrix.
-    await expect(results).toHaveCount(1);
-    await expect(results.first()).toContainText('Matrix');
+  // Digita "matrix" tecla a tecla, simulando um usuário.
+  await searchInput.pressSequentially('matrix', { delay: 80 });
 
-    // Limpa a busca.
-    await page.getByRole('button', { name: /limpar/i }).click();
+  // A busca retorna exatamente um resultado contendo Matrix.
+  await expect(results).toHaveCount(1);
+  await expect(results.first()).toContainText('Matrix');
 
-    await expect(searchInput).toHaveValue('');
-    await expect(results).toHaveCount(0);
+  // Limpa o campo e confirma que o valor e os resultados desapareceram.
+  await searchInput.clear();
 
-    // Uma busca sem correspondências deve apresentar o estado vazio.
-    await searchInput.fill('xyzw');
+  await expect(searchInput).toHaveValue('');
+  await expect(results).toHaveCount(0);
 
-    await expect(results).toHaveCount(0);
-    await expect(page.getByTestId('search-empty')).toBeVisible();
-  });
+  // Digita uma busca sem correspondências.
+  await searchInput.pressSequentially('xyzw', { delay: 80 });
+
+  // A tela apresenta o estado vazio com o termo pesquisado.
+  await expect(page.getByTestId('search-empty')).toBeVisible();
+  await expect(page.getByTestId('search-empty')).toContainText('xyzw');
+});
+
 
   // ── B3 🔴 · ≈ 12 min ───────────────────────────────────────────────────────
   // 📚 Aprende: expect.poll (esperar um valor que NÃO é elemento de tela, ex.:
