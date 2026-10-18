@@ -41,8 +41,7 @@ base.describe('Bloco D — conta nova (sem sessão)', () => {
       await page.getByTestId('register-password-input').fill(senhaCorreta);
 
       await page
-        .getByRole('button', { name: /criar conta e entrar/i })
-        .click();
+        await page.getByTestId('register-submit-button').click();
 
       // 3. Aguarda a autenticação e abre a área de QA.
       await page.waitForURL(
