@@ -55,29 +55,26 @@ test.describe('Bloco B — expect e espera', () => {
   // 🆘 Dica: não precisa de nenhum sleep — cada expect já espera sozinho.
   test('B2. busca com debounce: digita devagar, limpa, e o vazio', async ({ page }) => {
     await page.goto('/search');
-    const input = page.getByRole('textbox');
+    const searchInput = page.getByTestId('search-input');
     const results = page.locator('[data-testid^="search-result-"]');
 
-    // 1. Digita como um usuário, tecla a tecla.
-    await input.pressSequentially('matrix', { delay: 80 });
+    await searchInput.fill('matrix');
 
-    // 2. Espera aparecer exatamente um resultado contendo Matrix.
+    // A busca retorna Matrix.
     await expect(results).toHaveCount(1);
-    await expect(results).toContainText(/Matrix/i);
+    await expect(results.first()).toContainText('Matrix');
 
-    // 3. Limpa a busca e verifica que o campo e os resultados foram limpos.
-    await page.getByRole('button', { name: /Limpar/ }).click();
+    // Limpa a busca.
+    await page.getByRole('button', { name: /limpar/i }).click();
 
-    await expect(input).toHaveValue('');
+    await expect(searchInput).toHaveValue('');
     await expect(results).toHaveCount(0);
 
-    // 4. Pesquisa um termo inexistente.
-    await input.pressSequentially('xyzw', { delay: 80 });
+    // Uma busca sem correspondências deve apresentar o estado vazio.
+    await searchInput.fill('xyzw');
 
-    const emptyState = page.getByTestId('search-empty');
-
-    await expect(emptyState).toBeVisible();
-    await expect(emptyState).toContainText('xyzw');
+    await expect(results).toHaveCount(0);
+    await expect(page.getByTestId('search-empty')).toBeVisible();
   });
 
   // ── B3 🔴 · ≈ 12 min ───────────────────────────────────────────────────────

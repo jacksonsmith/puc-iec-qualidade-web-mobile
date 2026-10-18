@@ -48,8 +48,20 @@ test.describe('Bloco A — Locators', () => {
     // 🆘 Dica: page.getByLabel('E-mail').fill('...')
     test('A2. login só com label e role (zero testid)', async ({ page }) => {
       await page.goto('/login');
+
       await page.getByLabel('E-mail').fill('aluno@puc.br');
       await page.getByLabel('Senha').fill('1234');
+
+      await page.getByRole('button', { name: 'Entrar' }).click();
+
+      // O login redireciona para "/", não diretamente para "/qa".
+      await page.waitForURL((url) => !url.pathname.startsWith('/login'));
+
+      // Comprova que o login foi realizado.
+      await expect(page.getByTestId('logout-button')).toBeVisible();
+
+      // A tela /qa será usada nos próximos desafios.
+      await page.goto('/qa');
     });
   });
 
@@ -70,7 +82,33 @@ test.describe('Bloco A — Locators', () => {
   test('A3. favoritar pelo TÍTULO (filter + escopo dentro do card)', async ({ page }) => {
     await page.goto('/qa');
     const card = page
-      .getByRole('article')
-      .filter({ hasText: 'Pulp Fiction' });
+    .getByRole('article')
+    .filter({ hasText: 'Pulp Fiction' });
+
+    const favoritar = card.getByRole('button', {
+      name: /Favoritar/i,
+    });
+
+    await favoritar.click();
+
+    // O botão pode mudar de nome após favoritar.
+    const removerFavorito = card.getByRole('button', {
+      name: /Remover/i,
+    });
+
+    await expect(removerFavorito).toHaveAttribute(
+      'aria-pressed',
+      'true'
+    );
+
+    await page.getByTestId('movielist-favorites-button').click();
+
+    await expect(page.getByTestId('favorites-count')).toHaveText(
+      '1 filme favorito'
+    );
+
+    await expect(
+      page.getByRole('link', { name: /Pulp Fiction/i })
+    ).toBeVisible();
   });
 });
