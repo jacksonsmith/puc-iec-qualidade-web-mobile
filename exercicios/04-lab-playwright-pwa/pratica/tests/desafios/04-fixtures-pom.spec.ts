@@ -14,56 +14,100 @@
 //    D2 e D3 também dependem dos arquivos  tests/support/catalog-page.ts  e  fixtures.ts
 // ─────────────────────────────────────────────────────────────────────────────
 
+
 import { test as base, expect } from '@playwright/test';
 import { CatalogPage } from '../support/catalog-page';
-import { test, expect as expectFx } from '../support/fixtures'; // expectFx = o mesmo expect, reexportado por fixtures.ts
-import { falta } from '../support/todo';
+import { test, expect as expectFx } from '../support/fixtures';
 
 base.describe('Bloco D — conta nova (sem sessão)', () => {
   base.use({ storageState: { cookies: [], origins: [] } });
 
-  // ── D1 🟡 · ≈ 8 min ────────────────────────────────────────────────────────
-  // 📚 Aprende: fluxo completo de autenticação + caso NEGATIVO (senha errada).
-  // 💡 Dica de ouro: rode  npx playwright codegen http://localhost:4174/login  pra gravar
-  //    o cadastro, depois LIMPE (sem Tab, sem clique repetido) e ACRESCENTE os expects.
-  // 🧩 Use um e-mail único a cada execução:  `aluna.${Date.now()}@teste.com`
-  //    1. /login → clique em criar conta (testid auth-mode-toggle)
-  //    2. preencha nome, e-mail e senha "abcd" (testids register-*) e envie
-  //    3. espere SAIR do /login (page.waitForURL((url) => !url.pathname.startsWith('/login'))) e depois  page.goto('/qa')  (o app vai para '/', que usa o TMDB e pode mostrar erro de token — é normal; por isso vamos para '/qa')
-  //    4. clique em Sair (logout-button) → a URL volta a ser /login
-  //    5. NEGATIVO: entre com a senha "errada" → login-error-message mostra
-  //       "E-mail ou senha inválidos"
-  //    6. POSITIVO: entre com "abcd" → sai do /login e, em '/qa', o logout-button aparece
-  base('D1. cadastro → sair → senha errada → entrar com a conta nova', async ({ page }) => {
-    void page;
-    falta('D1 — escreva o fluxo');
-  });
+  // ── D1 · Cadastro, logout, senha errada e login correto ──
+  base(
+    'D1. cadastro → sair → senha errada → entrar com a conta nova',
+    async ({ page }) => {
+      await page.goto('/login');
+
+      const email = `aluna.${Date.now()}@teste.com`;
+      const senhaCorreta = 'abcd';
+      const senhaIncorreta = '9999';
+
+      // 1. Abre o formulário de cadastro.
+      await page.getByTestId('auth-mode-toggle').click();
+
+      // 2. Preenche e envia o cadastro.
+      await page.getByTestId('register-name-input').fill('Aluna D1');
+      await page.getByTestId('register-email-input').fill(email);
+      await page.getByTestId('register-password-input').fill(senhaCorreta);
+
+      await page
+        await page.getByTestId('register-submit-button').click();
+
+      // 3. Aguarda a autenticação e abre a área de QA.
+      await page.waitForURL(
+        (url) => !url.pathname.startsWith('/login')
+      );
+
+      await page.goto('/qa');
+      await expect(page.getByTestId('logout-button')).toBeVisible();
+
+      // Encerra a sessão.
+      await page.getByTestId('logout-button').click();
+      await page.waitForURL('**/login');
+
+      // 4. Tenta entrar com a senha incorreta.
+      await page.getByLabel('E-mail').fill(email);
+      await page.getByLabel('Senha').fill(senhaIncorreta);
+
+      await page.getByRole('button', { name: /^entrar$/i }).click();
+
+      await expect(page.getByTestId('login-error-message'))
+        .toContainText('E-mail ou senha inválidos');
+
+      await expect(page).toHaveURL(/\/login/);
+      await expect(page.getByTestId('logout-button')).toHaveCount(0);
+
+      // 5. Entra com a senha correta.
+      await page.getByLabel('E-mail').fill(email);
+      await page.getByLabel('Senha').fill(senhaCorreta);
+
+      await page.getByRole('button', { name: /^entrar$/i }).click();
+
+      await page.waitForURL(
+        (url) => !url.pathname.startsWith('/login')
+      );
+
+      await page.goto('/qa');
+      await expect(page.getByTestId('logout-button')).toBeVisible();
+    }
+  );
 });
 
-// ── D2 🟡 · ≈ 7 min ──────────────────────────────────────────────────────────
-// 📚 Aprende: Page Object. Primeiro complete  tests/support/catalog-page.ts
-//    e depois escreva aqui um teste que LEIA COMO UMA FRASE:
-//      abre o catálogo → favorita "Pulp Fiction" → abre favoritos → "1 filme favorito"
-//    O teste não pode ter NENHUM getBy… dentro dele: tudo passa pelo CatalogPage.
+// ── D2 · Page Object ──
 base('D2. Page Object: o teste lê como uma frase', async ({ page }) => {
   const catalog = new CatalogPage(page);
-  void catalog;
-  void expect;
-  falta('D2 — use o CatalogPage');
+
+  await catalog.goto();
+  await catalog.favorite('Pulp Fiction');
+  await catalog.openFavorites();
+
+  await expect(catalog.favoritesCount).toContainText('1 filme favorito');
 });
 
-// ── D3 🔴 · ≈ 12 min ─────────────────────────────────────────────────────────
-// 📚 Aprende: fixtures próprias. Complete  tests/support/fixtures.ts  e então:
-//    • use as fixtures { catalog, seedFavorites } (note: este teste usa o `test` de fixtures)
-//    • semeie os favoritos [603, 680] ANTES de abrir a página (ordem importa!)
-//    • abra o catálogo → favoritos → confira "2 filmes favoritos"
-//    • confira que os itens favorites-item-603 e favorites-item-680 estão visíveis
-//    (peça também  page  no parâmetro do teste: os itens favorites-item-… são conferidos com ele)
-// 🆘 Por que semear em vez de clicar? Responda na pergunta 3 do RESPOSTAS.md.
-test('D3. fixtures: semeia favoritos sem clicar e confere na tela', async ({ catalog, seedFavorites, page }) => {
-  void page;
-  void catalog;
-  void seedFavorites;
-  void expectFx;
-  falta('D3 — escreva o teste com as fixtures');
-});
+// ── D3 · Fixtures personalizadas ──
+test(
+  'D3. fixtures: semeia favoritos sem clicar e confere na tela',
+  async ({ catalog, seedFavorites, page }) => {
+    // Prepara os favoritos antes de abrir a página.
+    await seedFavorites([603, 680]);
+
+    await catalog.goto();
+    await catalog.openFavorites();
+
+    await expectFx(page.getByTestId('favorites-count'))
+      .toContainText('2 filmes favoritos');
+
+    await expectFx(page.getByTestId('favorites-item-603')).toBeVisible();
+    await expectFx(page.getByTestId('favorites-item-680')).toBeVisible();
+  }
+);

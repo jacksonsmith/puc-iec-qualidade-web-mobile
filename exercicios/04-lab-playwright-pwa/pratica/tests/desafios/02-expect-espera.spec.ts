@@ -28,11 +28,19 @@ test.describe('Bloco B — expect e espera', () => {
     const cards = page.getByRole('article');
     const loadMore = page.getByTestId('movielist-load-more-button');
 
+    // O catálogo começa mostrando 12 filmes.
     await expect(cards).toHaveCount(12);
 
-    // ✍️ sua vez: 24, depois 36, depois o botão some
-    void loadMore;
-    falta('B1 — complete a paginação');
+    // Carrega mais 12: total de 24.
+    await loadMore.click();
+    await expect(cards).toHaveCount(24);
+
+    // Carrega os últimos 12: total de 36.
+    await loadMore.click();
+    await expect(cards).toHaveCount(36);
+
+    // Não deve haver mais botão para carregar filmes.
+    await expect(loadMore).toHaveCount(0);
   });
 
   // ── B2 🟡 · ≈ 7 min ────────────────────────────────────────────────────────
@@ -45,11 +53,34 @@ test.describe('Bloco B — expect e espera', () => {
   //    3. clique em "Limpar": o input volta vazio e os resultados somem (0)
   //    4. digite "xyzw": aparece o estado vazio (search-empty) mencionando "xyzw"
   // 🆘 Dica: não precisa de nenhum sleep — cada expect já espera sozinho.
-  test('B2. busca com debounce: digita devagar, limpa, e o vazio', async ({ page }) => {
-    await page.goto('/search');
+  
+test('B2. busca com debounce: digita devagar, limpa, e o vazio', async ({ page }) => {
+  await page.goto('/search');
 
-    falta('B2 — escreva os 4 passos');
-  });
+  const searchInput = page.getByTestId('search-input');
+  const results = page.locator('[data-testid^="search-result-"]');
+
+  // Digita "matrix" tecla a tecla, simulando um usuário.
+  await searchInput.pressSequentially('matrix', { delay: 80 });
+
+  // A busca retorna exatamente um resultado contendo Matrix.
+  await expect(results).toHaveCount(1);
+  await expect(results.first()).toContainText('Matrix');
+
+  // Limpa o campo e confirma que o valor e os resultados desapareceram.
+  await page.getByTestId('search-clear-button').click();
+
+  await expect(searchInput).toHaveValue('');
+  await expect(results).toHaveCount(0);
+
+  // Digita uma busca sem correspondências.
+  await searchInput.pressSequentially('xyzw', { delay: 80 });
+
+  // A tela apresenta o estado vazio com o termo pesquisado.
+  await expect(page.getByTestId('search-empty')).toBeVisible();
+  await expect(page.getByTestId('search-empty')).toContainText('xyzw');
+});
+
 
   // ── B3 🔴 · ≈ 12 min ───────────────────────────────────────────────────────
   // 📚 Aprende: expect.poll (esperar um valor que NÃO é elemento de tela, ex.:
@@ -69,6 +100,62 @@ test.describe('Bloco B — expect e espera', () => {
   test('B3. favoritos persistem: expect.poll no localStorage + soft após reload', async ({ page }) => {
     await page.goto('/qa');
 
-    falta('B3 — escreva o teste inteiro');
+        // Localiza cada filme pelo título, sem depender da posição do card.
+    const matrix = page
+      .getByRole('article')
+      .filter({ hasText: 'Matrix' });
+
+    const pulpFiction = page
+      .getByRole('article')
+      .filter({ hasText: 'Pulp Fiction' });
+
+    const fightClub = page
+      .getByRole('article')
+      .filter({ hasText: 'Clube da Luta' });
+
+    // Favorita na ordem solicitada.
+    await matrix.getByRole('button', { name: /Favoritar/ }).click();
+
+    await pulpFiction
+      .getByRole('button', { name: /Favoritar/ })
+      .click();
+
+    await fightClub
+      .getByRole('button', { name: /Favoritar/ })
+      .click();
+
+    // Aguarda o localStorage conter os IDs na ordem esperada.
+    await expect.poll(async () => {
+      return await page.evaluate(() => {
+        return JSON.parse(
+          localStorage.getItem('cinefav-favorites') ?? '[]'
+        );
+      });
+    }).toEqual([603, 680, 550]);
+
+    // Recarrega para verificar se os favoritos persistem.
+    await page.reload();
+
+    // Verifica os três favoritos sem interromper no primeiro erro.
+    await expect.soft(
+      matrix.getByRole('button', { name: /Remover/ })
+    ).toHaveAttribute('aria-pressed', 'true');
+
+    await expect.soft(
+      pulpFiction.getByRole('button', { name: /Remover/ })
+    ).toHaveAttribute('aria-pressed', 'true');
+
+    await expect.soft(
+      fightClub.getByRole('button', { name: /Remover/ })
+    ).toHaveAttribute('aria-pressed', 'true');
+
+    // Forrest Gump não foi favoritado.
+    const forrestGump = page
+      .getByRole('article')
+      .filter({ hasText: 'Forrest Gump' });
+
+    await expect.soft(
+      forrestGump.getByRole('button', { name: /Favoritar/ })
+    ).toHaveAttribute('aria-pressed', 'false');
   });
 });
