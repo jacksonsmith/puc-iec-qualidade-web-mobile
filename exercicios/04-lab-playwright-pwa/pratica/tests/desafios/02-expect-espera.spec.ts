@@ -68,7 +68,7 @@ test('B2. busca com debounce: digita devagar, limpa, e o vazio', async ({ page }
   await expect(results.first()).toContainText('Matrix');
 
   // Limpa o campo e confirma que o valor e os resultados desapareceram.
-  await searchInput.clear();
+  await page.getByRole('button', { name: /limpar/i }).click();
 
   await expect(searchInput).toHaveValue('');
   await expect(results).toHaveCount(0);
