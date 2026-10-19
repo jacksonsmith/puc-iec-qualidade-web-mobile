@@ -32,16 +32,52 @@
 // APAGUE o teste de exemplo abaixo e escreva os seus.
 // ─────────────────────────────────────────────────────────────────────────────
 
-import { test, expect } from '@playwright/test';
+import { test, expect } from '../support/fixtures';
+
 import { falta } from '../support/todo';
 
-test.describe('Missão livre — <nome do seu fluxo>', () => {
-  test('feliz: <descreva>', async ({ page }) => {
-    await page.goto('/qa');
-    void expect;
-    falta('Missão livre — teste feliz');
+test.describe('Missão livre — remover favorito pela tela /favorites', () => {
+  test('feliz: remover o único favorito tira o item da lista', async ({ page, seedFavorites }) => {
+    await seedFavorites([603]);
+
+    await test.step('abre favoritos com 1 filme', async () => {
+      await page.goto('/favorites');
+      await expect(page.getByTestId('favorites-count')).toHaveText('1 filme favorito');
+      await expect(page.getByTestId('favorites-item-603')).toBeVisible();
+    });
+
+    await test.step('remove o filme', async () => {
+      await page.getByTestId('favorites-item-603-remove').click();
+      await expect(page.getByTestId('favorites-item-603')).toHaveCount(0);
+    });
   });
 
-  // test('negativo: <descreva>', async ({ page }) => { ... });
-  // test('borda: <descreva>', async ({ page }) => { ... });
+  test('negativo: remover um favorito não apaga os outros', async ({ page, seedFavorites }) => {
+    await seedFavorites([603, 680]);
+
+    await page.goto('/favorites');
+    await expect(page.getByTestId('favorites-count')).toHaveText('2 filmes favoritos');
+
+    await page.getByTestId('favorites-item-603-remove').click();
+
+    await expect(page.getByTestId('favorites-item-603')).toHaveCount(0);
+    await expect(page.getByTestId('favorites-item-680')).toBeVisible();
+    await expect(page.getByTestId('favorites-count')).toHaveText('1 filme favorito');
+  });
+
+  test('borda: a remoção persiste depois de recarregar a página', async ({ page, catalog }) => {
+    await catalog.goto();
+    await catalog.favorite('Matrix');
+    await catalog.openFavorites();
+
+    await page.getByTestId('favorites-item-603-remove').click();
+    await expect(page.getByTestId('favorites-item-603')).toHaveCount(0);
+
+    await expect
+      .poll(() => page.evaluate(() => JSON.parse(localStorage.getItem('cinefav-favorites') ?? '[]')))
+      .toEqual([]);
+
+    await page.reload();
+    await expect(page.getByTestId('favorites-item-603')).toHaveCount(0);
+  });
 });
