@@ -1,9 +1,72 @@
 # ⭐ OPCIONAL — prática extra, NÃO vale nota (a entrega são os flows 02 e 03).
 # Flow 4 — Abrir o detalhe do filme, favoritar lá dentro e voltar pra lista.
 # Conceito: navegação entre telas + asserções em cada uma.
+# Flow 4 — Abrir o detalhe do filme, favoritar lá dentro e voltar pra lista.
+# Conceito: navegação entre telas + asserções em cada uma.
+# Favoritar no detalhe
+# Flow 4 — Abrir o detalhe do filme, favoritar lá dentro e voltar pra lista.
+# Conceito: navegação entre telas + asserções em cada uma.
+
 appId: com.puciec.cinefav
 ---
 - launchApp
+
+# Login
+- tapOn:
+    id: "login-email-input"
+- inputText: "aluno@puc.br"
+
+- tapOn:
+    id: "login-password-input"
+- inputText: "123456"
+
+- tapOn:
+    id: "login-submit-button"
+
+# Garante que a lista carregou
+- assertVisible:
+    id: "movielist-screen"
+
+# Garante que o card existe antes do clique
+- assertVisible:
+    id: "movie-card-603"
+
+# Abre o detalhe do filme Matrix
+- tapOn:
+    id: "movie-card-603"
+
+# Confirma que entrou na tela de detalhes
+- assertVisible:
+    id: "detail-screen"
+
+# Confirma que o botão de favoritar está disponível
+- assertVisible:
+    id: "detail-favorite-button"
+
+# Favorita o filme
+- tapOn:
+    id: "detail-favorite-button"
+
+# Continua na tela de detalhes após favoritar
+- assertVisible:
+    id: "detail-screen"
+
+# Confirma que o botão de voltar existe
+- assertVisible:
+    id: "detail-back-button"
+
+# Volta para a lista
+- tapOn:
+    id: "detail-back-button"
+
+# Valida retorno para a tela principal
+- assertVisible:
+    id: "movielist-screen"
+
+# Valida que o filme continua aparecendo na lista
+- assertVisible:
+    id: "movie-card-603"
+    
 # TODO: faça login
 # TODO: toque no card do filme "Matrix" — id "movie-card-603"
 # TODO: assertVisible da tela de detalhe — id "detail-screen"

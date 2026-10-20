@@ -3,8 +3,32 @@
 appId: com.puciec.cinefav
 ---
 - launchApp
-# TODO: faça login
-# TODO: favorite o filme "Matrix" tocando no coração do card — id "movie-card-heart-603"
-# TODO: abra os Favoritos pelo botão do header — id "movielist-favorites-button"
-# TODO: assertVisible do item favoritado — id "favorites-item-603"
-# TODO: assertVisible do contador "1 favorito"
+
+# Login
+- tapOn:
+    id: "login-email-input"
+
+- inputText: "aluno@puc.br"
+
+- tapOn:
+    id: "login-password-input"
+
+- inputText: "1234"
+
+- tapOn:
+    id: "login-submit-button"
+
+# Favoritar Matrix
+- tapOn:
+    id: "movie-card-heart-603"
+
+# Abrir Favoritos
+- tapOn:
+    id: "movielist-favorites-button"
+
+# Verificar filme favoritado
+- assertVisible:
+    id: "favorites-item-603"
+
+# Verificar contador
+- assertVisible: "1 favorito"

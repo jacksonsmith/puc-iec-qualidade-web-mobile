@@ -1,12 +1,36 @@
 # Flow 2 — Busca parametrizada via env.
-# Conceito: o termo de busca vem do bloco `env:` e é lido com ${SEARCH_TERM}.
-# Pode rodar com outro termo: maestro test 02-search.yaml -e SEARCH_TERM=Avatar
+# Conceito: o termo de busca vem do bloco env: e é lido com ${SEARCH_TERM}.
+# Pode rodar com outro termo:
+# maestro test 02-search.yaml -e SEARCH_TERM=Avatar
+
 appId: com.puciec.cinefav
+
 env:
   SEARCH_TERM: "Matrix"
+
 ---
 - launchApp
-# TODO: faça login (copie os passos do flow 01)
-# TODO: abra a busca tocando no botão do header — id "movielist-search-button"
-# TODO: toque no campo "search-input" e use inputText com ${SEARCH_TERM}
-# TODO: assertVisible do ${SEARCH_TERM} (o filme buscado aparece no resultado)
+
+- tapOn:
+    id: "login-email-input"
+- inputText: "aluno@puc.br"
+
+- tapOn:
+    id: "login-password-input"
+- inputText: "1234"
+
+- tapOn:
+    id: "login-submit-button"
+
+- assertVisible:
+    id: "movielist-screen"
+
+- tapOn:
+    id: "movielist-search-button"
+
+- tapOn:
+    id: "search-input"
+
+- inputText: "${SEARCH_TERM}"
+
+- assertVisible: "${SEARCH_TERM}"
