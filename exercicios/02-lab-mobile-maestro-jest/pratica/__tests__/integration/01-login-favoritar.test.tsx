@@ -68,12 +68,31 @@ describe('integração — login e favoritar', () => {
       stopPropagation: jest.fn(),
     });
 
-    // TODO: verifique no store: useFavoritesStore.getState().isFavorite(603) === true
+    // Verifica se o filme foi registrado como favorito no store
+    expect(useFavoritesStore.getState().isFavorite(603)).toBe(true);
   });
 
   // 🧑‍💻 3. 🔴 DESAFIO — credencial inválida não navega
   it('3. login inválido mantém a tela de Login', async () => {
-    // TODO: renderApp(), preencha email SEM @ e senha curta, press no submit
-    // TODO: a tela de login continua na tela (queryByTestId(movielist.screen) === null)
+    renderApp();
+
+    // Preenche o formulário com credenciais inválidas
+    fireEvent.changeText(
+      screen.getByTestId(testIDs.login.emailInput),
+      'alunopuc.br',
+    );
+    fireEvent.changeText(
+      screen.getByTestId(testIDs.login.passwordInput),
+      '12',
+    );
+
+    // Tenta entrar
+    fireEvent.press(screen.getByTestId(testIDs.login.submit));
+
+    // A tela de Login deve continuar visível
+    expect(screen.getByTestId(testIDs.login.screen)).toBeOnTheScreen();
+
+    // A lista de filmes não deve ter sido aberta
+    expect(screen.queryByTestId(testIDs.movieList.screen)).toBeNull();
   });
 });
