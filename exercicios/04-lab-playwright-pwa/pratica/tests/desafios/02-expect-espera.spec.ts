@@ -58,7 +58,7 @@ test.describe('Bloco B — expect e espera', () => {
     await expect(results).toHaveCount(1);
     await expect(results).toContainText('Matrix');
 
-    await page.getByRole('button', { name: 'Limpar' }).click();
+    await page.getByTestId('search-clear-button').click();
     await expect(input).toHaveValue('');
     await expect(results).toHaveCount(0);
 
