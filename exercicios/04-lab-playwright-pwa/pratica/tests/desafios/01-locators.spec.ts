@@ -29,11 +29,14 @@ test.describe('Bloco A — Locators', () => {
   // 🆘 Dica: a URL da tela de busca termina em /search. expect(page).toHaveURL(regex)
   test('A1. ir pra busca pelo botão (role + nome)', async ({ page }) => {
     await page.goto('/qa');
+
     await page.getByRole('button', { name: /Buscar/ }).click();
 
-    // ✍️ sua vez: confirme que a página está em /search
-    falta('A1 — escreva o expect da URL');
+    // ✅ confirma que a URL termina com /search
+    await expect(page).toHaveURL(/\/search$/);
   });
+//});
+
 
   test.describe('sem sessão', () => {
     // Zera a sessão salva pelo auth.setup: aqui o usuário NÃO está logado.
@@ -50,10 +53,21 @@ test.describe('Bloco A — Locators', () => {
     //    5. prove que logou: o botão "Sair" (testid logout-button) fica visível
     // 🆘 Dica: page.getByLabel('E-mail').fill('...')
     test('A2. login só com label e role (zero testid)', async ({ page }) => {
-      await page.goto('/login');
+  await page.goto('/login');
 
-      falta('A2 — escreva o login por label/role');
-    });
+  await page.getByLabel('E-mail').fill('aluno@puc.br');
+  await page.getByLabel('Senha').fill('1234');
+
+  await page.getByRole('button', { name: /Entrar/i }).click();
+
+  await page.waitForURL((url) => !url.pathname.startsWith('/login'));
+
+  await page.goto('/qa');
+
+  await expect(
+    page.getByTestId('logout-button')
+  ).toBeVisible();
+});
   });
 
   // ── A3 🔴 · ≈ 12 min ───────────────────────────────────────────────────────
@@ -71,8 +85,37 @@ test.describe('Bloco A — Locators', () => {
   //    2) card.getByRole('button', { name: /Favoritar/ })
   //    3) toHaveAttribute('aria-pressed', 'true')
   test('A3. favoritar pelo TÍTULO (filter + escopo dentro do card)', async ({ page }) => {
-    await page.goto('/qa');
+  await page.goto('/qa');
 
-    falta('A3 — escreva o teste inteiro');
+  const card = page
+    .getByRole('article')
+    .filter({ hasText: 'Pulp Fiction' });
+
+  await card
+    .getByRole('button', { name: /Favoritar/i })
+    .click();
+
+  const botaoRemover = card.getByRole('button', {
+    name: /Remover/i,
   });
+
+  await expect(botaoRemover).toBeVisible();
+
+  await expect(botaoRemover).toHaveAttribute(
+    'aria-pressed',
+    'true'
+  );
+
+  await page.getByRole('button', {
+  name: /^❤️ Favoritos$/,
+}).click();
+
+  await expect(
+    page.getByTestId('favorites-count')
+  ).toContainText('1 filme favorito');
+
+  await expect(
+    page.getByRole('link', { name: /Pulp Fiction/i })
+  ).toBeVisible();
+});
 });
