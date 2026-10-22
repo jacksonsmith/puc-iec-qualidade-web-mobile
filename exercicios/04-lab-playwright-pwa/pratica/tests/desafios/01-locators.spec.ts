@@ -19,7 +19,6 @@
 // ─────────────────────────────────────────────────────────────────────────────
 
 import { test, expect } from '@playwright/test';
-import { falta } from '../support/todo';
 
 test.describe('Bloco A — Locators', () => {
   // ── A1 🟢 · ≈ 4 min ────────────────────────────────────────────────────────
@@ -31,8 +30,7 @@ test.describe('Bloco A — Locators', () => {
     await page.goto('/qa');
     await page.getByRole('button', { name: /Buscar/ }).click();
 
-    // ✍️ sua vez: confirme que a página está em /search
-    falta('A1 — escreva o expect da URL');
+    await expect(page).toHaveURL(/\/search$/);
   });
 
   test.describe('sem sessão', () => {
@@ -52,7 +50,11 @@ test.describe('Bloco A — Locators', () => {
     test('A2. login só com label e role (zero testid)', async ({ page }) => {
       await page.goto('/login');
 
-      falta('A2 — escreva o login por label/role');
+      await page.getByLabel('E-mail').fill('aluno@puc.br');
+      await page.getByLabel('Senha').fill('1234');
+      await page.getByRole('button', { name: 'Entrar' }).click();
+      await page.waitForURL((url) => !url.pathname.startsWith('/login'));
+      await expect(page.getByTestId('logout-button')).toBeVisible();
     });
   });
 
@@ -73,6 +75,15 @@ test.describe('Bloco A — Locators', () => {
   test('A3. favoritar pelo TÍTULO (filter + escopo dentro do card)', async ({ page }) => {
     await page.goto('/qa');
 
-    falta('A3 — escreva o teste inteiro');
+    const card = page.getByRole('article').filter({ hasText: 'Pulp Fiction' });
+    const favoriteButton = card.getByRole('button', { name: /Favoritar/ });
+
+    await favoriteButton.click();
+    await expect(card.getByRole('button')).toHaveAttribute('aria-pressed', 'true');
+    await expect(card.getByRole('button', { name: /Remover .*Pulp Fiction.*dos favoritos/i })).toBeVisible();
+
+    await page.getByTestId('movielist-favorites-button').click();
+    await expect(page.getByTestId('favorites-count')).toHaveText('1 filme favorito');
+    await expect(page.getByRole('link', { name: 'Pulp Fiction' })).toBeVisible();
   });
 });
