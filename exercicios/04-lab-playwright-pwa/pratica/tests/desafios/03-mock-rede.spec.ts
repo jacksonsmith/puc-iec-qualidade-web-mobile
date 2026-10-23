@@ -19,7 +19,6 @@
 // ─────────────────────────────────────────────────────────────────────────────
 
 import { test, expect } from '@playwright/test';
-import { falta } from '../support/todo';
 
 test.use({ serviceWorkers: 'block' });
 
@@ -45,7 +44,9 @@ test.describe('Bloco C — mock de rede', () => {
     await page.goto('/qa');
 
     // ✍️ sua vez
-    falta('C1 — confira 1 card e o título');
+    const cards = page.getByRole('article');
+    await expect(cards).toHaveCount(1);
+    await expect(page.getByTestId('movie-card-title-777')).toHaveText('Filme do Mock');
   });
 
   // ── C2 🟡 · ≈ 7 min ────────────────────────────────────────────────────────
@@ -57,8 +58,26 @@ test.describe('Bloco C — mock de rede', () => {
   //    4. clique em "Tentar de novo" (movielist-retry-button)
   //    5. o erro some e os 12 cards aparecem
   test('C2. erro 500 mostra o estado de erro; destrava a rota e "Tentar de novo" funciona', async ({ page }) => {
-    void page;
-    falta('C2 — escreva os 5 passos');
+    await page.route(CATALOGO, (route) =>
+      route.fulfill({
+        status: 500,
+        contentType: 'application/json',
+        body: JSON.stringify({ error: 'Internal Server Error' }),
+      }),
+    );
+
+    await page.goto('/qa');
+    await expect(page.getByTestId('movielist-error')).toBeVisible();
+
+    // Solta o mock para recuperar a requisição real
+    await page.unroute(CATALOGO);
+
+    // Clica em tentar de novo
+    await page.getByTestId('movielist-retry-button').click();
+
+    // O erro some e os 12 cards aparecem
+    await expect(page.getByTestId('movielist-error')).toBeHidden();
+    await expect(page.getByRole('article')).toHaveCount(12);
   });
 
   // ── C3 🟡 · ≈ 7 min ────────────────────────────────────────────────────────
@@ -71,8 +90,25 @@ test.describe('Bloco C — mock de rede', () => {
   //    • devolve com  route.fulfill({ response, json: ... })
   //    Depois: goto('/qa'), confira 3 cards e que o título do Matrix (id 603) é "MATRIX".
   test('C3. route.fetch(): pega a resposta REAL e altera só o que importa', async ({ page }) => {
-    void page;
-    falta('C3 — escreva o handler e as asserções');
+    await page.route(CATALOGO, async (route) => {
+      const response = await route.fetch();
+      const json = (await response.json()) as Array<{ id: number; title: string; overview: string; release_date: string; vote_average: number }>;
+      
+      const modified = json.slice(0, 3).map((movie) => ({
+        ...movie,
+        title: movie.title.toUpperCase(),
+      }));
+
+      await route.fulfill({
+        response,
+        json: modified,
+      });
+    });
+
+    await page.goto('/qa');
+
+    await expect(page.getByRole('article')).toHaveCount(3);
+    await expect(page.getByTestId('movie-card-title-603')).toHaveText('MATRIX');
   });
 
   // ── C4 🔴 · ≈ 12 min ───────────────────────────────────────────────────────
@@ -89,7 +125,19 @@ test.describe('Bloco C — mock de rede', () => {
   // 🆘 Por que esperar o resultado antes de contar? Pense: o que acontece se você
   //    contar logo depois de digitar?
   test('C4. debounce: digitar "matrix" faz UMA requisição só', async ({ page }) => {
-    void page;
-    falta('C4 — escreva o teste inteiro');
+    let requestCount = 0;
+    page.on('request', (request) => {
+      if (request.url().endsWith('/api/movies.json')) {
+        requestCount++;
+      }
+    });
+
+    await page.goto('/search');
+
+    await page.getByTestId('search-input').pressSequentially('matrix', { delay: 40 });
+
+    await expect(page.getByTestId('search-result-603')).toBeVisible();
+
+    expect(requestCount, 'A busca deve disparar apenas 1 requisição devido ao debounce').toBe(1);
   });
 });
