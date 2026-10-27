@@ -4,5 +4,4 @@ appId: com.puciec.cinefav
 ---
 - tapOn:
     id: "movie-card-heart-${MOVIE_ID}"
-    
-    # TODO: - tapOn com id "movie-card-heart-${MOVIE_ID}"
+

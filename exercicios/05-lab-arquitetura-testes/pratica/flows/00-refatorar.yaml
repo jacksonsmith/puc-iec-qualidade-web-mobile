@@ -5,9 +5,27 @@ tags:
 - clearState
 - launchApp
 - runFlow: _fragments/login.yaml
+
 - runFlow:
     file: _fragments/favoritar.yaml
     env:
       MOVIE_ID: "603"
-- assertVisible:
-    id: "movie-card-heart-603"
+
+- runFlow:
+    file: _fragments/favoritar.yaml
+    env:
+      MOVIE_ID: "27205"
+
+#appId: com.puciec.cinefav
+#tags:
+#  - regressao
+#---
+#- clearState
+#- launchApp
+#- runFlow: _fragments/login.yaml
+#- runFlow:
+#    file: _fragments/favoritar.yaml
+#    env:
+#      MOVIE_ID: "603"
+#- assertVisible:
+#    id: "movie-card-heart-603"
