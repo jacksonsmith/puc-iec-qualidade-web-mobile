@@ -1,14 +1,9 @@
-
 appId: com.puciec.cinefav
 tags:
   - regressao
 ---
 - clearState
 - launchApp
-
-# 1. Executa login e abre a busca
 - runFlow: _fragments/abrir-busca.yaml
-
-# 2. Clica e digita no campo reconhecido pelo texto
-- tapOn: "Buscar filme..."
 - inputText: "Matrix"
+- assertVisible: "Matrix"
