@@ -1,2 +1,3 @@
-- tapOn:
-    id: "search-input"
+# Fragmento para abrir a busca reutilizando o login
+- runFlow: login.yaml
+- tapOn: "Buscar filme..."

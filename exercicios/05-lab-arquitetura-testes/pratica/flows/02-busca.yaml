@@ -6,4 +6,6 @@ tags:
 - launchApp
 - runFlow: _fragments/abrir-busca.yaml
 - inputText: "Matrix"
-- assertVisible: "Matrix"
+- extendedWaitUntil:
+    visible: "Matrix"
+    timeout: 5000
