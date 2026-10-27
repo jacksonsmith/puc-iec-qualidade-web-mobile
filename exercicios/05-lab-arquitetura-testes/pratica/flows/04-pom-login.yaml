@@ -19,6 +19,8 @@ tags:
     id: ${output.login.senha}
 - inputText: "1234"
 
+- hideKeyboard
+
 - tapOn:
     id: ${output.login.botaoEntrar}
 
