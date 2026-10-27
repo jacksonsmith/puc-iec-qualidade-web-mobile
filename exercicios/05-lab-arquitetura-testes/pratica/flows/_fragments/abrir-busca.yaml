@@ -1,5 +1,7 @@
-# Fragmento para abrir a busca reutilizando o login
 - runFlow: _fragments/login.yaml
 - tapOn:
     id: "search-input"
-    
+- assertVisible:
+    id: "search-input"
+- tapOn:
+    id: "search-input"
