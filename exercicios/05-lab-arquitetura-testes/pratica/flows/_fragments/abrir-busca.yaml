@@ -1,5 +1,2 @@
-- runFlow: _fragments/login.yaml
-- assertVisible:
-    id: "search-input"
 - tapOn:
     id: "search-input"
