@@ -1,4 +1,3 @@
-# 📘 MODELO — fragmento: um pedaço reutilizável de flow. Chamado via runFlow.
 appId: com.puciec.cinefav
 ---
 - tapOn:

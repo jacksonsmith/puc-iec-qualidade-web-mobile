@@ -5,4 +5,5 @@ tags:
 ---
 - launchApp
 - runFlow: _fragments/login.yaml
-- assertVisible: "Matrix"
+- assertVisible:
+    id: "movie-card-heart-603"

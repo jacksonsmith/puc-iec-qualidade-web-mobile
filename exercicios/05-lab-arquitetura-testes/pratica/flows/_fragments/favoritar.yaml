@@ -2,4 +2,5 @@
 # Pré-condição: estar na lista de filmes. (testID do coração: movie-card-heart-<id>)
 appId: com.puciec.cinefav
 ---
-# TODO: - tapOn com id "movie-card-heart-${MOVIE_ID}"
+- tapOn:
+    id: "movie-card-heart-${MOVIE_ID}"
