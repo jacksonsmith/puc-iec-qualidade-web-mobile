@@ -1,13 +1,25 @@
 # 📘 MODELO — fragmento: um pedaço reutilizável de flow. Chamado via runFlow.
 appId: com.puciec.cinefav
 ---
+# Espera a tela de login estar pronta
+- extendedWaitUntil:
+    visible:
+      id: "login-email-input"
+    timeout: 10000
+
 - tapOn:
     id: "login-email-input"
 - inputText: "aluno@puc.br"
+
 - tapOn:
     id: "login-password-input"
 - inputText: "1234"
+
 - tapOn:
     id: "login-submit-button"
-- assertVisible:
-    id: "movielist-screen"
+
+# Espera a transição de login fechar e a tela principal carregar
+- extendedWaitUntil:
+    visible:
+      id: "movielist-screen"
+    timeout: 10000

@@ -2,6 +2,14 @@
 # Complete: ele reaproveita o fragmento de login e abre a busca.
 appId: com.puciec.cinefav
 ---
-# TODO: - runFlow: login.yaml     (caminho é relativo a ESTE arquivo — o login está na mesma pasta)
-# TODO: - tapOn com id "movielist-search-button"
-# TODO: - assertVisible com id "search-screen"
+# 1. Faz o login
+- runFlow: login.yaml
+
+# 2. Clica no ícone da lupa
+- tapOn:
+    id: "movielist-search-button"
+
+# 3. Valida que o campo de busca abriu pelo texto do placeholder
+- extendedWaitUntil:
+    visible: "Buscar filme..."
+    timeout: 5000

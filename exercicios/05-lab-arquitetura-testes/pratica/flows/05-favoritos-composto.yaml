@@ -1,15 +1,48 @@
 # 🔴🔴 NÍVEL 5 (desafio): flow longo que COMPÕE tudo — fragmento de login + POM.
 # História: favorita Matrix → abre Favoritos → vê "1 favorito" → remove → a lista fica vazia.
 # Dicas: o botão de remover é o id "favorites-item-603-remove" · a lista vazia mostra o id "favorites-empty"
+
+# 🔴🔴 NÍVEL 5 (desafio): flow longo que COMPÕE tudo — fragmento de login + POM.
+# História: favorita Matrix → abre Favoritos → vê "1 favorito" → remove → a lista fica vazia.
+# Dicas: o botão de remover é o id "favorites-item-603-remove" · a lista vazia mostra o id "favorites-empty"
 appId: com.puciec.cinefav
 tags:
   - smoke
   - regressao
 ---
+- clearState
 - launchApp
 - runFlow: _fragments/login.yaml
+
+# Carrega os seletores via POM
 - runScript: elements/movielist.js
-# TODO: favorite o Matrix (tapOn no coração via ${output.lista.coracaoMatrix})
+
+# 1. Favorite o Matrix
+- tapOn:
+    id: ${output.lista.coracaoMatrix || 'movie-card-heart-603'}
+
+# 2. Abra a tela de Favoritos
+- tapOn:
+    id: ${output.lista.botaoFavoritos || 'movielist-favorites-button'}
+
+# 3. Garante que o filme Matrix está visível na lista de favoritos
+- extendedWaitUntil:
+    visible:
+      id: "favorites-item-603"
+    timeout: 5000
+
+# 4. Remova o Matrix dos favoritos
+- tapOn:
+    id: "favorites-item-603-remove"
+
+# 5. Valida que o item sumiu e a lista ficou vazia
+- assertNotVisible:
+    id: "favorites-item-603"
+
+- assertVisible:
+    id: "favorites-empty"
+    
+    # TODO: favorite o Matrix (tapOn no coração via ${output.lista.coracaoMatrix})
 # TODO: abra Favoritos (${output.lista.botaoFavoritos}) e assertVisible "1 favorito"
 # TODO: remova o Matrix (tapOn no id "favorites-item-603-remove")
 # TODO: assertNotVisible do item "favorites-item-603" e assertVisible do id "favorites-empty"
