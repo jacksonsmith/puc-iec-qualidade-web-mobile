@@ -32,6 +32,3 @@ tags:
     visible:
       id: ${output.lista.tela}
     timeout: 10000
-    # TODO: tapOn com id: ${output.login.email}, inputText "aluno@puc.br"
-# TODO: o mesmo para senha ("1234") e para o botão entrar
-# TODO: assertVisible com id: ${output.lista.tela}

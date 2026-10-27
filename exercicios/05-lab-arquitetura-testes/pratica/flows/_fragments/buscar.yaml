@@ -7,6 +7,6 @@ appId: com.puciec.cinefav
 - extendedWaitUntil:
     visible: ${TERM}
     timeout: 5000
-# TODO: - tapOn no campo de busca (id "search-input")
-# TODO: - inputText com ${TERM}
-# TODO: - assertVisible com ${TERM}
+
+
+
