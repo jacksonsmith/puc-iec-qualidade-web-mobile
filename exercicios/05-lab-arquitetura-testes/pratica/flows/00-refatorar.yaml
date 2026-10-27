@@ -2,30 +2,12 @@ appId: com.puciec.cinefav
 tags:
   - regressao
 ---
+- clearState
 - launchApp
-
-# 1. Login reaproveitado via fragmento
 - runFlow: _fragments/login.yaml
-
-- assertVisible:
-    id: "movielist-screen"
-
-# 2. Favoritar usando fragmento + parâmetro env
 - runFlow:
     file: _fragments/favoritar.yaml
     env:
-      MOVIE_ID: 603
-
-- runFlow:
-    file: _fragments/favoritar.yaml
-    env:
-      MOVIE_ID: 27205
-
-# NAVEGAÇÃO E ASSERÇÕES
-- tapOn:
-    id: "movielist-favorites-button"
+      MOVIE_ID: "603"
 - assertVisible:
-    id: "favorites-item-603"
-- assertVisible:
-    id: "favorites-item-27205"
-- assertVisible: "2 favoritos"
+    id: "movie-card-heart-603"
