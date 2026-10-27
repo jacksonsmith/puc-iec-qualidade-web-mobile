@@ -2,6 +2,11 @@
 # Pré-condição: já estar na tela de busca (use abrir-busca antes).
 appId: com.puciec.cinefav
 ---
+- tapOn: "Buscar filme..."
+- inputText: ${TERM}
+- extendedWaitUntil:
+    visible: ${TERM}
+    timeout: 5000
 # TODO: - tapOn no campo de busca (id "search-input")
 # TODO: - inputText com ${TERM}
 # TODO: - assertVisible com ${TERM}
