@@ -9,3 +9,9 @@ output.role = {
   // ~ getAllByRole('listitem') na tela de favoritos
   itemFavorito: "favorites-item-.*",
 };
+// elements/roles.js
+output.role = {
+  botaoCoracao: "movie-card-heart-.*",
+  botaoFavoritos: "movielist-favorites-button",
+  itemFavorito: "favorites-item-.*"
+};

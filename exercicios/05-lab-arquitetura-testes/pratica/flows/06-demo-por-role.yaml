@@ -5,25 +5,34 @@ appId: com.puciec.cinefav
 tags:
   - demo
 ---
+- clearState
 - launchApp
 - runFlow: _fragments/login.yaml
+
+# Carrega os seletores com Regex do roles.js
 - runScript: elements/roles.js
 
-# ~ getAllByRole('button', { name: /heart/ }).first()
+# 1. Favorite o primeiro filme da lista (índice 0)
 - tapOn:
     id: ${output.role.botaoCoracao}
     index: 0
 
-# ~ .nth(2)
+# 2. Favorite o terceiro filme da lista (índice 2)
 - tapOn:
     id: ${output.role.botaoCoracao}
     index: 2
 
-# ~ getByRole('button', { name: 'Favoritos' })
+# 3. Navega para a aba de Favoritos
 - tapOn:
     id: ${output.role.botaoFavoritos}
 
-# ~ expect(getAllByRole('listitem')).toHaveCount(2)
-- assertVisible: "2 favoritos"
+# 4. Valida que os itens favoritados estão visíveis via Regex (sem travar em string estática)
+- extendedWaitUntil:
+    visible:
+      id: ${output.role.itemFavorito}
+      index: 0
+    timeout: 5000
+
 - assertVisible:
     id: ${output.role.itemFavorito}
+    index: 1
