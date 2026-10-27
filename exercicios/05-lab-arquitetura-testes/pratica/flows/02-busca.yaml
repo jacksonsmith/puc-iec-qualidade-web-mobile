@@ -4,7 +4,6 @@ tags:
 ---
 - clearState
 - launchApp
-- runFlow: _fragments/login.yaml
 - runFlow: _fragments/abrir-busca.yaml
 - inputText: "Matrix"
 - assertVisible: "Matrix"
