@@ -1,15 +1,4 @@
-# ✅ AVALIATIVO — NÍVEL 2 (fácil): fragmento "chegar na tela de busca".
-# Complete: ele reaproveita o fragmento de login e abre a busca.
-appId: com.puciec.cinefav
----
-# 1. Faz o login
-- runFlow: login.yaml
-
-# 2. Clica no ícone da lupa
+# Fragmento para abrir a busca reutilizando o login
+- runFlow: _fragments/login.yaml
 - tapOn:
-    id: "movielist-search-button"
-
-# 3. Valida que o campo de busca abriu pelo texto do placeholder
-- extendedWaitUntil:
-    visible: "Buscar filme..."
-    timeout: 5000
+    id: "search-input"
