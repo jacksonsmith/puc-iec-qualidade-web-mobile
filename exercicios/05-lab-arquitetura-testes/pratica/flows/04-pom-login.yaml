@@ -1,7 +1,3 @@
-# 🔴 NÍVEL 4 (desafio): o login SEM um único id escrito no flow — tudo vem do Page Object.
-# Se o dev renomear um testID, você conserta em elements/*.js, não aqui.
-
-# 🔴 NÍVEL 4 (desafio): o login SEM um único id escrito no flow — tudo vem do Page Object.
 appId: com.puciec.cinefav
 tags:
   - regressao
@@ -9,26 +5,22 @@ tags:
 - clearState
 - launchApp
 
-# 1. Carrega as variáveis do POM via JS
 - runScript: elements/login.js
 - runScript: elements/movielist.js
 
-# 2. Preenche o e-mail
+- assertVisible:
+    id: ${output.login.email}
+
 - tapOn:
     id: ${output.login.email}
 - inputText: "aluno@puc.br"
 
-# 3. Toca no campo de senha isoladamente para mudar o foco antes de digitar
 - tapOn:
     id: ${output.login.senha}
 - inputText: "1234"
 
-# 4. Clica no botão de entrar
 - tapOn:
     id: ${output.login.botaoEntrar}
 
-# 5. Valida a entrada na tela principal pelo POM
-- extendedWaitUntil:
-    visible:
-      id: ${output.lista.tela}
-    timeout: 10000
+- assertVisible:
+    id: ${output.lista.tela}
