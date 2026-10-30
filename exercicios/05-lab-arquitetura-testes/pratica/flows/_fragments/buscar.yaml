@@ -4,5 +4,5 @@ appId: com.puciec.cinefav
 ---
 - tapOn:
     id: "search-input"
-- inputText: "${TERM}"
-- assertVisible: "${TERM}"
+- inputText: ${TERM}
+- assertVisible: ${TERM}
