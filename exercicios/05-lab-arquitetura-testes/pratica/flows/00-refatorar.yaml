@@ -15,20 +15,15 @@ tags:
   - regressao
 ---
 - launchApp
-- tapOn:
-    id: "login-email-input"
-- inputText: "aluno@puc.br"
-- tapOn:
-    id: "login-password-input"
-- inputText: "1234"
-- tapOn:
-    id: "login-submit-button"
-- assertVisible:
-    id: "movielist-screen"
-- tapOn:
-    id: "movie-card-heart-603"
-- tapOn:
-    id: "movie-card-heart-27205"
+- runFlow: _fragments/login.yaml
+- runFlow:
+    file: _fragments/favoritar.yaml
+    env:
+      MOVIE_ID: "603"
+- runFlow:
+    file: _fragments/favoritar.yaml
+    env:
+      MOVIE_ID: "27205"
 - tapOn:
     id: "movielist-favorites-button"
 - assertVisible:
