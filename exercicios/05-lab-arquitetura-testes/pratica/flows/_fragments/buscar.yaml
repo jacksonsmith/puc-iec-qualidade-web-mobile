@@ -2,6 +2,14 @@
 # Pré-condição: já estar na tela de busca (use abrir-busca antes).
 appId: com.puciec.cinefav
 ---
+- tapOn:
+    id: "search-input"
+
+#  Digita o termo passado pela variável env
+- inputText: "${SEARCH_TERM}"
+
+# Garante que o texto pesquisado está visível nos resultados
+- assertVisible: "${SEARCH_TERM}"
 # TODO: - tapOn no campo de busca (id "search-input")
 # TODO: - inputText com ${TERM}
 # TODO: - assertVisible com ${TERM}

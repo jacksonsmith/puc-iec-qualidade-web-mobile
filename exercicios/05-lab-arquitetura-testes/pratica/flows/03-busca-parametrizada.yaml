@@ -5,6 +5,20 @@ tags:
 ---
 - launchApp
 - runFlow: _fragments/abrir-busca.yaml
+
+- runFlow:
+    file: ./_fragments/buscar.yaml
+    env:
+      SEARCH_TERM: "Matrix"
+
+- tapOn:
+    id: "search-clear-button"
+
+- runFlow:
+     file: ./_fragments/buscar.yaml
+     env:
+      SEARCH_TERM: "Batman"
+
 # TODO: runFlow do fragmento buscar.yaml passando env: TERM: "Matrix"
 #   dica:
 #   - runFlow:
