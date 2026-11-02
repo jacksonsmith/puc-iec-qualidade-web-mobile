@@ -4,6 +4,7 @@
 # O app abre na tela de Login — todo flow precisa logar antes de chegar na lista.
 appId: com.puciec.cinefav
 ---
+- clearState
 - launchApp
 - tapOn:
     id: "login-email-input"
