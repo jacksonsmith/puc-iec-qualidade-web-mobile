@@ -1,9 +1,9 @@
-# Lab Mobile — Maestro + Jest (10 pts)
+# Lab Mobile — Maestro + Jest (20 pts)
 
 **Disciplina:** Qualidade em Aplicações Web e Mobile
 **Aula:** Aula 4 — Maestro Mobile
 **Entrega:** fork + Pull Request no repositório da disciplina
-**Valor:** 10 pontos
+**Valor:** 20 pontos
 
 ---
 
@@ -17,9 +17,8 @@ Seu trabalho são os **testes**, em duas frentes:
 
 - **Parte A — Jest/RNTL**: completar os testes unitários e de integração em
   `pratica/__tests__/` (scaffolds com TODOs; o primeiro arquivo vem resolvido).
-- **Parte B — Maestro E2E**: completar os flows **02 e 03** em `pratica/flows/`
+- **Parte B — Maestro E2E**: completar os 5 flows YAML em `pratica/flows/`
   (o flow 01 vem resolvido) e rodar em emulador iOS **e** Android.
-  Os flows **04 e 05 são OPCIONAIS** (prática extra, **não valem nota**).
 
 ## Antes de começar
 
@@ -37,8 +36,9 @@ ls flows __tests__
 npm install
 npm test                # Jest roda — scaffolds passam "vazios", complete os TODOs
 
-# Maestro: instalação por SO (macOS/Linux/Windows) no COMECE-AQUI, passo 4
-maestro test flows/01-launch.yaml     # com o emulador ligado
+# Maestro (guia completo por SO em docs/INSTALACAO_MAESTRO.md)
+curl -Ls get.maestro.mobile.dev | bash
+maestro test flows/01-launch.yaml
 ```
 
 > **Abra a pasta `pratica/` direto no editor** (`code .`) — senão o TS server e a
@@ -48,24 +48,23 @@ maestro test flows/01-launch.yaml     # com o emulador ligado
 
 1. **`__tests__/unit/02-authStore.test.ts`** — 5 testes completos.
 2. **`__tests__/integration/01-login-favoritar.test.tsx`** — testes 2 e 3 completos.
-3. **`flows/02-search.yaml` e `flows/03-favorite.yaml`** — TODOs completos.
-   *(Opcional, sem nota: `04-detail.yaml` e `05-js-dynamic.yaml`.)*
-4. **Vídeo curto** (Loom/YouTube unlisted) — `maestro test flows/02-search.yaml` e `flows/03-favorite.yaml` rodando em
+3. **`flows/02-search.yaml` … `flows/05-js-dynamic.yaml`** — TODOs completos.
+4. **Vídeo curto** (Loom/YouTube unlisted) — `maestro test flows/` rodando em
    emulador Android **e** iOS Simulator (quem não tem Mac: só Android, avise no PR).
 5. **CI verde no fork** — workflow de Jest já fornecido; habilite o Actions.
 
-## Critérios de avaliação (10 pts)
+## Critérios de avaliação (20 pts)
 
 | # | Critério | Pontos |
 |---|----------|--------|
-| 1 | Testes unitários Jest completos e passando (02-authStore, 5 testes) | 2,5 |
-| 2 | Teste de integração RNTL completo (navegação + estado real) | 2,5 |
-| 3 | Flows Maestro **02 e 03** completos (sem TODOs, com asserções) — 1 pt cada | 2 |
-| 4 | Execução real em Android Emulator (vídeo) | 0,5 |
-| 5 | Execução real em iOS Simulator (vídeo) | 0,5 |
+| 1 | Testes unitários Jest completos e passando (02-authStore, 5 testes) | 5 |
+| 2 | Teste de integração RNTL completo (navegação + estado real) | 5 |
+| 3 | 5 flows Maestro completos (sem TODOs, com asserções) | 4 |
+| 4 | Execução real em Android Emulator (vídeo) | 2 |
+| 5 | Execução real em iOS Simulator (vídeo) | 2 |
 | 6 | CI verde no fork (Jest no GitHub Actions) | 2 |
 
-**Critério eliminatório:** flakiness > 10% em 3 runs consecutivos = -3 pts.
+**Critério eliminatório:** flakiness > 10% em 3 runs consecutivos = -5 pts.
 
 ## Como entregar
 
@@ -77,6 +76,4 @@ maestro test flows/01-launch.yaml     # com o emulador ligado
 
 - Jest primeiro (feedback em segundos), Maestro depois (precisa de emulador).
 - `01-favoritesStore.test.ts` e o teste 1 da integração são seus modelos — leia antes.
-- Travou num seletor Maestro? O app **Maestro Studio** (studio.maestro.dev) ou o comando `maestro hierarchy` mostram os testIDs.
-
-➡️ **Instalação, setup do emulador e entrega passo a passo:** [`pratica/COMECE-AQUI.md`](pratica/COMECE-AQUI.md).
+- Travou num seletor Maestro? `maestro studio` inspeciona os testIDs ao vivo.
