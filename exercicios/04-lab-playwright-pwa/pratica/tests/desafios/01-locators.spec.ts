@@ -32,7 +32,7 @@ test.describe('Bloco A — Locators', () => {
     await page.getByRole('button', { name: /Buscar/ }).click();
 
     // ✍️ sua vez: confirme que a página está em /search
-    falta('A1 — escreva o expect da URL');
+    await expect(page).toHaveURL(/\/search$/);
   });
 
   test.describe('sem sessão', () => {
@@ -51,9 +51,16 @@ test.describe('Bloco A — Locators', () => {
     // 🆘 Dica: page.getByLabel('E-mail').fill('...')
     test('A2. login só com label e role (zero testid)', async ({ page }) => {
       await page.goto('/login');
+      await page.getByLabel('E-mail').fill('aluno@puc.br');
+      await page.getByLabel('Senha').fill('1234');
+      await page.getByRole('button', { name: 'Entrar' }).click();
 
-      falta('A2 — escreva o login por label/role');
-    });
+      await page.waitForURL((url) => !url.pathname.startsWith('/login'));
+      await page.goto('/qa');
+
+      // o botão "Sair" tem testid logout-button, e aqui o testid é permitido
+      await expect(page.getByTestId('logout-button')).toBeVisible();
+        });
   });
 
   // ── A3 🔴 · ≈ 12 min ───────────────────────────────────────────────────────
@@ -72,7 +79,17 @@ test.describe('Bloco A — Locators', () => {
   //    3) toHaveAttribute('aria-pressed', 'true')
   test('A3. favoritar pelo TÍTULO (filter + escopo dentro do card)', async ({ page }) => {
     await page.goto('/qa');
+    const card = page.getByRole('article').filter({ hasText: 'Pulp Fiction' });
 
-    falta('A3 — escreva o teste inteiro');
+    await card.getByRole('button', { name: /Favoritar/ }).click();
+
+    const botaoRemover = card.getByRole('button', { name: /Remover/ });
+    await expect(botaoRemover).toBeVisible();
+    await expect(botaoRemover).toHaveAttribute('aria-pressed', 'true');
+
+    await page.getByTestId('movielist-favorites-button').click();
+    await expect(page.getByText('1 filme favorito')).toBeVisible();
+
+    await expect(page.getByRole('link', { name: 'Pulp Fiction' })).toBeVisible();
   });
 });
