@@ -4,3 +4,8 @@ Mesmo app **CineFav** da Aula 4, já instalado no emulador (`CineFav.apk`). **Vo
 
 👉 Setup e ordem dos níveis: [`COMECE-AQUI.md`](COMECE-AQUI.md)
 📄 Enunciado + rubrica: `exercicios/05-lab-arquitetura-testes/enunciado.md`
+
+## Dupla
+
+- Luiz Angelo Heinzen
+- Alice de Fátima Moraes Souza
