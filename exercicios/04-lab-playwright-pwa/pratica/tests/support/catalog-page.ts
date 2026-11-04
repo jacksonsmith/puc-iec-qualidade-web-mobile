@@ -11,37 +11,38 @@
 // Regra: nenhum método daqui pode usar id fixo de filme — receba o TÍTULO.
 // ─────────────────────────────────────────────────────────────────────────────
 
+
 import { expect, type Locator, type Page } from '@playwright/test';
-import { falta } from './todo';
 
 export class CatalogPage {
   constructor(private readonly page: Page) {}
 
-  /** 📘 Pronto: abre o catálogo e espera a grade aparecer. */
+  /** Abre o catálogo e espera a grade aparecer. */
   async goto() {
     await this.page.goto('/qa');
     await expect(this.page.getByTestId('movielist-grid')).toBeVisible();
   }
 
-  /** ✍️ Devolve o card (role "article") cujo texto contém o título — use filter({ hasText }). */
+  /** Devolve o card cujo texto contém o título informado. */
   card(title: string): Locator {
-    void title;
-    return falta('D2 — card(title)');
+    return this.page.getByRole('article').filter({ hasText: title });
   }
 
-  /** ✍️ Clica no botão "Favoritar …" DENTRO do card do título. */
+  /** Clica no botão de favoritar dentro do card escolhido. */
   async favorite(title: string) {
-    void title;
-    falta('D2 — favorite(title)');
+    await this.card(title)
+      .getByRole('button', { name: /favoritar/i })
+      .click();
   }
 
-  /** ✍️ Clica em "Favoritos" (movielist-favorites-button) e espera a tela favorites-screen. */
+  /** Abre a tela de favoritos e espera que ela apareça. */
   async openFavorites() {
-    falta('D2 — openFavorites()');
+    await this.page.getByTestId('movielist-favorites-button').click();
+    await expect(this.page.getByTestId('favorites-screen')).toBeVisible();
   }
 
-  /** ✍️ Locator do contador da tela de favoritos (testid favorites-count). */
+  /** Locator do contador de favoritos. */
   get favoritesCount(): Locator {
-    return falta('D2 — favoritesCount');
+    return this.page.getByTestId('favorites-count');
   }
 }

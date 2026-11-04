@@ -44,8 +44,10 @@ test.describe('Bloco C — mock de rede', () => {
     );
     await page.goto('/qa');
 
-    // ✍️ sua vez
-    falta('C1 — confira 1 card e o título');
+// Deve existir somente um card, com o título esperado
+    await expect(page.getByRole('article')).toHaveCount(1);
+    await expect(page.getByTestId('movie-card-title-777'))
+      .toHaveText('Filme do Mock');
   });
 
   // ── C2 🟡 · ≈ 7 min ────────────────────────────────────────────────────────
@@ -57,8 +59,29 @@ test.describe('Bloco C — mock de rede', () => {
   //    4. clique em "Tentar de novo" (movielist-retry-button)
   //    5. o erro some e os 12 cards aparecem
   test('C2. erro 500 mostra o estado de erro; destrava a rota e "Tentar de novo" funciona', async ({ page }) => {
-    void page;
-    falta('C2 — escreva os 5 passos');
+    await page.route(CATALOGO, (route) =>
+      route.fulfill({
+        status: 500,
+        contentType: 'application/json',
+        body: JSON.stringify({ error: 'Erro interno simulado pelo teste' }),
+      }),
+    );
+
+    // Passo 1 e 2: provoca o erro e verifica sua apresentação
+    await page.goto('/qa');
+
+    const errorState = page.getByTestId('movielist-error');
+    await expect(errorState).toBeVisible();
+
+    // Passo 3: remove a interceptação para liberar a resposta real
+    await page.unroute(CATALOGO);
+
+    // Passo 4: solicita uma nova tentativa
+    await page.getByTestId('movielist-retry-button').click();
+
+    // Passo 5: o erro desaparece e os 12 cards são carregados
+    await expect(errorState).toBeHidden();
+    await expect(page.getByRole('article')).toHaveCount(12);
   });
 
   // ── C3 🟡 · ≈ 7 min ────────────────────────────────────────────────────────
@@ -71,8 +94,32 @@ test.describe('Bloco C — mock de rede', () => {
   //    • devolve com  route.fulfill({ response, json: ... })
   //    Depois: goto('/qa'), confira 3 cards e que o título do Matrix (id 603) é "MATRIX".
   test('C3. route.fetch(): pega a resposta REAL e altera só o que importa', async ({ page }) => {
-    void page;
-    falta('C3 — escreva o handler e as asserções');
+    await page.route(CATALOGO, async (route) => {
+      // Busca a resposta real do catálogo
+      const response = await route.fetch();
+      const movies = await response.json();
+
+      // Mantém os três primeiros filmes e converte seus títulos para maiúsculas
+      const modifiedMovies = movies.slice(0, 3).map(
+        (movie: { title: string }) => ({
+          ...movie,
+          title: movie.title.toUpperCase(),
+        }),
+      );
+
+      // Devolve os dados modificados, preservando os detalhes da resposta original
+      await route.fulfill({
+        response,
+        json: modifiedMovies,
+      });
+    });
+
+    await page.goto('/qa');
+
+    // Confere a quantidade de cards e o título do Matrix
+    await expect(page.getByRole('article')).toHaveCount(3);
+    await expect(page.getByTestId('movie-card-title-603'))
+      .toHaveText('MATRIX');
   });
 
   // ── C4 🔴 · ≈ 12 min ───────────────────────────────────────────────────────
@@ -89,7 +136,30 @@ test.describe('Bloco C — mock de rede', () => {
   // 🆘 Por que esperar o resultado antes de contar? Pense: o que acontece se você
   //    contar logo depois de digitar?
   test('C4. debounce: digitar "matrix" faz UMA requisição só', async ({ page }) => {
-    void page;
-    falta('C4 — escreva o teste inteiro');
+    let catalogRequests = 0;
+
+    // Registra o observador antes da navegação
+    page.on('request', (request) => {
+      const url = new URL(request.url());
+
+      if (url.pathname.endsWith('/api/movies.json')) {
+        catalogRequests++;
+      }
+    });
+
+    await page.goto('/search');
+
+    const input = page.getByRole('textbox');
+
+    // Simula a digitação de um usuário
+    await input.pressSequentially('matrix', { delay: 40 });
+
+    // Aguarda o resultado antes de conferir o contador
+    await expect(page.getByTestId('search-result-603')).toBeVisible();
+
+    expect(
+      catalogRequests,
+      'A busca por "matrix" deveria gerar exatamente uma requisição ao catálogo.',
+    ).toBe(1);
   });
 });

@@ -32,16 +32,95 @@
 // APAGUE o teste de exemplo abaixo e escreva os seus.
 // ─────────────────────────────────────────────────────────────────────────────
 
-import { test, expect } from '@playwright/test';
-import { falta } from '../support/todo';
 
-test.describe('Missão livre — <nome do seu fluxo>', () => {
-  test('feliz: <descreva>', async ({ page }) => {
-    await page.goto('/qa');
-    void expect;
-    falta('Missão livre — teste feliz');
+import { test, expect } from '@playwright/test';
+
+test.describe('Missão livre — remoção de favoritos', () => {
+  test('feliz: usuário remove Matrix dos favoritos pela tela de favoritos', async ({
+    page,
+  }) => {
+    await test.step('Favoritar Matrix no catálogo', async () => {
+      await page.goto('/qa');
+
+      const matrixHeart = page.getByTestId('movie-card-heart-603');
+
+      await matrixHeart.click();
+      await expect(matrixHeart).toHaveAttribute('aria-pressed', 'true');
+    });
+
+    await test.step('Abrir favoritos e localizar Matrix', async () => {
+      await page.goto('/favorites');
+
+      await expect(page.getByTestId('favorites-item-603')).toBeVisible();
+      await expect(page.getByTestId('favorites-count')).toHaveText(
+        '1 filme favorito'
+      );
+    });
+
+    await test.step('Remover Matrix e validar a atualização', async () => {
+      const matrixItem = page.getByTestId('favorites-item-603');
+
+      const removeButton = matrixItem.getByRole('button', {
+        name: /remover|desfavoritar/i,
+      });
+
+      await removeButton.click();
+
+      await expect(matrixItem).not.toBeVisible();
+      await expect(page.getByTestId('favorites-count')).toHaveText(
+        '0 filmes favoritos'
+      );
+    });
   });
 
-  // test('negativo: <descreva>', async ({ page }) => { ... });
-  // test('borda: <descreva>', async ({ page }) => { ... });
+  test('negativo: lista vazia não exibe filmes favoritos', async ({ page }) => {
+    // Cada teste começa em um contexto isolado.
+    await page.goto('/favorites');
+
+    await expect(page.getByTestId('favorites-count')).toHaveText(
+      '0 filmes favoritos'
+    );
+
+    await expect(
+      page.locator('[data-testid^="favorites-item-"]')
+    ).toHaveCount(0);
+  });
+
+  test('borda: favorito removido continua ausente após recarregar a página', async ({
+    page,
+  }) => {
+    await page.goto('/qa');
+
+    // Prepara os dados necessários dentro deste teste.
+    const matrixHeart = page.getByTestId('movie-card-heart-603');
+
+    await matrixHeart.click();
+    await expect(matrixHeart).toHaveAttribute('aria-pressed', 'true');
+
+    await page.goto('/favorites');
+
+    await expect(page.getByTestId('favorites-item-603')).toBeVisible();
+
+    const matrixItem = page.getByTestId('favorites-item-603');
+
+    const removeButton = matrixItem.getByRole('button', {
+      name: /remover|desfavoritar/i,
+    });
+
+    await removeButton.click();
+
+    await expect(matrixItem).not.toBeVisible();
+
+    // Recurso adicional: testa a persistência após uma navegação real de recarga.
+    await page.reload();
+
+    await expect(page.getByTestId('favorites-count')).toHaveText(
+      '0 filmes favoritos'
+    );
+
+    await expect(
+      page.locator('[data-testid^="favorites-item-"]')
+    ).toHaveCount(0);
+  });
 });
+

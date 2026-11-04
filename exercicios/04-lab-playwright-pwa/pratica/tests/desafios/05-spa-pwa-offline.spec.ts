@@ -38,8 +38,18 @@ test.describe('Bloco E — SPA e PWA', () => {
   test('E1. app pronto, deep link logado e rota inexistente', async ({ page }) => {
     await page.goto('/movie/603');
 
-    // ✍️ sua vez
-    falta('E1 — escreva as asserções');
+    // Espera o sinal de que a SPA terminou de montar.
+    await expect(page.locator('html')).toHaveAttribute(
+      'data-app-ready',
+      'true'
+    );
+
+    // Confere o título do filme Matrix.
+    await expect(page.getByTestId('detail-title')).toHaveText('Matrix');
+
+    // A rota inexistente deve redirecionar para a página inicial.
+    await page.goto('/rota-que-nao-existe');
+    await expect(page).toHaveURL(/\/$/);
   });
 
   // ── E2 🟡 · ≈ 7 min ────────────────────────────────────────────────────────
@@ -53,9 +63,41 @@ test.describe('Bloco E — SPA e PWA', () => {
   //    4. leia o href de  link[rel="manifest"]  e faça  request.get(href)  →  .json()
   //    5. confira  manifest.name === 'CineFav — filmes favoritos'  e  display === 'standalone'
   test('E2. Service Worker ativo e controlando + manifest da PWA', async ({ page, request }) => {
-    void page;
-    void request;
-    falta('E2 — escreva os 5 passos');
+    await page.goto('/qa');
+
+    await expect(page.getByTestId('movielist-grid')).toBeVisible();
+
+    // Espera o Service Worker atingir o estado activated.
+    await expect
+      .poll(async () =>
+        page.evaluate(async () => {
+          const registration =
+            await navigator.serviceWorker.getRegistration();
+
+          return registration?.active?.state;
+        })
+      )
+      .toBe('activated');
+
+    // Registrado e ativado não significa necessariamente que controla a página.
+    await waitForSwControl(page);
+
+    // Obtém a URL do manifest e faz uma requisição HTTP diretamente.
+    const manifestHref = await page
+      .locator('link[rel="manifest"]')
+      .getAttribute('href');
+
+    expect(manifestHref).not.toBeNull();
+
+    const manifestUrl = new URL(manifestHref!, page.url()).href;
+    const response = await request.get(manifestUrl);
+
+    expect(response.ok()).toBeTruthy();
+
+    const manifest = await response.json();
+
+    expect(manifest.name).toBe('CineFav — filmes favoritos');
+    expect(manifest.display).toBe('standalone');
   });
 
   // ── E3 🔴 · ≈ 12 min ───────────────────────────────────────────────────────
@@ -70,9 +112,32 @@ test.describe('Bloco E — SPA e PWA', () => {
   // 🆘 Se o reload offline falhar com "net::ERR_INTERNET_DISCONNECTED", é porque o passo
   //    2 ficou pra trás: sem controller, ninguém serve o app offline.
   test('E3. offline: banner aparece, app continua, volta a rede e o banner some', async ({ page, context }) => {
-    void page;
-    void context;
-    falta('E3 — escreva o teste inteiro');
+    // 1. Visita a aplicação enquanto ainda há internet.
+    await page.goto('/qa');
+
+    await expect(page.getByTestId('movielist-grid')).toBeVisible();
+
+    // 2. Garante que o Service Worker controla a página.
+    await waitForSwControl(page);
+
+    // 3. Simula a perda da conexão.
+    await context.setOffline(true);
+
+    // 4. Recarrega a aplicação offline.
+    await page.reload();
+
+    // O banner deve informar que estamos sem conexão.
+    await expect(page.getByTestId('offline-banner')).toBeVisible();
+
+    // A aplicação deve continuar apresentando os 12 filmes.
+    await expect(page.getByTestId('movielist-grid')).toBeVisible();
+    await expect(page.getByRole('article')).toHaveCount(12);
+
+    // 5. Restaura a conexão.
+    await context.setOffline(false);
+
+    // O aviso de offline deve desaparecer.
+    await expect(page.getByTestId('offline-banner')).toBeHidden();
   });
 
   // ── E4 🔴 · ≈ 12 min ───────────────────────────────────────────────────────
@@ -89,9 +154,58 @@ test.describe('Bloco E — SPA e PWA', () => {
   //      (na tela aparece escrito "✓ enviado"; o valor técnico "synced" só existe no atributo)
   // 🆘 Dica: o expect do "synced" já espera sozinho (o app leva ~400ms pra sincronizar).
   test('E4. comentário offline entra na fila (IndexedDB) e sincroniza', async ({ page, context }) => {
-    void page;
-    void context;
-    void waitForSwControl;
-    falta('E4 — escreva o teste inteiro');
+    // Abre o detalhe de Matrix com a rede disponível.
+    await page.goto('/movie/603');
+
+    await expect(page.getByTestId('detail-title')).toHaveText('Matrix');
+
+    // Garante que o Service Worker controla a página antes de ficar offline.
+    await waitForSwControl(page);
+
+    // Desconecta a aplicação.
+    await context.setOffline(true);
+
+    // Escreve e publica um comentário enquanto está offline.
+    await page.getByTestId('comment-input').fill('Clássico absoluto');
+    await page.getByTestId('comment-submit-button').click();
+
+    // Localiza o comentário recém-publicado.
+    const comment = page
+      .locator('[data-testid^="comment-item-"]')
+      .filter({ hasText: 'Clássico absoluto' })
+      .first();
+
+    await expect(comment).toContainText('Clássico absoluto');
+
+    // O comentário foi salvo localmente e aguarda sincronização.
+    await expect(comment.locator('[data-status]')).toHaveAttribute(
+      'data-status',
+      'pending'
+    );
+
+    // Recarrega ainda offline para validar a persistência local.
+    await page.reload();
+
+    await expect(page.getByTestId('detail-title')).toHaveText('Matrix');
+
+    const persistedComment = page
+      .locator('[data-testid^="comment-item-"]')
+      .filter({ hasText: 'Clássico absoluto' })
+      .first();
+
+    await expect(persistedComment).toContainText('Clássico absoluto');
+    await expect(persistedComment.locator('[data-status]')).toHaveAttribute(
+      'data-status',
+      'pending'
+    );
+
+    // Restaura a internet e espera a sincronização.
+    await context.setOffline(false);
+
+    const commentStatus = persistedComment.locator(
+      '[data-testid^="comment-status-"]'
+    );
+
+    await expect(commentStatus).toHaveAttribute('data-status', 'synced');
   });
 });
