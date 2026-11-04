@@ -1,10 +1,11 @@
-# ✅ AVALIATIVO — NÍVEL 2 (fácil): flow usando o fragmento que VOCÊ criou (abrir-busca).
-# Depois de completar _fragments/abrir-busca.yaml, complete aqui.
+# ✅ NÍVEL 2: flow usando o fragmento abrir-busca.
 appId: com.puciec.cinefav
 tags:
   - regressao
 ---
 - launchApp
-# TODO: - runFlow: _fragments/abrir-busca.yaml
-# TODO: - tapOn no campo de busca (id "search-input") e inputText "Matrix"
-# TODO: - assertVisible "Matrix"
+- runFlow: _fragments/abrir-busca.yaml
+- tapOn:
+    id: "search-input"
+- inputText: "Matrix"
+- assertVisible: "Matrix"

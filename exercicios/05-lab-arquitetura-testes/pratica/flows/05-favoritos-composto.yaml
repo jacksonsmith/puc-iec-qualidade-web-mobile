@@ -1,6 +1,5 @@
-# 🔴🔴 NÍVEL 5 (desafio): flow longo que COMPÕE tudo — fragmento de login + POM.
+# 🔴🔴 NÍVEL 5: flow longo que COMPÕE tudo — fragmento de login + POM.
 # História: favorita Matrix → abre Favoritos → vê "1 favorito" → remove → a lista fica vazia.
-# Dicas: o botão de remover é o id "favorites-item-603-remove" · a lista vazia mostra o id "favorites-empty"
 appId: com.puciec.cinefav
 tags:
   - smoke
@@ -9,7 +8,14 @@ tags:
 - launchApp
 - runFlow: _fragments/login.yaml
 - runScript: elements/movielist.js
-# TODO: favorite o Matrix (tapOn no coração via ${output.lista.coracaoMatrix})
-# TODO: abra Favoritos (${output.lista.botaoFavoritos}) e assertVisible "1 favorito"
-# TODO: remova o Matrix (tapOn no id "favorites-item-603-remove")
-# TODO: assertNotVisible do item "favorites-item-603" e assertVisible do id "favorites-empty"
+- tapOn:
+    id: ${output.lista.coracaoMatrix}
+- tapOn:
+    id: ${output.lista.botaoFavoritos}
+- assertVisible: "1 favorito"
+- tapOn:
+    id: "favorites-item-603-remove"
+- assertNotVisible:
+    id: "favorites-item-603"
+- assertVisible:
+    id: "favorites-empty"

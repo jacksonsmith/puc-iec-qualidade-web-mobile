@@ -1,0 +1,15 @@
+﻿00-refatorar run1 exit=0
+00-refatorar run2 exit=0
+00-refatorar run3 exit=0
+02-busca run1 exit=0
+02-busca run2 exit=0
+02-busca run3 exit=0
+03-busca-parametrizada run1 exit=0
+03-busca-parametrizada run2 exit=0
+03-busca-parametrizada run3 exit=0
+04-pom-login run1 exit=0
+04-pom-login run2 exit=0
+04-pom-login run3 exit=0
+05-favoritos-composto run1 exit=0
+05-favoritos-composto run2 exit=0
+05-favoritos-composto run3 exit=0
