@@ -27,9 +27,9 @@ test.describe('Busca + network mocking', () => {
   // A tela de busca abriu?  LOCATOR: o testid  search-screen  ·  MATCHER: "está visível".
   test('1. abrir a tela de busca', async ({ page }) => {
     await page.goto('/search');
+    await expect(page.getByTestId('search-screen')).toBeVisible();
 
     // ✍️ sua vez: escreva o expect (e apague a linha abaixo)
-    falta('Teste 1');
   });
 
   // ── Teste 2 · 🟢 fácil ──────────────────────────────────────────────────────
@@ -37,9 +37,8 @@ test.describe('Busca + network mocking', () => {
   // MATCHER: "está visível".
   test('2. título da tela de busca aparece', async ({ page }) => {
     await page.goto('/search');
+    await expect(page.getByText('Buscar')).toBeVisible();
 
-    // ✍️ sua vez
-    falta('Teste 2');
   });
 
   // ── Teste 3 · 🟢 fácil ──────────────────────────────────────────────────────
@@ -48,9 +47,9 @@ test.describe('Busca + network mocking', () => {
   test('3. buscar "Matrix" mostra o resultado', async ({ page }) => {
     await page.goto('/search');
     await page.getByTestId('search-input').fill('Matrix');
+    await expect(page.getByTestId('search-result-603')).toBeVisible();
 
     // ✍️ sua vez
-    falta('Teste 3');
   });
 
   // ── Teste 4 · 🟡 médio ──────────────────────────────────────────────────────
@@ -79,8 +78,10 @@ test.describe('Busca + network mocking', () => {
 
     await page.goto('/search');
     await page.getByTestId('search-input').fill('mock');
+    await expect(page.getByTestId('search-result-999')).toBeVisible();
+    await expect(page.getByText('O Filme Que Só Existe No Mock')).toBeVisible();
 
     // ✍️ sua vez: os dois expects
-    falta('Teste 4');
+
   });
 });
