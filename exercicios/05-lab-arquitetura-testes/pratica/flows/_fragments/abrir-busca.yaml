@@ -2,6 +2,13 @@
 # Complete: ele reaproveita o fragmento de login e abre a busca.
 appId: com.puciec.cinefav
 ---
-# TODO: - runFlow: login.yaml     (caminho é relativo a ESTE arquivo — o login está na mesma pasta)
-# TODO: - tapOn com id "movielist-search-button"
-# TODO: - assertVisible com id "search-screen"
+# Reutiliza o fragmento de login, que está na mesma pasta
+- runFlow: login.yaml
+
+# Abre a tela de busca
+- tapOn:
+    id: "movielist-search-button"
+
+# Confirma que a tela de busca foi aberta
+- assertVisible:
+    id: "search-screen"

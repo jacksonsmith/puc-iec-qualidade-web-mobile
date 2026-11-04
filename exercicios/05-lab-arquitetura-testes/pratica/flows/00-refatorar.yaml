@@ -15,24 +15,29 @@ tags:
   - regressao
 ---
 - launchApp
-- tapOn:
-    id: "login-email-input"
-- inputText: "aluno@puc.br"
-- tapOn:
-    id: "login-password-input"
-- inputText: "1234"
-- tapOn:
-    id: "login-submit-button"
-- assertVisible:
-    id: "movielist-screen"
-- tapOn:
-    id: "movie-card-heart-603"
-- tapOn:
-    id: "movie-card-heart-27205"
+# Reutiliza o fragmento de login
+- runFlow: _fragments/login.yaml
+
+# Favorita o filme 603
+- runFlow:
+    file: _fragments/favoritar.yaml
+    env:
+      MOVIE_ID: "603"
+
+# Favorita o filme 27205
+- runFlow:
+    file: _fragments/favoritar.yaml
+    env:
+      MOVIE_ID: "27205"
+
+# Abre a lista de favoritos e valida o resultado
 - tapOn:
     id: "movielist-favorites-button"
+
 - assertVisible:
     id: "favorites-item-603"
+
 - assertVisible:
     id: "favorites-item-27205"
+
 - assertVisible: "2 favoritos"

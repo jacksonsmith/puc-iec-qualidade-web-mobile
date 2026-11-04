@@ -7,9 +7,30 @@ tags:
   - regressao
 ---
 - launchApp
+# Reutiliza o fragmento de login
 - runFlow: _fragments/login.yaml
+
+# Carrega os seletores da lista de filmes
 - runScript: elements/movielist.js
-# TODO: favorite o Matrix (tapOn no coração via ${output.lista.coracaoMatrix})
-# TODO: abra Favoritos (${output.lista.botaoFavoritos}) e assertVisible "1 favorito"
-# TODO: remova o Matrix (tapOn no id "favorites-item-603-remove")
-# TODO: assertNotVisible do item "favorites-item-603" e assertVisible do id "favorites-empty"
+
+# Favorita Matrix usando o Page Object
+- tapOn:
+    id: ${output.lista.coracaoMatrix}
+
+# Abre Favoritos
+- tapOn:
+    id: ${output.lista.botaoFavoritos}
+
+# Confirma que existe um favorito
+- assertVisible: "1 favorito"
+
+# Remove Matrix dos favoritos
+- tapOn:
+    id: "favorites-item-603-remove"
+
+# Confirma que o filme foi removido e a lista está vazia
+- assertNotVisible:
+    id: "favorites-item-603"
+
+- assertVisible:
+    id: "favorites-empty"
