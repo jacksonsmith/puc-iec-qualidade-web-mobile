@@ -33,15 +33,48 @@
 // ─────────────────────────────────────────────────────────────────────────────
 
 import { test, expect } from '@playwright/test';
-import { falta } from '../support/todo';
 
-test.describe('Missão livre — <nome do seu fluxo>', () => {
-  test('feliz: <descreva>', async ({ page }) => {
+test.describe('Missão livre — fluxo de favoritos e proteção de rota', () => {
+  test('feliz: favoritar e remover da tela de favoritos funciona no fluxo normal', async ({ page }) => {
     await page.goto('/qa');
-    void expect;
-    falta('Missão livre — teste feliz');
+
+    await test.step('favorita o filme', async () => {
+      await page.getByTestId('movie-card-heart-603').click();
+    });
+
+    await page.getByTestId('movielist-favorites-button').click();
+    await expect(page.getByTestId('favorites-count')).toHaveText('1 filme favorito');
+    await expect(page.getByTestId('favorites-item-603')).toBeVisible();
+
+    await test.step('remove o filme e confirma o estado vazio', async () => {
+      await page.getByTestId('favorites-item-603-remove').click();
+    });
+
+    await expect(page.getByTestId('favorites-count')).toHaveText('0 filmes favoritos');
+    await expect(page.getByTestId('favorites-empty')).toBeVisible();
   });
 
-  // test('negativo: <descreva>', async ({ page }) => { ... });
-  // test('borda: <descreva>', async ({ page }) => { ... });
+  test('negativo: sem sessão, /favorites redireciona pra /login', async ({ page }) => {
+    await page.goto('/login');
+    await page.evaluate(() => {
+      localStorage.clear();
+      sessionStorage.clear();
+    });
+    await page.goto('/favorites');
+    await expect(page).toHaveURL(/\/login$/);
+    await expect(page.getByTestId('login-email-input')).toBeVisible();
+  });
+
+  test('borda: clicar duas vezes no mesmo coração não duplica favorito', async ({ page }) => {
+    await page.goto('/qa');
+    const heart = page.getByTestId('movie-card-heart-603');
+
+    await heart.click();
+    await expect(heart).toHaveAttribute('aria-pressed', 'true');
+
+    await heart.click();
+    await expect(heart).toHaveAttribute('aria-pressed', 'false');
+    await page.getByTestId('movielist-favorites-button').click();
+    await expect(page.getByTestId('favorites-count')).toHaveText('0 filmes favoritos');
+  });
 });
