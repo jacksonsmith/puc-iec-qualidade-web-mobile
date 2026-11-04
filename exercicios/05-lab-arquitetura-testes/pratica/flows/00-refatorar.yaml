@@ -10,25 +10,22 @@
 #   1. Troque o login inteiro por UMA linha: runFlow: _fragments/login.yaml
 #   2. Crie _fragments/favoritar.yaml (recebe ${MOVIE_ID}) e chame 2× com env diferente
 #   3. Resultado: nenhum id de login e nenhum "movie-card-heart-…" escrito neste arquivo
+
+# Nível 1 — refatoração do flow de favoritos.
 appId: com.puciec.cinefav
 tags:
   - regressao
 ---
 - launchApp
-- tapOn:
-    id: "login-email-input"
-- inputText: "aluno@puc.br"
-- tapOn:
-    id: "login-password-input"
-- inputText: "1234"
-- tapOn:
-    id: "login-submit-button"
-- assertVisible:
-    id: "movielist-screen"
-- tapOn:
-    id: "movie-card-heart-603"
-- tapOn:
-    id: "movie-card-heart-27205"
+- runFlow: _fragments/login.yaml
+- runFlow:
+    file: _fragments/favoritar.yaml
+    env:
+      MOVIE_ID: "603"
+- runFlow:
+    file: _fragments/favoritar.yaml
+    env:
+      MOVIE_ID: "27205"
 - tapOn:
     id: "movielist-favorites-button"
 - assertVisible:
