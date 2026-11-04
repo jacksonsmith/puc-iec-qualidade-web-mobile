@@ -33,15 +33,48 @@
 // ─────────────────────────────────────────────────────────────────────────────
 
 import { test, expect } from '@playwright/test';
-import { falta } from '../support/todo';
 
-test.describe('Missão livre — <nome do seu fluxo>', () => {
-  test('feliz: <descreva>', async ({ page }) => {
-    await page.goto('/qa');
-    void expect;
-    falta('Missão livre — teste feliz');
+test.describe('Missão livre — remover favoritos', () => {
+  test('feliz: remove um favorito pela tela de Favoritos', async ({ page }) => {
+    await test.step('favoritar Matrix pelo catálogo', async () => {
+      await page.goto('/qa');
+      const heart = page.getByTestId('movie-card-heart-603');
+      await heart.click();
+      await expect(heart).toHaveAttribute('aria-pressed', 'true');
+    });
+
+    await test.step('remover Matrix da lista de favoritos', async () => {
+      await page.getByTestId('movielist-favorites-button').click();
+      await expect(page.getByTestId('favorites-item-603')).toBeVisible();
+      await page.getByTestId('favorites-item-603-remove').click();
+      await expect(page.getByTestId('favorites-count')).toHaveText('0 filmes favoritos');
+      await expect(page.getByTestId('favorites-empty')).toBeVisible();
+    });
   });
 
-  // test('negativo: <descreva>', async ({ page }) => { ... });
-  // test('borda: <descreva>', async ({ page }) => { ... });
+  test('negativo: remover um favorito não apaga os demais', async ({ page }) => {
+    await page.goto('/qa');
+    await page.getByTestId('movie-card-heart-603').click();
+    await page.getByTestId('movie-card-heart-680').click();
+    await page.getByTestId('movielist-favorites-button').click();
+
+    await page.getByTestId('favorites-item-680-remove').click();
+
+    await expect(page.getByTestId('favorites-count')).toHaveText('1 filme favorito');
+    await expect(page.getByTestId('favorites-item-603')).toBeVisible();
+    await expect(page.getByTestId('favorites-item-680')).toBeHidden();
+  });
+
+  test('borda: remover o último favorito continua persistido após recarregar', async ({ page }) => {
+    await page.goto('/qa');
+    await page.evaluate(() => localStorage.setItem('cinefav-favorites', '[603]'));
+    await page.goto('/favorites');
+    await expect(page.getByTestId('favorites-count')).toHaveText('1 filme favorito');
+
+    await page.getByTestId('favorites-item-603-remove').click();
+    await page.reload();
+
+    await expect(page.getByTestId('favorites-count')).toHaveText('0 filmes favoritos');
+    await expect(page.getByTestId('favorites-empty')).toBeVisible();
+  });
 });
