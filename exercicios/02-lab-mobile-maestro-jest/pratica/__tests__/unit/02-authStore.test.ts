@@ -14,36 +14,75 @@ import { useAuthStore } from '@/store/authStore';
 describe('authStore', () => {
   beforeEach(() => {
     useAuthStore.setState({ isAuthenticated: false, email: null });
+
+
   });
+  describe('authStore — Exemplo de Fake', () => {
+  beforeEach(() => {
+    // Reseta a implementação Fake em memória antes de cada teste
+    useAuthStore.setState({ isAuthenticated: false, email: null });
+  });
+it('login com credenciais válidas autentica e guarda o email', () => {
+    // 1. ACT: Executamos a LÓGICA REAL do Fake (validação de email/@ e senha/4+ chars)
+    const ok = useAuthStore.getState().login('aluno@puc.br', '1234');
+
+    // 2. ASSERT: Verificamos o ESTADO RESULTANTE retido em memória
+    expect(ok).toBe(true);
+    expect(useAuthStore.getState().isAuthenticated).toBe(true);
+    expect(useAuthStore.getState().email).toBe('aluno@puc.br');
+  });
+});
 
   // 🧑‍🏫 1. FÁCIL — login válido
   it('1. login com credenciais válidas autentica e guarda o email', () => {
     const ok = useAuthStore.getState().login('aluno@puc.br', '1234');
 
-    // TODO: expect(ok).toBe(true)
+    expect(ok).toBe(true)
     // TODO: verifique isAuthenticated === true e email === 'aluno@puc.br'
+    expect(useAuthStore.getState().isAuthenticated).toBe(true);
+    expect(useAuthStore.getState().email).toBe('aluno@puc.br');
   });
 
   // 🧑‍💻 2. FÁCIL — email inválido
   it('2. email sem @ NÃO autentica', () => {
     const ok = useAuthStore.getState().login('aluno.puc.br', '1234');
 
-    // TODO: expect(ok).toBe(false)
+    expect(ok).toBe(false)
     // TODO: isAuthenticated continua false e email continua null
+    expect(useAuthStore.getState().isAuthenticated).toBe(false);
+    expect(useAuthStore.getState().email).toBeNull();
   });
 
   // 🧑‍💻 3. 🔴 DESAFIO — senha curta
   it('3. senha com menos de 4 caracteres NÃO autentica', () => {
     // TODO: tente login('aluno@puc.br', '123') e verifique a recusa completa
+    const ok = useAuthStore.getState().login('aluno@puc.br', '123');
+
+    expect(ok).toBe(false);
+    expect(useAuthStore.getState().isAuthenticated).toBe(false);
+    expect(useAuthStore.getState().email).toBeNull();
   });
 
   // 🧑‍💻 4. 🔴 DESAFIO — logout
   it('4. logout limpa a sessão', () => {
     // TODO: faça login válido, chame logout(), verifique isAuthenticated e email
+    // Login válido primeiro
+    useAuthStore.getState().login('aluno@puc.br', '1234');
+    expect(useAuthStore.getState().isAuthenticated).toBe(true);
+
+    useAuthStore.getState().logout();
+
+    expect(useAuthStore.getState().isAuthenticated).toBe(false);
+    expect(useAuthStore.getState().email).toBeNull();
   });
 
   // 🧑‍💻 5. 🔴 DESAFIO — borda: senha só de espaços
   it('5. senha "     " (espaços) NÃO autentica', () => {
     // TODO: a regra usa password.trim() — prove que espaços não passam
+    const ok = useAuthStore.getState().login('aluno@puc.br', '     ');
+
+    expect(ok).toBe(false);
+    expect(useAuthStore.getState().isAuthenticated).toBe(false);
+    expect(useAuthStore.getState().email).toBeNull();
   });
 });

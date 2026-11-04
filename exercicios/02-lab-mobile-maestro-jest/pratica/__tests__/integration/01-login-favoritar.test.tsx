@@ -55,25 +55,64 @@ describe('integração — login e favoritar', () => {
     // dados do mock renderizados na lista
     await waitFor(() => expect(screen.getByText('Matrix')).toBeOnTheScreen());
   });
-
-  // 🧑‍💻 2. FÁCIL — favoritar na lista atualiza o store
+describe('Demonstração de Mock ', () => {
   it('2. tocar no coração do card favorita o filme no store', async () => {
     renderApp();
     await loginPelaUI();
     await waitFor(() => expect(screen.getByText('Matrix')).toBeOnTheScreen());
 
-    // o handler do coração usa e.stopPropagation() — sem event data o RNTL
-    // entrega undefined e o handler explode (pitfall real de RNTL!)
+    // Mock do stopPropagation
+    const stopPropagationMock = jest.fn();
+
     fireEvent.press(screen.getByTestId(testIDs.movieCard.heart(603)), {
-      stopPropagation: jest.fn(),
+        // Comentamos a passagem do mock ou passamos nada:
+      stopPropagation: stopPropagationMock,
     });
 
-    // TODO: verifique no store: useFavoritesStore.getState().isFavorite(603) === true
+    // Verificação no store
+    expect(useFavoritesStore.getState().isFavorite(603)).toBe(true);
+
+    });
   });
 
+
+describe('Demonstração de Stub — Busca de Filmes', () => {
+
+  it('3. retorna dados estáticos "enlatados" do Stub sem consultar a API real', async () => {
+
+    // 1. O STUB: Definimos uma resposta estática e fixa para o endpoint/módulo de busca
+    const tmdbApiStub = {
+      searchMovies: jest.fn().mockResolvedValue([
+        { id: 999, title: 'Filme Estático do Stub', vote_average: 8.5 }
+      ])
+    };
+
+    // 2. Injetamos o Stub na chamada da função
+    const resultado = await tmdbApiStub.searchMovies('qualquer termo');
+
+    // 3. ASSERÇÃO DE STUB (Baseada em Dados/Estado):
+    // Garantimos que o dado devolvido é exatamente a resposta enlatada do Stub
+    expect(resultado).toEqual([
+      { id: 999, title: 'Filme Estático do Stub', vote_average: 8.5 }
+    ]);
+
+    // Note que não nos importa COMO foi chamado, apenas O QUE ele devolveu (o dado fixo)
+  });
+});
+
   // 🧑‍💻 3. 🔴 DESAFIO — credencial inválida não navega
-  it('3. login inválido mantém a tela de Login', async () => {
+  it('4. login inválido mantém a tela de Login', async () => {
+
     // TODO: renderApp(), preencha email SEM @ e senha curta, press no submit
     // TODO: a tela de login continua na tela (queryByTestId(movielist.screen) === null)
+    renderApp();
+
+        fireEvent.changeText(screen.getByTestId(testIDs.login.emailInput), 'emailInvalido');
+        fireEvent.changeText(screen.getByTestId(testIDs.login.passwordInput), '12');
+        fireEvent.press(screen.getByTestId(testIDs.login.submit));
+
+        expect(screen.getByTestId(testIDs.login.screen)).toBeOnTheScreen();
+        expect(screen.queryByTestId(testIDs.movieList.screen)).toBeNull();
   });
+
 });

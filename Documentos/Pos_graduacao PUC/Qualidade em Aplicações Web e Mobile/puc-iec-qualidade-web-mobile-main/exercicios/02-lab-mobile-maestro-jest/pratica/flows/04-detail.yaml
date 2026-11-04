@@ -1,0 +1,37 @@
+# Flow 4 — Abrir o detalhe do filme, favoritar lá dentro e voltar pra lista.
+# Conceito: navegação entre telas + asserções em cada uma.
+appId: com.puciec.cinefav
+---
+- launchApp
+
+# TODO 1: faça login
+- tapOn:
+    id: "login-email-input"
+- inputText: "aluno@puc.br"
+- tapOn:
+    id: "login-password-input"
+- inputText: "1234"
+- tapOn:
+    id: "login-submit-button"
+- assertVisible:
+    id: "movielist-screen"
+
+# TODO 2: toque no card do filme "Matrix" — id "movie-card-603"
+- tapOn:
+    id: "movie-card-603"
+
+# TODO 3: assertVisible da tela de detalhe — id "detail-screen"
+- assertVisible:
+    id: "detail-screen"
+
+# TODO 4: favorite no detalhe — id "detail-favorite-button"
+- tapOn:
+    id: "detail-favorite-button"
+
+# TODO 5: volte pra lista — id "detail-back-button"
+- tapOn:
+    id: "detail-back-button"
+
+# TODO 6: assertVisible da lista de novo — id "movielist-screen"
+- assertVisible:
+    id: "movielist-screen"

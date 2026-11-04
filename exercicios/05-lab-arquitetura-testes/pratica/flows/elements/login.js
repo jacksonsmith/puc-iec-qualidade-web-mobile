@@ -2,7 +2,8 @@
 // `output` é um objeto global do Maestro (não é Node: sem require/export).
 // Complete com os testIDs (use `maestro hierarchy` na tela de Login — ou veja o fluxo 01-smoke/_fragments/login.yaml).
 output.login = {
-  email: "login-email-input",
-  senha: "",      // TODO
-  entrar: "",     // TODO
+  emailInput: "login-email-input",
+  passwordInput: "login-password-input",
+  submitButton: "login-submit-button",
+  screen: "movielist-screen"
 };

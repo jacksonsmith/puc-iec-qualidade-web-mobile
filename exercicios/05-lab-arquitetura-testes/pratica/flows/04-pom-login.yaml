@@ -3,10 +3,26 @@
 appId: com.puciec.cinefav
 tags:
   - regressao
+
 ---
 - launchApp
+
+# 1. Carrega o ficheiro de Page Object de login
 - runScript: elements/login.js
-- runScript: elements/movielist.js
-# TODO: tapOn com id: ${output.login.email}, inputText "aluno@puc.br"
-# TODO: o mesmo para senha ("1234") e para o botão entrar
-# TODO: assertVisible com id: ${output.lista.tela}
+
+# 2. Executa as ações usando os seletores da variável output.login
+- tapOn:
+    id: ${output.login.emailInput}
+
+- inputText: "aluno@puc.br"
+
+- tapOn:
+    id: ${output.login.passwordInput}
+
+- inputText: "1234"
+
+- tapOn:
+    id: ${output.login.submitButton}
+
+- assertVisible:
+    id: ${output.login.screen}

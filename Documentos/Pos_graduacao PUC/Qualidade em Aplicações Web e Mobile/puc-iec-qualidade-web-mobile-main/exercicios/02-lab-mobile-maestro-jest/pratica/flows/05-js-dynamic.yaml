@@ -1,0 +1,31 @@
+# Flow 5 — JavaScript embutido (evalScript).
+# Conceito: evalScript roda JS inline; o que grava em `output` é lido via ${output.campo}.
+# (runScript: é pra ARQUIVO .js — pra JS inline use evalScript.)
+appId: com.puciec.cinefav
+---
+- launchApp
+
+# TODO 1: faça login
+- tapOn:
+    id: "login-email-input"
+- inputText: "aluno@puc.br"
+- tapOn:
+    id: "login-password-input"
+- inputText: "1234"
+- tapOn:
+    id: "login-submit-button"
+- assertVisible:
+    id: "movielist-screen"
+
+# TODO 2: use evalScript pra sortear um título e gravar em output.termo
+- evalScript: ${output.termo = ['Matrix', 'Avatar', 'Interestelar'][Math.floor(Math.random() * 3)]}
+
+# TODO 3: abra a busca, digite ${output.termo} no search-input
+- tapOn:
+    id: "movielist-search-button"
+- tapOn:
+    id: "search-input"
+- inputText: "${output.termo}"
+
+# TODO 4: assertVisible do ${output.termo}
+- assertVisible: "${output.termo}"

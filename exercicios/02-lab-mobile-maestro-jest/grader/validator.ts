@@ -1,4 +1,4 @@
-// Validator — Lab Mobile (Maestro + Jest) · 10 pts
+// Validator — Lab Mobile (Maestro + Jest) · 20 pts
 // Rubrica: enunciado.md do lab. Nota AUTOMÁTICA = piso (estrutural, parse-only).
 // Execução real (vídeos iOS/Android) e CI verde são manuais (Canvas).
 
@@ -41,15 +41,15 @@ const criteria: Criterion[] = []
   criteria.push({
     key: 'unit-jest',
     label: 'Testes unitários Jest (02-authStore, 5 testes)',
-    weight: 2.5,
-    earned: complete ? 2.5 : raw !== null && expects >= 4 ? 1.25 : 0,
+    weight: 5,
+    earned: complete ? 5 : raw !== null && expects >= 4 ? 2 : 0,
     note: raw === null ? 'arquivo não encontrado'
       : complete ? undefined
       : `${todos} TODO(s) pendente(s) · ${expects} expect(s) (esperado ≥8)`,
   })
 }
 
-// 2. Integração RNTL (4) — 01-login-favoritar completo
+// 2. Integração RNTL (5) — 01-login-favoritar completo
 {
   const raw = read('__tests__', 'integration', '01-login-favoritar.test.tsx')
   const todos = raw === null ? 99 : pendingTodos(raw, '//')
@@ -63,8 +63,8 @@ const criteria: Criterion[] = []
   criteria.push({
     key: 'integration',
     label: 'Integração RNTL (navegação + estado real)',
-    weight: 2.5,
-    earned: complete ? 2.5 : raw !== null && missing.length <= 1 ? 1.25 : 0,
+    weight: 5,
+    earned: complete ? 5 : raw !== null && missing.length <= 1 ? 2 : 0,
     note: raw === null ? 'arquivo não encontrado'
       : complete ? undefined
       : [todos ? `${todos} TODO(s)` : null, missing.length ? `falta: ${missing.map(m => m.what).join(', ')}` : null]
@@ -72,9 +72,9 @@ const criteria: Criterion[] = []
   })
 }
 
-// 3. Flows Maestro da entrega (02 e 03) — sem TODOs, com asserções; 04 e 05 são opcionais (sem nota)
+// 3. Flows Maestro completos (4) — 5 flows sem TODOs, com asserções
 {
-  const REQUIRED = ['02-search.yaml', '03-favorite.yaml']
+  const REQUIRED = ['01-launch.yaml', '02-search.yaml', '03-favorite.yaml', '04-detail.yaml', '05-js-dynamic.yaml']
   let complete = 0
   const notes: string[] = []
   for (const f of REQUIRED) {
@@ -85,11 +85,11 @@ const criteria: Criterion[] = []
     if (ok) complete++
     else notes.push(`${f}: ${todos > 0 ? `${todos} TODO(s)` : 'sem assertVisible'}`)
   }
-  const earned = complete // 1 pt por flow (02 e 03)
+  const earned = complete >= 5 ? 4 : complete >= 3 ? 2 : complete >= 1 ? 1 : 0
   criteria.push({
     key: 'flows',
-    label: `Flows Maestro 02 e 03 completos (${complete}/2)`,
-    weight: 2,
+    label: `5 flows Maestro completos (${complete}/5)`,
+    weight: 4,
     earned,
     note: notes.length ? notes.join(' · ') : undefined,
   })
@@ -99,7 +99,7 @@ const criteria: Criterion[] = []
 criteria.push({
   key: 'exec-android',
   label: 'Execução real Android Emulator (vídeo)',
-  weight: 0.5,
+  weight: 2,
   earned: 0,
   manual: true,
   note: 'avaliação manual (Canvas)',
@@ -107,7 +107,7 @@ criteria.push({
 criteria.push({
   key: 'exec-ios',
   label: 'Execução real iOS Simulator (vídeo)',
-  weight: 0.5,
+  weight: 2,
   earned: 0,
   manual: true,
   note: 'avaliação manual (Canvas)',
