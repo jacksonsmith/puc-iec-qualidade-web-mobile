@@ -2,9 +2,34 @@
 # Conceito: ação numa tela (favoritar) reflete em outra (Favoritos) + contador.
 appId: com.puciec.cinefav
 ---
-- launchApp
-# TODO: faça login
-# TODO: favorite o filme "Matrix" tocando no coração do card — id "movie-card-heart-603"
-# TODO: abra os Favoritos pelo botão do header — id "movielist-favorites-button"
-# TODO: assertVisible do item favoritado — id "favorites-item-603"
-# TODO: assertVisible do contador "1 favorito"
+# clearState: cada run começa sem favoritos (o coração é toggle; sem isso o 2º run desfavoritaria)
+- launchApp:
+    clearState: true
+# login
+- tapOn:
+    id: "login-email-input"
+- inputText: "aluno@puc.br"
+- tapOn:
+    id: "login-password-input"
+- inputText: "1234"
+- tapOn:
+    id: "login-submit-button"
+- assertVisible:
+    id: "movielist-screen"
+- assertVisible: "Matrix"
+# favorita o Matrix (id 603) no coração do card
+- tapOn:
+    id: "movie-card-heart-603"
+# abre Favoritos pelo header
+- tapOn:
+    id: "movielist-favorites-button"
+- assertVisible:
+    id: "favorites-screen"
+# asserções cross-tela: o item favoritado e o contador
+- assertVisible:
+    id: "favorites-item-603"
+- assertVisible:
+    id: "favorites-count"
+    text: "1 favorito"
+- assertNotVisible:
+    id: "favorites-empty"
