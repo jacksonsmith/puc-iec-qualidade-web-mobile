@@ -31,8 +31,11 @@ test.describe('Bloco B — expect e espera', () => {
     await expect(cards).toHaveCount(12);
 
     // ✍️ sua vez: 24, depois 36, depois o botão some
-    void loadMore;
-    falta('B1 — complete a paginação');
+    await loadMore.click();
+    await expect(cards).toHaveCount(24);
+    await loadMore.click();
+    await expect(cards).toHaveCount(36);
+    await expect(loadMore).toBeHidden();
   });
 
   // ── B2 🟡 · ≈ 7 min ────────────────────────────────────────────────────────
@@ -47,9 +50,14 @@ test.describe('Bloco B — expect e espera', () => {
   // 🆘 Dica: não precisa de nenhum sleep — cada expect já espera sozinho.
   test('B2. busca com debounce: digita devagar, limpa, e o vazio', async ({ page }) => {
     await page.goto('/search');
-
-    falta('B2 — escreva os 4 passos');
+    await page.getByTestId('search-input').click();
+    await page.getByTestId('search-input').pressSequentially('matrix', { delay: 80 });
+    await expect(page.locator('[data-testid^="search-result-"] > span.row-title')).toHaveText('Matrix');
+    await page.getByTestId('search-clear-button').click();
+    await page.getByTestId('search-input').fill('xyzw');
+    await expect(page.getByTestId('search-empty')).toHaveText(/xyzw/);
   });
+    
 
   // ── B3 🔴 · ≈ 12 min ───────────────────────────────────────────────────────
   // 📚 Aprende: expect.poll (esperar um valor que NÃO é elemento de tela, ex.:
@@ -68,7 +76,17 @@ test.describe('Bloco B — expect e espera', () => {
   //    3) await expect.soft(locator).toHaveAttribute(...)
   test('B3. favoritos persistem: expect.poll no localStorage + soft após reload', async ({ page }) => {
     await page.goto('/qa');
+    await page.getByRole('article').filter({ hasText: 'Matrix' }).getByRole('button', { name: /Favoritar/ }).click();
+    await page.getByRole('article').filter({ hasText: 'Pulp Fiction' }).getByRole('button', { name: /Favoritar/ }).click();
+    await page.getByRole('article').filter({ hasText: 'Clube da Luta' }).getByRole('button', { name: /Favoritar/ }).click();
+    const favoritos = await page.evaluate(() => JSON.parse(localStorage.getItem('cinefav-favorites') ?? '[]'));
+    expect.poll(() => favoritos).toEqual([603, 680, 550]);
+      
 
-    falta('B3 — escreva o teste inteiro');
+    await page.reload();
+    await expect.soft(page.getByRole('article').filter({ hasText: 'Matrix' }).getByRole('button', { name: /Remover/ })).toHaveAttribute('aria-pressed', 'true');
+    await expect.soft(page.getByRole('article').filter({ hasText: 'Pulp Fiction' }).getByRole('button', { name: /Remover/ })).toHaveAttribute('aria-pressed', 'true');
+    await expect.soft(page.getByRole('article').filter({ hasText: 'Clube da Luta' }).getByRole('button', { name: /Remover/ })).toHaveAttribute('aria-pressed', 'true');
+    await expect.soft(page.getByRole('article').filter({ hasText: 'Forrest Gump' }).getByRole('button', { name: /Favoritar/ })).toHaveAttribute('aria-pressed', 'false');
   });
 });
