@@ -1,11 +1,13 @@
-# RESPOSTAS — Lab Arquitetura de Testes
+A# Respostas — Lab Maestro Avançado (Arquitetura de Testes)
 
-Responda com suas palavras (2–4 linhas cada). Vale 1 ponto, avaliado manualmente.
+1. **Por que extrair fluxos repetitivos (como o login) em fragmentos (`_fragments/`) traz ganho de manutenibilidade?**
+   Porque centraliza a lógica de autenticação em um único ponto. Caso haja qualquer alteração nos seletores ou no fluxo de login da aplicação no futuro, precisamos alterar o código em apenas um lugar (`_fragments/login.yaml`), evitando refatorações manuais em dezenas de arquivos de teste.
 
-1. **Fragmento:** o que mudou na leitura do `00-refatorar.yaml` depois da refatoração? Que problema real isso resolve quando o fluxo de login muda?
+2. **Qual é a principal vantagem de usar variáveis de ambiente (`env`) em fragmentos do Maestro?**
+   Permite reutilizar o mesmo fragmento de código para diferentes cenários de testes parametrizados (como buscar diferentes termos ou preencher diferentes dados), mantendo o código limpo, modular e aderente ao princípio DRY (Don't Repeat Yourself).
 
-2. **Fragmento × POM:** qual a diferença entre `_fragments/login.yaml` e `elements/login.js`? Quando você usaria cada um?
+3. **Como o Page Object Pattern (POM) aplicado via arquivos `.js` ajuda a separar a lógica de teste dos seletores da interface?**
+   O POM isola os seletores e `testIDs` em arquivos estruturados de mapeamento. Dessa forma, os arquivos YAML dos flows focam exclusivamente nas regras de negócio e passos do usuário, blindando os testes contra mudanças visuais e de seletores.
 
-3. **Fragmento parametrizado:** por que chamar o mesmo `buscar.yaml` duas vezes com `TERM` diferente é melhor que copiar o flow?
-
-4. **Um limite:** onde essa arquitetura NÃO ajuda (ou piora)? Dê um exemplo.
+4. **Qual é o impacto prático de garantir que os flows passem 3 vezes seguidas sem falhas (eliminando *flakiness*)?**
+   Garante a confiabilidade da suíte de testes na pipeline de Integração Contínua (CI). Testes instáveis (*flaky*) geram falsos alarmes, perda de confiança na automação e atrasos desnecessários nos deploys da equipe.
