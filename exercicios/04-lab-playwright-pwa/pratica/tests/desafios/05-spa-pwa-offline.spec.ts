@@ -20,7 +20,6 @@
 // ─────────────────────────────────────────────────────────────────────────────
 
 import { test, expect, type Page } from '@playwright/test';
-import { falta } from '../support/todo';
 
 /** 📘 Pronto: espera o SW CONTROLAR a página (não basta estar registrado). */
 async function waitForSwControl(page: Page) {
@@ -38,8 +37,11 @@ test.describe('Bloco E — SPA e PWA', () => {
   test('E1. app pronto, deep link logado e rota inexistente', async ({ page }) => {
     await page.goto('/movie/603');
 
-    // ✍️ sua vez
-    falta('E1 — escreva as asserções');
+    await expect(page.locator('html')).toHaveAttribute('data-app-ready', 'true');
+    await expect(page.getByTestId('detail-title')).toHaveText('Matrix');
+
+    await page.goto('/rota-que-nao-existe');
+    await expect(page).toHaveURL(/\/$/);
   });
 
   // ── E2 🟡 · ≈ 7 min ────────────────────────────────────────────────────────
@@ -53,9 +55,23 @@ test.describe('Bloco E — SPA e PWA', () => {
   //    4. leia o href de  link[rel="manifest"]  e faça  request.get(href)  →  .json()
   //    5. confira  manifest.name === 'CineFav — filmes favoritos'  e  display === 'standalone'
   test('E2. Service Worker ativo e controlando + manifest da PWA', async ({ page, request }) => {
-    void page;
-    void request;
-    falta('E2 — escreva os 5 passos');
+    await page.goto('/qa');
+    await expect(page.getByTestId('movielist-grid')).toBeVisible();
+
+    // registrado ≠ ativo: espera o estado chegar em 'activated'
+    await expect
+      .poll(() => page.evaluate(async () => (await navigator.serviceWorker.getRegistration())?.active?.state))
+      .toBe('activated');
+
+    // ativo ≠ controlando: só agora o SW atende os fetch desta página
+    await waitForSwControl(page);
+
+    const manifestLink = page.locator('link[rel="manifest"]');
+    await expect(manifestLink).toHaveAttribute('href', /.+/);
+    const href = (await manifestLink.getAttribute('href')) ?? '';
+    const manifest = await (await request.get(href)).json();
+    expect(manifest.name).toBe('CineFav — filmes favoritos');
+    expect(manifest.display).toBe('standalone');
   });
 
   // ── E3 🔴 · ≈ 12 min ───────────────────────────────────────────────────────
@@ -70,9 +86,20 @@ test.describe('Bloco E — SPA e PWA', () => {
   // 🆘 Se o reload offline falhar com "net::ERR_INTERNET_DISCONNECTED", é porque o passo
   //    2 ficou pra trás: sem controller, ninguém serve o app offline.
   test('E3. offline: banner aparece, app continua, volta a rede e o banner some', async ({ page, context }) => {
-    void page;
-    void context;
-    falta('E3 — escreva o teste inteiro');
+    // 1–2. online: o SW instala, cacheia e passa a controlar
+    await page.goto('/qa');
+    await expect(page.getByTestId('movielist-grid')).toBeVisible();
+    await waitForSwControl(page);
+
+    // 3–4. offline + reload: quem serve a página agora é o SW
+    await context.setOffline(true);
+    await page.reload();
+    await expect(page.getByTestId('offline-banner')).toBeVisible();
+    await expect(page.getByRole('article')).toHaveCount(12);
+
+    // rede volta: banner some
+    await context.setOffline(false);
+    await expect(page.getByTestId('offline-banner')).toBeHidden();
   });
 
   // ── E4 🔴 · ≈ 12 min ───────────────────────────────────────────────────────
@@ -89,9 +116,27 @@ test.describe('Bloco E — SPA e PWA', () => {
   //      (na tela aparece escrito "✓ enviado"; o valor técnico "synced" só existe no atributo)
   // 🆘 Dica: o expect do "synced" já espera sozinho (o app leva ~400ms pra sincronizar).
   test('E4. comentário offline entra na fila (IndexedDB) e sincroniza', async ({ page, context }) => {
-    void page;
-    void context;
-    void waitForSwControl;
-    falta('E4 — escreva o teste inteiro');
+    await page.goto('/movie/603');
+    await expect(page.getByTestId('detail-title')).toHaveText('Matrix');
+    await waitForSwControl(page);
+
+    // offline: o comentário é gravado LOCAL (IndexedDB) e fica na fila
+    await context.setOffline(true);
+    await page.getByTestId('comment-input').fill('Clássico absoluto');
+    await page.getByTestId('comment-submit-button').click();
+
+    const primeiro = page.locator('[data-testid^="comment-item-"]').first();
+    const selo = primeiro.locator('[data-testid^="comment-status-"]');
+    await expect(primeiro).toContainText('Clássico absoluto');
+    await expect(selo).toHaveAttribute('data-status', 'pending');
+
+    // reload AINDA offline: o comentário sobrevive (está no IndexedDB, não só na memória)
+    await page.reload();
+    await expect(primeiro).toContainText('Clássico absoluto');
+    await expect(selo).toHaveAttribute('data-status', 'pending');
+
+    // rede volta: a fila esvazia e o selo vira "synced"
+    await context.setOffline(false);
+    await expect(selo).toHaveAttribute('data-status', 'synced');
   });
 });
